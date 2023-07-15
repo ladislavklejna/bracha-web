@@ -1,0 +1,61 @@
+.navi {
+  z-index: 999;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}
+
+.true {
+  transition: 2s;
+  background-color: white;
+  border-bottom-left-radius: 20px;
+  border-end-end-radius: 20px;
+  border: 2px solid rgb(0, 0, 0);
+}
+.scrolled {
+  transition-delay: 2s;
+  color: #ffcc00;
+  font-weight: 600;
+  /* text-shadow: 0 0 4px black; */
+}
+.scrolled2 {
+  transition-delay: 2.2s;
+  color: #ffcc00;
+  font-weight: 600;
+}
+.scrolled3 {
+  transition-delay: 2.4s;
+  color: #ffcc00;
+  font-weight: 600;
+}
+.scrolled4 {
+  transition-delay: 2.6s;
+  color: #ffcc00;
+  font-weight: 600;
+}
+.navbar-nav {
+  margin-left: auto;
+}
+.nav-item {
+  margin: auto 15px;
+}
+.navbar-toggler:focus {
+  box-shadow: none;
+}
+
+#custom-toggler {
+  padding: 10;
+  background-color: transparent;
+  border: 0;
+}
+.toggler-image img {
+  width: 40px; /* Upravte velikost obrázků podle potřeby */
+  height: 40px;
+}
+.toggler-image {
+  transition: transform 0.5s;
+}
+
+.rotate {
+  transform: rotate(180deg);
+}

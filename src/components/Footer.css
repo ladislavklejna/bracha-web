@@ -1,0 +1,15 @@
+/* .footerMargin {
+  margin-top: 5%;
+} */
+
+.footerCenter {
+  text-align: center;
+}
+.normalLink {
+  text-decoration: none;
+  color: black;
+}
+.normalLink:hover {
+  transition: ease-in-out 0.5s;
+  color: #ffcc00;
+}
