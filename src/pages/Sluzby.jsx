@@ -11,7 +11,7 @@ import "./Sluzby.css";
 const Sluzby = () => {
   return (
     <>
-      <h1>Nase sluzby</h1>
+      <h1 name="sluzby">Nase sluzby</h1>
       <Container>
         <Row>
           <Col md={4}>

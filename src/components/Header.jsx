@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-scroll";
 import "./Header.css";
 import {
   Collapse,
@@ -42,6 +43,9 @@ function Header(args) {
 
     setTogglerImage(isRotated ? togglerImage1 : togglerImage2);
   };
+  const close = () => {
+    setIsOpen(false);
+  };
 
   const imageClasses = `toggler-image ${isRotated ? "rotate" : ""}`;
 
@@ -65,24 +69,65 @@ function Header(args) {
           <Collapse isOpen={isOpen} navbar>
             <Nav navbar>
               <NavItem>
-                <NavLink className={isScrolled ? "scrolled" : ""} href="/#/">
-                  Úvod
+                <NavLink
+                  onClick={close}
+                  className={isScrolled ? "scrolled" : ""}
+                  href="/#uvod"
+                >
+                  <Link to="uvod" smooth={true} duration={500} offset={-100}>
+                    Úvod
+                  </Link>
                 </NavLink>
               </NavItem>
 
               <NavItem>
-                <NavLink className={isScrolled ? "scrolled2" : ""} href="/#/">
-                  Služby
+                <NavLink
+                  className={isScrolled ? "scrolled2" : ""}
+                  onClick={toggle}
+                  href="/#sluzby"
+                >
+                  <Link
+                    to="sluzby"
+                    smooth={true}
+                    duration={500}
+                    offset={-100}
+                    onClick={toggle}
+                  >
+                    Služby
+                  </Link>
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink className={isScrolled ? "scrolled3" : ""} href="/#/">
-                  Reference
+                <NavLink
+                  className={isScrolled ? "scrolled3" : ""}
+                  href="/#portfolio"
+                >
+                  <Link
+                    to="portfolio"
+                    smooth={true}
+                    duration={500}
+                    offset={-100}
+                    onClick={toggle}
+                  >
+                    Reference
+                  </Link>
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink className={isScrolled ? "scrolled4" : ""} href="/#/">
-                  Kontakt
+                <NavLink
+                  onClick={toggle}
+                  className={isScrolled ? "scrolled4" : ""}
+                  href="/#/"
+                >
+                  <Link
+                    to="kontakt"
+                    smooth={true}
+                    duration={500}
+                    offset={-100}
+                    onClick={toggle}
+                  >
+                    Kontakt
+                  </Link>
                 </NavLink>
               </NavItem>
             </Nav>

@@ -5,22 +5,42 @@
   top: 0;
 }
 
+nav.mobile-open + #portfolio {
+  padding-top: 70px; /* Výška navigační lišty */
+}
+#portfolio {
+  transition: padding-top 0.3s ease;
+}
+
 .true {
   transition: 2s;
   background-color: white;
   border-bottom-left-radius: 20px;
   border-end-end-radius: 20px;
-  border: 2px solid rgb(0, 0, 0);
+  /* border: 2px solid rgb(0, 0, 0); */
+  border-bottom: 2px solid black;
+  border-left: 2px solid black;
+  border-right: 2px solid black;
 }
-.scrolled {
+/* .scrolled {
   transition-delay: 2s;
   color: #ffcc00;
   font-weight: 600;
-  /* text-shadow: 0 0 4px black; */
+  
+}
+.scrolled:hover {
+  transition-delay: 0.25s;
+  color: #00ff37;
+  font-weight: 600;
 }
 .scrolled2 {
   transition-delay: 2.2s;
   color: #ffcc00;
+  font-weight: 600;
+}
+.scrolled2:hover {
+  transition-delay: 0.25s;
+  color: #00ff37;
   font-weight: 600;
 }
 .scrolled3 {
@@ -28,11 +48,21 @@
   color: #ffcc00;
   font-weight: 600;
 }
+.scrolled3:hover {
+  transition-delay: 0.25s;
+  color: #00ff37;
+  font-weight: 600;
+}
 .scrolled4 {
   transition-delay: 2.6s;
   color: #ffcc00;
   font-weight: 600;
 }
+.scrolled4:hover {
+  transition-delay: 0.25s;
+  color: #00ff37;
+  font-weight: 600;
+} */
 .navbar-nav {
   margin-left: auto;
 }

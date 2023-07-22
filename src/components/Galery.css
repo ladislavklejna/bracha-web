@@ -1,0 +1,38 @@
+.sameResolution img {
+  /* border-radius: 20px; */
+  margin: auto;
+  max-width: fit-content;
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  align-items: center;
+  display: flex;
+}
+.sameResolution {
+  /* border: 2px solid red; */
+  text-align: center;
+  margin-bottom: 10px;
+  padding: 10px;
+  transition: ease-in 0.5s;
+  border-radius: 20px;
+}
+.sameResolution:hover {
+  /* border-radius: 20px; */
+  box-shadow: 0 0 10px rgb(169, 193, 33);
+}
+.center {
+  text-align: center;
+  margin-top: 5%;
+  margin-bottom: 3%;
+}
+#plusButton {
+  /* border: 2px solid rgb(53, 155, 42); */
+  display: flex;
+  margin: auto;
+  max-width: fit-content;
+}
+.tlacitkoVice {
+  font-size: larger;
+  font-weight: 500;
+  --bs-btn-padding-x: 120px;
+}

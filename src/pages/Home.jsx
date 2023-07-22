@@ -1,10 +1,14 @@
 import { Container, Row, Col } from "reactstrap";
+import Galery from "../components/Galery";
+import Kontakt from "../components/Kontakt";
 import "./Home.css";
+
 import Sluzby from "./Sluzby";
+
 const Home = () => {
   return (
     <>
-      <img className="uvodka" src="./images/IMAG3117.jpg"></img>
+      <img id="uvod" className="uvodka" src="./images/IMAG3117.jpg"></img>
       <br />
       <br />
       <Container>
@@ -29,6 +33,14 @@ const Home = () => {
           <br />
           <br />
           <Sluzby />
+        </Row>
+        <Row>
+          <br />
+          <br />
+          <Galery />
+          <br />
+          <br />
+          <Kontakt />
         </Row>
       </Container>
     </>
