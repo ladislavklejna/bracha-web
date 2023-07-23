@@ -13,7 +13,7 @@ nav.mobile-open + #portfolio {
 }
 
 .true {
-  transition: 2s;
+  transition: 1s;
   background-color: white;
   border-bottom-left-radius: 20px;
   border-end-end-radius: 20px;
@@ -21,6 +21,9 @@ nav.mobile-open + #portfolio {
   border-bottom: 2px solid black;
   border-left: 2px solid black;
   border-right: 2px solid black;
+}
+.true:active {
+  font-weight: 800;
 }
 /* .scrolled {
   transition-delay: 2s;

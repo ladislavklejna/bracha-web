@@ -3,6 +3,14 @@ import { Button, Container, Input, Row, Col, Spinner, Alert } from "reactstrap";
 import "./Kontakt.css";
 import emailjs from "emailjs-com";
 
+// kontola pismen
+// const validateText = (text) => {
+//   // Regulární výraz pro povolená písmena a písmena s diakritikou
+//   const textRegex = /^[a-zA-ZáčďéěíňóřšťúůýžÁČĎÉĚÍŇÓŘŠŤÚŮÝŽ\s]+$/;
+
+//   return textRegex.test(text);
+// };
+
 const validateEmail = (email) => {
   // Regulární výraz pro kontrolu platnosti e-mailové adresy
   const Regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -27,6 +35,7 @@ const Kontakt = () => {
   const [visibility, setVisibility] = useState(false);
   const [visibilitySuccess, setVisibilitySuccess] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [disabled, setIsDisabled] = useState(false);
 
   //                                                        EMAIL INIT API KEY
   emailjs.init("bPKVxQYxj_lrpdzxC");
@@ -36,6 +45,7 @@ const Kontakt = () => {
     window.location.reload();
   };
   const handleAlertSuccess = () => {
+    setIsDisabled(true);
     setVisibilitySuccess(true);
 
     setTimeout(() => {
@@ -190,7 +200,7 @@ const Kontakt = () => {
               className="margin10"
               type="submit"
               onClick={formSubmit}
-              disabled={isLoading}
+              disabled={(isLoading, disabled)}
             >
               {isLoading ? (
                 <>

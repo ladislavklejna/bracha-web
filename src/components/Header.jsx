@@ -27,8 +27,6 @@ function Header(args) {
       const currentPosition = window.pageYOffset;
       setScrollTop(currentPosition);
       setIsScrolled(currentPosition > 40);
-
-      // Zde můžeš provést další akce na základě změny scrollování
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -42,9 +40,6 @@ function Header(args) {
     setIsRotated(!isRotated);
 
     setTogglerImage(isRotated ? togglerImage1 : togglerImage2);
-  };
-  const close = () => {
-    setIsOpen(false);
   };
 
   const imageClasses = `toggler-image ${isRotated ? "rotate" : ""}`;
@@ -70,9 +65,9 @@ function Header(args) {
             <Nav navbar>
               <NavItem>
                 <NavLink
-                  onClick={close}
+                  onClick={toggle}
                   className={isScrolled ? "scrolled" : ""}
-                  href="/#uvod"
+                  href="/"
                 >
                   <Link to="uvod" smooth={true} duration={500} offset={-100}>
                     Úvod
@@ -84,7 +79,7 @@ function Header(args) {
                 <NavLink
                   className={isScrolled ? "scrolled2" : ""}
                   onClick={toggle}
-                  href="/#sluzby"
+                  href="/"
                 >
                   <Link
                     to="sluzby"
@@ -98,10 +93,7 @@ function Header(args) {
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink
-                  className={isScrolled ? "scrolled3" : ""}
-                  href="/#portfolio"
-                >
+                <NavLink className={isScrolled ? "scrolled3" : ""} href="/">
                   <Link
                     to="portfolio"
                     smooth={true}
@@ -117,7 +109,7 @@ function Header(args) {
                 <NavLink
                   onClick={toggle}
                   className={isScrolled ? "scrolled4" : ""}
-                  href="/#/"
+                  href="/"
                 >
                   <Link
                     to="kontakt"
