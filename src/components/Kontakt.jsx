@@ -140,7 +140,9 @@ const Kontakt = () => {
 
   return (
     <>
-      <h1 id="kontakt">Kontakty</h1>
+      <h2 className="heading" id="kontakt">
+        Kontakty
+      </h2>
       <Container>
         <Row>
           <Col sm={0} md={2}></Col>

@@ -69,7 +69,13 @@ function Header(args) {
                   className={isScrolled ? "scrolled" : ""}
                   href="/"
                 >
-                  <Link to="uvod" smooth={true} duration={500} offset={-100}>
+                  <Link
+                    to="uvod"
+                    smooth={true}
+                    duration={500}
+                    offset={window.innerWidth <= 768 ? -260 : -100}
+                    onClick={toggle}
+                  >
                     Úvod
                   </Link>
                 </NavLink>
@@ -85,7 +91,7 @@ function Header(args) {
                     to="sluzby"
                     smooth={true}
                     duration={500}
-                    offset={-100}
+                    offset={window.innerWidth <= 768 ? -260 : -100}
                     onClick={toggle}
                   >
                     Služby
@@ -95,10 +101,10 @@ function Header(args) {
               <NavItem>
                 <NavLink className={isScrolled ? "scrolled3" : ""} href="/">
                   <Link
-                    to="portfolio"
+                    to="reference"
                     smooth={true}
                     duration={500}
-                    offset={-100}
+                    offset={window.innerWidth <= 768 ? -260 : -100}
                     onClick={toggle}
                   >
                     Reference
@@ -115,7 +121,7 @@ function Header(args) {
                     to="kontakt"
                     smooth={true}
                     duration={500}
-                    offset={-100}
+                    offset={window.innerWidth <= 768 ? -260 : -100}
                     onClick={toggle}
                   >
                     Kontakt

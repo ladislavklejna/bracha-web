@@ -1,8 +1,7 @@
 import { Container, Row, Col } from "reactstrap";
-import Galery from "../components/Galery";
 import Kontakt from "../components/Kontakt";
+import Portfolio from "../components/Portfolio";
 import "./Home.css";
-
 import Sluzby from "./Sluzby";
 
 const Home = () => {
@@ -15,7 +14,10 @@ const Home = () => {
         <Row>
           <Col md={12} lg={6}>
             <p className="just">
-              <strong>Architektonická a projekční kancelář</strong> <br />
+              <h2>
+                <strong>Architektonická a projekční kancelář</strong>
+              </h2>
+              <br />
               <br /> V našich projektech uplatňujeme zásady trvale udržitelné
               výstavby společně s požadavky klientů. Výsledkem jsou tak stavby
               šetrné k životnímu prostředí, energeticky úsporné a
@@ -30,18 +32,14 @@ const Home = () => {
           </Col>
         </Row>
         <Row>
-          <br />
-          <br />
+          <hr />
           <Sluzby />
         </Row>
         <Row>
-          <br />
-          <br />
-          <Galery />
-          <br />
-          <br />
-          <Kontakt />
+          <hr />
+          <Portfolio />
         </Row>
+        <Kontakt />
       </Container>
     </>
   );

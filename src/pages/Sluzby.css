@@ -9,3 +9,6 @@
 .cartTitlecenter {
   text-align: center;
 }
+.border-light {
+  --bs-border-opacity: 0;
+}
