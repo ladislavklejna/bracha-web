@@ -7,7 +7,7 @@ const Footer = () => {
   // aktualni datum v paticce
   return (
     <>
-      <Container className="footerMargin">
+      <Container className="footerMargin grey">
         <Row>
           <Col sm={0} md={2}></Col>
           <Col className="footerCenter" md={2}>
@@ -24,7 +24,7 @@ const Footer = () => {
           <Col className="footerCenter" md={4}>
             <strong>
               <h5>
-                <a className="normalLink" href="mailto:prochazkam98@gmail.com">
+                {/* <a className="normalLink" href="mailto:prochazkam98@gmail.com">
                   mail : prochazka@arapro.cz
                 </a>
                 <br />
@@ -32,7 +32,7 @@ const Footer = () => {
                 <a className="normalLink" href="tel:739658874">
                   {" "}
                   Tel.: 739658874
-                </a>
+                </a> */}
                 <br />
                 <br />
                 ICO : 1092e1381048 <br />
@@ -58,13 +58,17 @@ const Footer = () => {
           <Col sm={0} md={2}></Col>
         </Row>
         <Row>
-          <Col>
+          <Col md={3}></Col>
+          <Col md={6}>
             <br />
-            <p className="footerCenter">
-              © {rok} arapro.cz <br />
-              Design k147l.cz
-            </p>
+            <div className="copyright">
+              <p className="footerCenter">
+                © {rok} arapro.cz <br />
+                Web design & dev k147l.cz
+              </p>
+            </div>
           </Col>
+          <Col md={3}></Col>
         </Row>
       </Container>
     </>

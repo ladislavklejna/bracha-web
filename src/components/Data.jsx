@@ -1,8 +1,8 @@
 const data = [
   {
     id: 1,
-    title:
-      "Půdní vestavba, přístavba, stavební úpravy a zateplení stavby, Slivenec ",
+    title: "Půdní vestavba, přístavba, stavební úpravy a zateplení stavby",
+    location: "Slivenec",
 
     subtitle: [
       { id: 1, text: "architektonická studie" },
@@ -27,8 +27,8 @@ const data = [
   {
     id: 2,
 
-    title:
-      "Přestavba rodinného domu s bývalou prodejnou na bytový dům, Borotín",
+    title: "Přestavba rodinného domu s bývalou prodejnou na bytový dům",
+    location: "Borotín",
     subtitle: [
       { id: 1, text: "architektonická studie" },
       { id: 2, text: "projektová dokumentace" },
@@ -59,7 +59,8 @@ const data = [
   {
     id: 3,
 
-    title: "Stavební úpravy a zateplení stavby, Hodonice",
+    title: "Stavební úpravy a zateplení stavby",
+    location: "Hodonice",
     subtitle: [
       { id: 1, text: "architektonická studie" },
       { id: 2, text: "projektová dokumentace" },
@@ -84,7 +85,8 @@ const data = [
   {
     id: 4,
 
-    title: "Rodinný dům se třemi samostatnými byty, Hovorčovice",
+    title: "Rodinný dům se třemi samostatnými byty",
+    location: "Hovorčovice",
     subtitle: [
       { id: 1, text: "architektonická studie" },
       { id: 2, text: "projektová dokumentace" },
@@ -105,7 +107,8 @@ const data = [
   {
     id: 5,
 
-    title: "Rodinný dům, Sezimovo Ústí",
+    title: "Rodinný dům",
+    location: "Sezimovo Ústí",
     subtitle: [
       { id: 1, text: "architektonická studie" },
       { id: 2, text: "projektová dokumentace" },
@@ -116,7 +119,8 @@ const data = [
   {
     id: 6,
 
-    title: "Rodinný dům, Pardubice",
+    title: "Rodinný dům",
+    location: "Pardubice",
     subtitle: [{ id: 1, text: "architektonická studie" }],
     thumbnails: [
       { id: 1, src: "./references/6/thumb/a.png" },
@@ -138,7 +142,8 @@ const data = [
   {
     id: 7,
 
-    title: "Rodinný dům ve svahu, Borotín",
+    title: "Rodinný dům ve svahu",
+    location: "Borotín",
     subtitle: [
       { id: 1, text: "architektonická studie" },
       { id: 2, text: "projektová dokumentace" },
@@ -155,7 +160,8 @@ const data = [
   {
     id: 8,
 
-    title: "Rodinný dům, Třeboradice",
+    title: "Rodinný dům",
+    location: "Třeboradice",
     subtitle: [
       { id: 1, text: "architektonická studie" },
       { id: 2, text: "projektová dokumentace" },
@@ -166,7 +172,8 @@ const data = [
   {
     id: 9,
 
-    title: "Rodinný dům, Borotín",
+    title: "Rodinný dům",
+    location: "Borotín",
     subtitle: [
       { id: 1, text: "architektonická studie" },
       { id: 2, text: "projektová dokumentace" },
@@ -177,7 +184,8 @@ const data = [
   {
     id: 10,
 
-    title: "Rodinný dům, Slapy",
+    title: "Rodinný dům",
+    location: "Slapy",
     subtitle: [
       { id: 1, text: "architektonická studie" },
       { id: 2, text: "projektová dokumentace" },
@@ -188,7 +196,8 @@ const data = [
   {
     id: 11,
 
-    title: "Rodinný dům, Pikov",
+    title: "Rodinný dům",
+    location: "Pikov",
     subtitle: [
       { id: 1, text: "architektonická studie" },
       { id: 2, text: "projektová dokumentace" },
@@ -199,7 +208,8 @@ const data = [
   {
     id: 12,
 
-    title: "Penzion s restaurací, Katovice",
+    title: "Penzion s restaurací",
+    location: "Katovice",
     subtitle: [{ id: 1, text: "architektonická studie" }],
     thumbnails: [{ id: 1, src: "./references/12/thumb/a.png" }],
     foto: [{ id: 1, src: "./references/12/a.jpg" }],
@@ -207,7 +217,8 @@ const data = [
   {
     id: 13,
 
-    title: "Stavby příslušenství k rodinnému domu, Borotín",
+    title: "Stavby příslušenství k rodinnému domu",
+    location: "Borotín",
     subtitle: [
       { id: 1, text: "architektonická studie" },
       { id: 2, text: "projektová dokumentace" },
@@ -224,7 +235,8 @@ const data = [
   {
     id: 14,
 
-    title: "Lávka, Borotín",
+    title: "Lávka",
+    location: "Borotín",
     subtitle: [{ id: 1, text: "návrh a statické posouzení konstrukce" }],
     thumbnails: [
       { id: 1, src: "./references/14/thumb/a.png" },

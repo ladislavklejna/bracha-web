@@ -2,9 +2,8 @@
   margin: auto;
   transition: ease-in-out 0.5s;
 }
-.imgcenter img:hover {
-  /* box-shadow: 0px 0px 10px crimson; */
-  transform: scale(1.2, 1.2);
+.cardText {
+  text-align: justify;
 }
 .cartTitlecenter {
   text-align: center;

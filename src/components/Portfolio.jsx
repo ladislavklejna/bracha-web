@@ -63,7 +63,8 @@ const Portfolio = () => {
           <Row>
             <Col md={6} lg={7}>
               <div>
-                <h4 className="headingTitle">{project.title}</h4>
+                <span className="headingTitle">{project.title} | </span>
+                <span className="kurziva">{project.location}</span>
               </div>
 
               {project.subtitle && project.subtitle.length > 0 ? (
@@ -93,7 +94,8 @@ const Portfolio = () => {
                       onClick={() => openLightbox(project.id, index)}
                     >
                       {index === (window.innerWidth <= 768 ? 3 : 2) &&
-                        project.thumbnails.length > 3 && (
+                        project.thumbnails.length >
+                          (window.innerWidth <= 768 ? 4 : 3) && (
                           <Badge
                             color={"warning"}
                             className="thumbnail-overlay"
@@ -101,7 +103,6 @@ const Portfolio = () => {
                             +{" "}
                             {project.thumbnails.length -
                               (window.innerWidth <= 768 ? 4 : 3)}{" "}
-                            více
                           </Badge>
                         )}
                       <img
@@ -128,7 +129,7 @@ const Portfolio = () => {
               mainSrc={
                 data[project.id - 1]?.foto?.length > 0
                   ? data[project.id - 1].foto[getLightboxIndex(project.id)].src
-                  : "./images/hammer.png" // Cesta k nahrazení fotografie
+                  : "./images/hammer.png"
               }
               onCloseRequest={() => closeLightbox(project.id)}
               imageTitle={project.title}

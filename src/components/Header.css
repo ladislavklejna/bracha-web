@@ -1,13 +1,18 @@
+@font-face {
+  font-family: "Franklin Gothic Book";
+  src: url("fonts/Franklin\ Gothic\ Book\ Regular.ttf");
+}
 .navi {
+  font-family: "Franklin Gothic Book";
   z-index: 999;
   position: -webkit-sticky;
   position: sticky;
   top: 0;
 }
 
-nav.mobile-open + #portfolio {
+/* nav.mobile-open + #portfolio {
   padding-top: 70px; /* Výška navigační lišty */
-}
+/* } */
 #portfolio {
   transition: padding-top 0.3s ease;
 }
@@ -18,54 +23,37 @@ nav.mobile-open + #portfolio {
   border-bottom-left-radius: 20px;
   border-end-end-radius: 20px;
   /* border: 2px solid rgb(0, 0, 0); */
+
   border-bottom: 2px solid black;
   border-left: 2px solid black;
   border-right: 2px solid black;
 }
-.true:active {
+/* .true:active {
   font-weight: 800;
-}
-/* .scrolled {
-  transition-delay: 2s;
-  color: #ffcc00;
-  font-weight: 600;
-  
-}
-.scrolled:hover {
-  transition-delay: 0.25s;
-  color: #00ff37;
-  font-weight: 600;
-}
-.scrolled2 {
-  transition-delay: 2.2s;
-  color: #ffcc00;
-  font-weight: 600;
-}
-.scrolled2:hover {
-  transition-delay: 0.25s;
-  color: #00ff37;
-  font-weight: 600;
-}
-.scrolled3 {
-  transition-delay: 2.4s;
-  color: #ffcc00;
-  font-weight: 600;
-}
-.scrolled3:hover {
-  transition-delay: 0.25s;
-  color: #00ff37;
-  font-weight: 600;
-}
-.scrolled4 {
-  transition-delay: 2.6s;
-  color: #ffcc00;
-  font-weight: 600;
-}
-.scrolled4:hover {
-  transition-delay: 0.25s;
-  color: #00ff37;
-  font-weight: 600;
 } */
+.items {
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  color: black;
+}
+.items.active {
+  font-weight: 600;
+  /* color: yellow; */
+  color: black;
+  margin-bottom: 20px;
+  border-bottom: 4px solid #ffcc00;
+  border-radius: 10%;
+  /* text-decoration: underline; */
+}
+@media (hover: hover) {
+  .items:hover {
+    font-weight: 600;
+    /* color: yellow; */
+    border-bottom: 4px solid rgb(0, 0, 0);
+    border-radius: 10%;
+  }
+}
 .navbar-nav {
   margin-left: auto;
 }

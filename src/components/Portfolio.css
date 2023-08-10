@@ -14,6 +14,8 @@
 
 .thumbnail-container:hover .thumbnail-img {
   transform: scale(1.3, 1.3);
+  z-index: 100;
+  position: relative;
 }
 
 .thumbnail-container:hover .thumbnail-overlay {
@@ -47,4 +49,10 @@ ul.subtitles li p {
   margin-bottom: 15px;
   font-size: 22px;
   font-weight: 600;
+}
+.subtitle-gallery {
+  margin-top: 15px;
+}
+.kurziva {
+  font-style: italic;
 }

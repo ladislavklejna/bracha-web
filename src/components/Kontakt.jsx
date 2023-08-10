@@ -55,7 +55,7 @@ const Kontakt = () => {
   };
 
   const handleAlert = () => {
-    setAlertMessage("neni vse vyplenno");
+    setAlertMessage("Vše není řádně vyplněno");
     setVisibility(true);
 
     setTimeout(() => {
@@ -123,14 +123,14 @@ const Kontakt = () => {
       //.send( service_id, template_ID)
       .send("service_igb5wsr", "template_qpoe784", emailParams)
       .then((response) => {
-        console.log("E-mail byl úspěšně odeslán!", response);
+        // console.log("E-mail byl úspěšně odeslán!", response);
         handleAlertSuccess();
       })
       .catch((error) => {
-        console.error("Chyba při odesílání e-mailu:", error);
+        // console.error("Chyba při odesílání e-mailu:", error);
         handleAlert();
         setAlertMessage(
-          "Vase zprava nebyla odeslana, chyba kontaktniho formulare"
+          "Vaše zpráva nebyla odeslána - chyba kontaktního formuláře"
         );
       })
       .finally(() => {
@@ -199,7 +199,7 @@ const Kontakt = () => {
               onChange={(event) => setMessage(event.target.value)}
             ></Input>
             <Button
-              className="margin10"
+              className="margin10 yellow"
               type="submit"
               onClick={formSubmit}
               disabled={(isLoading, disabled)}
@@ -216,28 +216,37 @@ const Kontakt = () => {
               {alertMessage}
             </Alert>
             <Alert color="success" isOpen={visibilitySuccess}>
-              Vas dotaz byl uspesne odeslan
+              Váš dotaz byl úspěšně odeslán !
             </Alert>
           </Col>
-          <Col md={1}></Col>
-          <Col>
+          {/* <Col md={1}></Col> */}
+          <Col md={2} className="icon">
             <Row>
-              <a
-                target={"_blank"}
-                href="https://www.google.cz/maps/place/49%C2%B030'14.5%22N+14%C2%B037'10.4%22E/@49.5040409,14.6189163,19z/data=!3m1!4b1!4m4!3m3!8m2!3d49.50404!4d14.61956?entry=ttu"
-              >
-                {" "}
-                <img className="kontaktIcon" src="./images/gps.png" />
-              </a>
-              <p>gps</p>
+              <div>
+                <a
+                  target={"_blank"}
+                  href="https://www.google.cz/maps/place/49%C2%B030'14.5%22N+14%C2%B037'10.4%22E/@49.5040409,14.6189163,19z/data=!3m1!4b1!4m4!3m3!8m2!3d49.50404!4d14.61956?entry=ttu"
+                >
+                  <img className="kontaktIcon" src="./images/gpsicon2.png" />
+                </a>
+                <p>Borotín 189</p>
+              </div>
             </Row>
             <Row>
-              <img className="kontaktIcon" src="./images/phone.jpeg" />
-              <p>+ 420 723 450 723</p>
+              <div>
+                <a href="tel:+420723450723">
+                  <img className="kontaktIcon" src="./images/phoneicon.png" />
+                </a>
+                <p className="zarovnat">+ 420 723 450 723</p>
+              </div>
             </Row>
             <Row>
-              <img className="kontaktIcon" src="./images/mail.png" />
-              <p>prochazka@arapro.cz</p>
+              <div>
+                <a href="mailto:prochazka@arapro.cz" className="linknormal">
+                  <img className="kontaktIcon" src="./images/mailicon2.png" />
+                </a>
+                <p>prochazka@arapro.cz</p>
+              </div>
             </Row>
           </Col>
           <Col md={3}></Col>

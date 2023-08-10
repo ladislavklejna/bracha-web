@@ -1,8 +1,43 @@
 .kontaktIcon {
+  transition: ease-in-out 0.3s;
   max-width: 60px;
-  max-height: 60px;
+  max-height: 50px;
   margin-top: 10px;
+  filter: brightness(0%);
+}
+.kontaktIcon:hover {
+  transform: scale(1.2, 1.2);
+  filter: brightness(100%);
+}
+.kontaktIcon:active {
+  transform: scale(0.5, 0.5);
+  filter: grayscale(70%);
+  /* color: #b2b2b2; */
+}
+.linknormal {
+  text-decoration: none;
+  color: black;
+}
+.form-control:focus {
+  box-shadow: 0 0 0 0.25rem #ffcc0040;
+  border-color: #ffcc00;
+}
+.icon {
+  text-align: center;
+}
+.zarovnat {
+  margin-top: 5px;
 }
 .margin10 {
   margin-top: 20px;
+}
+.btn-secondary {
+  --bs-btn-bg: #ffcc00;
+  color: #000000;
+  font-weight: 600;
+  --bs-btn-border-color: transparent;
+}
+.btn:hover {
+  background-color: #b2b2b2;
+  border-color: #b2b2b2;
 }

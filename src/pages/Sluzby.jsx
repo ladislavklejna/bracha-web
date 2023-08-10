@@ -21,15 +21,15 @@ const Sluzby = () => {
               <img
                 alt="Sample"
                 src="./images/studie.png"
-                width={150}
-                height={150}
+                width={120}
+                height={120}
               />
               <CardBody>
                 <CardTitle className="cartTitlecenter" tag="h4">
-                  Architektonická studie
+                  120px Architektonická studie
                 </CardTitle>
 
-                <CardText>
+                <CardText className="cardText">
                   Představuje individuální návrh stavebního záměru, který
                   vychází z požadavků budoucích uživatelů a zároveň respektuje
                   omezující limity území. Obsahuje nezbytné informace pro
@@ -44,15 +44,15 @@ const Sluzby = () => {
               <img
                 alt="Sample"
                 src="./images/dokumentace.png"
-                width={150}
-                height={150}
+                width={100}
+                height={100}
               />
               <CardBody>
                 <CardTitle className="cartTitlecenter" tag="h4">
-                  Projektová dokumentace staveb
+                  100px Projektová dokumentace staveb
                 </CardTitle>
 
-                <CardText>
+                <CardText className="cardText">
                   Tvorba projektových dokumentací pozemních staveb různého
                   charakteru. Nejčastěji projektujeme novostavby rodinných domů,
                   modernizace a rekonstrukce stávajících staveb včetně
@@ -67,16 +67,16 @@ const Sluzby = () => {
             <Card className="imgcenter" color="light" outline>
               <img
                 alt="Sample"
-                src="./images/dozor.png"
-                width={150}
-                height={150}
+                src="./images/dozor2.png"
+                width={140}
+                height={140}
               />
               <CardBody>
                 <CardTitle className="cartTitlecenter" tag="h4">
-                  Autorský, technický a stavební dozor
+                  140px Autorský, technický a stavební dozor
                 </CardTitle>
 
-                <CardText>
+                <CardText className="cardText">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Facere magni quas libero molestias nesciunt perferendis beatae
                   corrupti odio et officiis quia totam eveniet dolores nulla aut

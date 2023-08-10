@@ -1,11 +1,18 @@
-.grey {
-  margin-top: 3%;
-  background-color: #b2b2b2;
-  padding-top: 3%;
-  padding-bottom: 3%;
-}
 .heading {
-  text-align: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
+  font-family: "Franklin Gothic Book";
+  font-size: 40px;
+  font-weight: 800;
+  text-align: Left;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+.all {
+  object-fit: cover;
+  background: rgb(255, 255, 255);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 1) 50%,
+    rgba(178, 178, 178, 1) 100%
+  );
+  background-position: center;
 }

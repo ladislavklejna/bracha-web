@@ -13,7 +13,7 @@ import {
 } from "reactstrap";
 
 import togglerImage1 from "./menu.png";
-import togglerImage2 from "./close.png";
+import togglerImage2 from "./close2.png";
 
 function Header(args) {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,12 +21,39 @@ function Header(args) {
   const [isRotated, setIsRotated] = useState(false);
   const [scrollTop, setScrollTop] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [activeLink, setActiveLink] = useState("uvod"); // Výchozí aktivní odkaz
 
   useEffect(() => {
     const handleScroll = () => {
       const currentPosition = window.pageYOffset;
       setScrollTop(currentPosition);
       setIsScrolled(currentPosition > 40);
+      // Získáme pozice jednotlivých sekcí na stránce
+      // const x = +100;
+      const uvodPosition = document.getElementById("uvod").offsetTop - 100;
+      const sluzbyPosition = document.getElementById("sluzby").offsetTop - 140;
+      const referencePosition =
+        document.getElementById("reference").offsetTop - 140;
+      const kontaktPosition =
+        document.getElementById("kontakt").offsetTop - 140;
+
+      // console.log(sluzbyPosition);
+      // Porovnáme pozice sekcí s pozicí okna a určíme nejbližší sekci
+      if (currentPosition >= uvodPosition && currentPosition < sluzbyPosition) {
+        setActiveLink("uvod");
+      } else if (
+        currentPosition >= sluzbyPosition &&
+        currentPosition < referencePosition
+      ) {
+        setActiveLink("sluzby");
+      } else if (
+        currentPosition >= referencePosition &&
+        currentPosition < kontaktPosition
+      ) {
+        setActiveLink("reference");
+      } else if (currentPosition >= kontaktPosition) {
+        setActiveLink("kontakt");
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -38,8 +65,12 @@ function Header(args) {
   const toggle = () => {
     setIsOpen(!isOpen);
     setIsRotated(!isRotated);
-
     setTogglerImage(isRotated ? togglerImage1 : togglerImage2);
+  };
+
+  const onLinkClick = (linkId) => {
+    setActiveLink(linkId);
+    toggle(); // Po kliknutí na odkaz zavře menu
   };
 
   const imageClasses = `toggler-image ${isRotated ? "rotate" : ""}`;
@@ -64,65 +95,64 @@ function Header(args) {
           <Collapse isOpen={isOpen} navbar>
             <Nav navbar>
               <NavItem>
-                <NavLink
-                  onClick={toggle}
-                  className={isScrolled ? "scrolled" : ""}
-                  href="/"
-                >
+                <NavLink>
                   <Link
+                    className={`items ${activeLink === "uvod" ? "active" : ""}`}
+                    href="/"
                     to="uvod"
                     smooth={true}
                     duration={500}
                     offset={window.innerWidth <= 768 ? -260 : -100}
-                    onClick={toggle}
+                    onClick={() => onLinkClick("uvod")}
                   >
                     Úvod
                   </Link>
                 </NavLink>
               </NavItem>
-
               <NavItem>
-                <NavLink
-                  className={isScrolled ? "scrolled2" : ""}
-                  onClick={toggle}
-                  href="/"
-                >
+                <NavLink>
                   <Link
+                    className={`items ${
+                      activeLink === "sluzby" ? "active" : ""
+                    }`}
+                    href="#sluzby"
                     to="sluzby"
                     smooth={true}
                     duration={500}
                     offset={window.innerWidth <= 768 ? -260 : -100}
-                    onClick={toggle}
+                    onClick={() => onLinkClick("sluzby")}
                   >
                     Služby
                   </Link>
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink className={isScrolled ? "scrolled3" : ""} href="/">
+                <NavLink>
                   <Link
+                    className={`items ${
+                      activeLink === "reference" ? "active" : ""
+                    }`}
                     to="reference"
                     smooth={true}
                     duration={500}
                     offset={window.innerWidth <= 768 ? -260 : -100}
-                    onClick={toggle}
+                    onClick={() => onLinkClick("reference")}
                   >
                     Reference
                   </Link>
                 </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink
-                  onClick={toggle}
-                  className={isScrolled ? "scrolled4" : ""}
-                  href="/"
-                >
+                <NavLink>
                   <Link
+                    className={`items ${
+                      activeLink === "kontakt" ? "active" : ""
+                    }`}
                     to="kontakt"
                     smooth={true}
                     duration={500}
                     offset={window.innerWidth <= 768 ? -260 : -100}
-                    onClick={toggle}
+                    onClick={() => onLinkClick("kontakt")}
                   >
                     Kontakt
                   </Link>
