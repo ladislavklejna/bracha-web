@@ -7,34 +7,50 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import { Helmet } from "react-helmet";
 import "./Sluzby.css";
 const Sluzby = () => {
+  var width = 50;
+  var height = 50;
   return (
-    <>
+    <div className="gray">
+      <Helmet>
+        <title>Nabízíme</title>
+        <meta
+          name="description"
+          content="Architektonickou studii - Projektovou dokumentaci - Pomoc s vyřízením stavebního povolení, Autorský, technický a stavební dozor"
+        ></meta>
+      </Helmet>
       <h2 id="sluzby" className="heading">
-        Naše služby
+        Služby
       </h2>
-      <Container>
+
+      <hr className="cara" />
+      <Container className="odsazeni">
         <Row>
           <Col md={4}>
             <Card className="imgcenter" color="light" outline>
               <img
                 alt="Sample"
                 src="./images/studie.png"
-                width={120}
-                height={120}
+                width={width}
+                height={height}
               />
               <CardBody>
                 <CardTitle className="cartTitlecenter" tag="h4">
-                  120px Architektonická studie
+                  Architektonická studie
                 </CardTitle>
-
+                <br />
                 <CardText className="cardText">
                   Představuje individuální návrh stavebního záměru, který
                   vychází z požadavků budoucích uživatelů a zároveň respektuje
                   omezující limity území. Obsahuje nezbytné informace pro
-                  představu budoucí podoby stavby - navržené materiály,
-                  půdorysy, řezy, polohu stavby na pozemku, vizualizace, aj.
+                  představu budoucí podoby stavby -
+                  <i>
+                    {" "}
+                    navržené materiály, půdorysy, řezy, polohu stavby na
+                    pozemku, vizualizace, aj.
+                  </i>
                 </CardText>
               </CardBody>
             </Card>
@@ -44,21 +60,21 @@ const Sluzby = () => {
               <img
                 alt="Sample"
                 src="./images/dokumentace.png"
-                width={100}
-                height={100}
+                width={width}
+                height={height}
               />
               <CardBody>
                 <CardTitle className="cartTitlecenter" tag="h4">
-                  100px Projektová dokumentace staveb
+                  Projektová dokumentace staveb
                 </CardTitle>
-
+                <br />
                 <CardText className="cardText">
                   Tvorba projektových dokumentací pozemních staveb různého
                   charakteru. Nejčastěji projektujeme novostavby rodinných domů,
                   modernizace a rekonstrukce stávajících staveb včetně
-                  dokumentace skutečného provedení (pasportizace stavby).
-                  Podrobnost vždy záleží na požadovaném stupni zpracování
-                  projektové dokumentace. .
+                  dokumentace skutečného provedení (pasport stavby). Podrobnost
+                  vždy záleží na požadovaném stupni zpracování projektové
+                  dokumentace.
                 </CardText>
               </CardBody>
             </Card>
@@ -67,42 +83,28 @@ const Sluzby = () => {
             <Card className="imgcenter" color="light" outline>
               <img
                 alt="Sample"
-                src="./images/dozor2.png"
-                width={140}
-                height={140}
+                src="./images/dozor.png"
+                width={width}
+                height={height}
               />
               <CardBody>
-                <CardTitle className="cartTitlecenter" tag="h4">
-                  140px Autorský, technický a stavební dozor
+                <CardTitle id="dozor" className="cartTitlecenter" tag="h4">
+                  •••
                 </CardTitle>
-
+                <br />
                 <CardText className="cardText">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Facere magni quas libero molestias nesciunt perferendis beatae
-                  corrupti odio et officiis quia totam eveniet dolores nulla aut
-                  non, nobis voluptas laboriosam?
+                  • Pomoc s vyřízením stavebního povolení.
+                  <br />
+                  <br /> • Autorský, technický a stavební dozor.
+                  <br />
+                  <br /> • Statické posouzení konstrukcí.
                 </CardText>
               </CardBody>
             </Card>
           </Col>
-          {/* <p>
-            <b>Architektonická studie</b> <br /> Představuje individuální návrh
-            stavebního záměru, který vychází z požadavků budoucích uživatelů a
-            zároveň respektuje omezující limity území. Obsahuje nezbytné
-            informace pro představu budoucí podoby stavby - navržené materiály,
-            půdorysy, řezy, polohu stavby na pozemku, vizualizace, aj. <br />
-            <br />
-            <b>Projektová dokumentace staveb</b> <br />
-            Tvorba projektových dokumentací pozemních staveb různého charakteru.
-            Nejčastěji projektujeme novostavby rodinných domů, modernizace a
-            rekonstrukce stávajících staveb včetně dokumentace skutečného
-            provedení (pasportizace stavby). Podrobnost vždy záleží na
-            požadovaném stupni zpracování projektové dokumentace. <br /> <br />
-            <b> Autorský, technický a stavební dozor</b>
-          </p> */}
         </Row>
       </Container>
-    </>
+    </div>
   );
 };
 export default Sluzby;

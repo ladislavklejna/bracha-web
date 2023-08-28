@@ -10,7 +10,43 @@
   text-align: center;
 }
 .centercenter {
-  /* border: 2px solid red; */
   margin: auto;
   text-align: center;
+}
+.uvodTxt {
+  border-radius: 15px;
+  margin-right: 60px;
+  border: 1px solid white;
+  text-align: justify;
+  position: absolute;
+  top: 18%;
+  left: 50%;
+}
+@media only screen and (max-width: 768px) {
+  .uvodTxt {
+    position: absolute;
+    left: auto;
+    margin-right: 5%;
+    margin-left: 5%;
+    text-align: center;
+    transform: translate(0%, -20%);
+  }
+  .inzenyr .show-sm {
+    visibility: visible;
+    /* display: block; */
+  }
+}
+@media only screen and (min-width: 800px) {
+  .inzenyr .show-sm {
+    display: none;
+  }
+}
+.pluska {
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 50px;
+}
+.inzenyr {
+  font-weight: 300;
+  margin-bottom: 0rem;
 }

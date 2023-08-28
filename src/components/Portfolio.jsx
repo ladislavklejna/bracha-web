@@ -54,16 +54,19 @@ const Portfolio = () => {
   };
 
   return (
-    <div>
+    <div className="noGutter">
       <h2 id="reference" className="heading">
         Reference
       </h2>
+      <hr className="cara"></hr>
+      <p className="vyber">Výběr našich nejzajímavějších projektů.</p>
+
       {data.map((project) => (
         <Container key={project.id}>
           <Row>
             <Col md={6} lg={7}>
               <div>
-                <span className="headingTitle">{project.title} | </span>
+                <span className="headingTitle oooo">{project.title} | </span>
                 <span className="kurziva">{project.location}</span>
               </div>
 
@@ -71,11 +74,9 @@ const Portfolio = () => {
                 <div className="subtitle-gallery">
                   {project.subtitle.map((subtitle) => (
                     <List className="subtitles">
-                      <span>
-                        <li>
-                          <p key={subtitle.id}>{subtitle.text}</p>
-                        </li>
-                      </span>
+                      <li className="oooo">
+                        <p key={subtitle.id}>{subtitle.text}</p>
+                      </li>
                     </List>
                   ))}
                 </div>

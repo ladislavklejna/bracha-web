@@ -12,12 +12,9 @@ import {
   Container,
 } from "reactstrap";
 
-import togglerImage1 from "./menu.png";
-import togglerImage2 from "./close2.png";
-
 function Header(args) {
   const [isOpen, setIsOpen] = useState(false);
-  const [togglerImage, setTogglerImage] = useState(togglerImage1);
+  const [togglerImage, setTogglerImage] = useState("/images/menu.png");
   const [isRotated, setIsRotated] = useState(false);
   const [scrollTop, setScrollTop] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -35,7 +32,7 @@ function Header(args) {
       const referencePosition =
         document.getElementById("reference").offsetTop - 140;
       const kontaktPosition =
-        document.getElementById("kontakt").offsetTop - 140;
+        document.getElementById("kontakt").offsetTop - 350;
 
       // console.log(sluzbyPosition);
       // Porovnáme pozice sekcí s pozicí okna a určíme nejbližší sekci
@@ -63,9 +60,11 @@ function Header(args) {
   }, []);
 
   const toggle = () => {
-    setIsOpen(!isOpen);
-    setIsRotated(!isRotated);
-    setTogglerImage(isRotated ? togglerImage1 : togglerImage2);
+    if (window.innerWidth <= 768) {
+      setIsOpen(!isOpen);
+      setIsRotated(!isRotated);
+      setTogglerImage(isRotated ? "./images/menu.png" : "./images/close2.png");
+    }
   };
 
   const onLinkClick = (linkId) => {
@@ -81,7 +80,8 @@ function Header(args) {
         <Navbar {...args} expand={"md"}>
           <NavbarBrand href="/">
             <img
-              src="./images/logofull.png"
+              src="./images/logo11.png"
+              alt="logo firmy Arapro.cz"
               style={{ height: 70, width: 250 }}
             />
           </NavbarBrand>
@@ -119,7 +119,7 @@ function Header(args) {
                     to="sluzby"
                     smooth={true}
                     duration={500}
-                    offset={window.innerWidth <= 768 ? -260 : -100}
+                    offset={window.innerWidth <= 768 ? -299 : -126}
                     onClick={() => onLinkClick("sluzby")}
                   >
                     Služby
@@ -135,7 +135,7 @@ function Header(args) {
                     to="reference"
                     smooth={true}
                     duration={500}
-                    offset={window.innerWidth <= 768 ? -260 : -100}
+                    offset={window.innerWidth <= 768 ? -299 : -128}
                     onClick={() => onLinkClick("reference")}
                   >
                     Reference
@@ -151,7 +151,7 @@ function Header(args) {
                     to="kontakt"
                     smooth={true}
                     duration={500}
-                    offset={window.innerWidth <= 768 ? -260 : -100}
+                    offset={window.innerWidth <= 768 ? -299 : -100}
                     onClick={() => onLinkClick("kontakt")}
                   >
                     Kontakt

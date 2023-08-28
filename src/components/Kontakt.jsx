@@ -121,7 +121,7 @@ const Kontakt = () => {
 
     emailjs
       //.send( service_id, template_ID)
-      .send("service_igb5wsr", "template_qpoe784", emailParams)
+      .send("service_5j7p9wf", "template_qpoe784", emailParams)
       .then((response) => {
         // console.log("E-mail byl úspěšně odeslán!", response);
         handleAlertSuccess();
@@ -139,13 +139,31 @@ const Kontakt = () => {
   };
 
   return (
-    <>
+    <div className="gray">
       <h2 className="heading" id="kontakt">
-        Kontakty
+        Kontakt
       </h2>
+
+      <hr className="cara" />
       <Container>
         <Row>
-          <Col sm={0} md={2}></Col>
+          <Col sm={0} md={1}></Col>
+          <Col md={4}>
+            <p>Ing. Miroslav Procházka</p>
+            <br />
+            <p>
+              M:{" "}
+              <a href="tel:739658874" className="linknormal">
+                739 658 874
+              </a>
+            </p>
+            <p>
+              E:{" "}
+              <a href="mailto:prochazka@arapro.cz" className="linknormal">
+                prochazka@arapro.cz
+              </a>
+            </p>
+          </Col>
           <Col md={6}>
             <Row>
               <Col>
@@ -219,40 +237,9 @@ const Kontakt = () => {
               Váš dotaz byl úspěšně odeslán !
             </Alert>
           </Col>
-          {/* <Col md={1}></Col> */}
-          <Col md={2} className="icon">
-            <Row>
-              <div>
-                <a
-                  target={"_blank"}
-                  href="https://www.google.cz/maps/place/49%C2%B030'14.5%22N+14%C2%B037'10.4%22E/@49.5040409,14.6189163,19z/data=!3m1!4b1!4m4!3m3!8m2!3d49.50404!4d14.61956?entry=ttu"
-                >
-                  <img className="kontaktIcon" src="./images/gpsicon2.png" />
-                </a>
-                <p>Borotín 189</p>
-              </div>
-            </Row>
-            <Row>
-              <div>
-                <a href="tel:+420723450723">
-                  <img className="kontaktIcon" src="./images/phoneicon.png" />
-                </a>
-                <p className="zarovnat">+ 420 723 450 723</p>
-              </div>
-            </Row>
-            <Row>
-              <div>
-                <a href="mailto:prochazka@arapro.cz" className="linknormal">
-                  <img className="kontaktIcon" src="./images/mailicon2.png" />
-                </a>
-                <p>prochazka@arapro.cz</p>
-              </div>
-            </Row>
-          </Col>
-          <Col md={3}></Col>
         </Row>
       </Container>
-    </>
+    </div>
   );
 };
 export default Kontakt;

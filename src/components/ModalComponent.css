@@ -1,9 +1,0 @@
-.fit {
-  margin: auto;
-  border: 2px solid black;
-}
-.fit .obrazek {
-  border: 2px solid red;
-  max-height: 800px;
-  max-width: auto;
-}

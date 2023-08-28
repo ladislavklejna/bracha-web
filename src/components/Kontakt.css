@@ -18,6 +18,9 @@
   text-decoration: none;
   color: black;
 }
+.linknormal:hover {
+  text-decoration: underline;
+}
 .form-control:focus {
   box-shadow: 0 0 0 0.25rem #ffcc0040;
   border-color: #ffcc00;
@@ -38,6 +41,7 @@
   --bs-btn-border-color: transparent;
 }
 .btn:hover {
-  background-color: #b2b2b2;
-  border-color: #b2b2b2;
+  background-color: #2d2d2d;
+  color: #ffcc00;
+  border-color: #ffcc00;
 }

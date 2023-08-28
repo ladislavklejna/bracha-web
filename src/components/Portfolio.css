@@ -45,7 +45,6 @@ ul.subtitles li p {
   line-height: 5px;
 }
 .headingTitle {
-  /* text-decoration: underline; */
   margin-bottom: 15px;
   font-size: 22px;
   font-weight: 600;
@@ -55,4 +54,23 @@ ul.subtitles li p {
 }
 .kurziva {
   font-style: italic;
+}
+.noGutter {
+  --bs-gutter-x: 0;
+}
+.noGutter .heading {
+  padding-left: 12px;
+}
+.noGutter .vyber {
+  padding-left: 12px;
+  margin-top: -13px;
+  margin-bottom: 20px;
+}
+.oooo {
+  margin-left: 20px;
+}
+@media only screen and (max-width: 768px) {
+  .oooo {
+    margin-left: 0;
+  }
 }
