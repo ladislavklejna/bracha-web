@@ -1,9 +1,10 @@
 import { Helmet } from "react-helmet";
 import { Container, Row, Col } from "reactstrap";
 import Kontakt from "../components/Kontakt";
-import Portfolio from "../components/Portfolio";
+// import Portfolio from "../components/Portfolio";
 import "./Home.css";
 import Sluzby from "./Sluzby";
+import PortfolioNew from "../components/PortfolioNew";
 
 const Home = () => {
   return (
@@ -87,10 +88,14 @@ const Home = () => {
           {/* <hr /> */}
           <Sluzby />
         </Row>
-        <Row>
-          {/* <hr /> */}
-          <Portfolio />
-        </Row>
+      </Container>
+
+      {/* <hr /> */}
+      {/* <Portfolio /> */}
+      <Container className="noGutter">
+        <PortfolioNew />
+      </Container>
+      <Container>
         <Row>
           <Kontakt />
         </Row>

@@ -1,0 +1,77 @@
+.portofolioNew {
+  --bs-gutter-x: 0;
+}
+.grid-item {
+  position: relative;
+  overflow: hidden;
+  min-height: 200px;
+}
+.grid-item img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+.relative {
+  position: relative;
+}
+
+.none {
+  display: none;
+}
+
+@keyframes square {
+  0% {
+    width: 0;
+    height: 0;
+  }
+
+  100% {
+    width: 90%;
+    height: 90%;
+  }
+}
+.color-white {
+  color: white;
+}
+.overlay {
+  position: absolute;
+  color: white;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.514);
+}
+.margin-overlay {
+  margin: 8%;
+}
+.actions {
+  position: absolute;
+  left: 8%;
+  bottom: 8%;
+}
+.square-top {
+  width: 0;
+  height: 0;
+  border-top: 2px solid rgb(255, 255, 255);
+  border-right: 2px solid rgb(255, 255, 255);
+  position: absolute;
+  animation: square 0.5s ease-in-out forwards;
+  top: 5%;
+  right: 5%;
+}
+
+.square-bottom {
+  border-bottom: 2px solid rgb(255, 255, 255);
+  border-left: 2px solid rgb(255, 255, 255);
+  position: absolute;
+  bottom: 5%;
+  left: 5%;
+  animation: square 0.5s ease-in-out forwards;
+}
+.italic {
+  font-style: italic;
+  font-weight: 300;
+}
+/* .gallery {
+  max-width: 100vw;
+} */

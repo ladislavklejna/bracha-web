@@ -50,3 +50,6 @@
   font-weight: 300;
   margin-bottom: 0rem;
 }
+.noGutter {
+  --bs-gutter-x: 0;
+}
