@@ -1,26 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import "./PortfolioNew.css";
 import axios from "axios";
-import {
-  Container,
-  Row,
-  Col,
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-} from "reactstrap";
-import ImageGallery from "react-image-gallery";
+import { Row, Col, Button } from "reactstrap";
+import ScrollAnimation from "react-animate-on-scroll";
+// import "animate.css/animate.compat.css";
 import "react-image-gallery/styles/css/image-gallery.css";
 import "lightbox.js-react/dist/index.css";
 import { SlideshowLightbox, initLightboxJS } from "lightbox.js-react";
+let pole = [];
 const PortfolioNew = () => {
   const [data, setData] = useState([]);
+  const tilesRef = useRef(null);
+  const [projectVisibleAll, setProjectVisibleAll] = useState(false);
+
   async function getData(option) {
     axios.get(`http://localhost/index.php`).then((res) => {
       const serverData = res.data;
-      console.log(serverData.reverse());
+      serverData.reverse();
       let cutData = [];
       if (option == "cut") {
         for (let index = 0; index <= 11; index++) {
@@ -31,12 +27,56 @@ const PortfolioNew = () => {
       } else if (option == "all") {
         setData(serverData);
       }
+      gridWide(serverData);
     });
   }
+  const isElementInViewport = (el, offset = 200) => {
+    const rect = el.getBoundingClientRect();
+    const windowHeight =
+      window.innerHeight || document.documentElement.clientHeight;
+    const windowWidth =
+      window.innerWidth || document.documentElement.clientWidth;
+
+    return (
+      rect.top >= -offset &&
+      rect.left >= -offset &&
+      rect.bottom <= windowHeight + offset &&
+      rect.right <= windowWidth + offset
+    );
+  };
   useEffect(() => {
     getData("cut");
   }, []);
-  const [projectVisibleAll, setProjectVisibleAll] = useState(false);
+  useEffect(() => {
+    const handleVisibility = () => {
+      const tiles = tilesRef.current.querySelectorAll(".grid-item");
+      tiles.forEach((tile) => {
+        if (isElementInViewport(tile) && !tile.classList.contains("animate")) {
+          tile.classList.add("animate");
+        }
+      });
+
+      // Odstranění posluchače události skrolování, když jsou všechny prvky animované
+      const allAnimated = Array.from(tiles).every((tile) =>
+        tile.classList.contains("animate")
+      );
+      if (allAnimated) {
+        window.removeEventListener("scroll", handleVisibility);
+      }
+    };
+
+    // Kontrola viditelnosti při načtení stránky
+    handleVisibility();
+
+    // Přidání posluchače události skrolování
+    window.addEventListener("scroll", handleVisibility);
+
+    // Odstranění posluchače události skrolování při odmontování komponenty
+    return () => {
+      window.removeEventListener("scroll", handleVisibility);
+    };
+  }, []);
+
   useEffect(() => {
     if (projectVisibleAll == false) {
       getData("cut");
@@ -68,59 +108,86 @@ const PortfolioNew = () => {
   };
   const [modal, setModal] = useState(false);
   let [isOpen, setIsOpen] = useState(false);
-  // const toggle = () => setModal(!modal);
+
+  const gridWide = (srvData) => {
+    let screenWidth = window.innerWidth;
+
+    let countInLine = 0;
+    if (screenWidth > 1200) {
+      countInLine = 4;
+    } else if (screenWidth > 800 && screenWidth < 1199) {
+      countInLine = 3;
+    }
+    console.log(srvData.length);
+    const temp = srvData.length / countInLine;
+    for (let i = 1; i <= temp; i++) {
+      for (let index = 1; index <= countInLine; index++) {
+        pole.push(index * 0.25);
+      }
+    }
+    console.log(pole);
+  };
+
   return (
     <>
       <h2 id="reference" className="heading">
         Reference
       </h2>
+      <div className="portofolioNew" ref={tilesRef}>
+        <Row>
+          {data.map((x, index) => (
+            <Col
+              key={x.id}
+              className={`grid-item ${
+                projectVisibleAll == true && index > 11 ? "animate" : ""
+              }`}
+              onMouseOver={() => hoverOn(x.id)}
+              sm={6}
+              md={4}
+              lg={3}
+              onClick={() => handleGallery(index)}
+              style={{ animationDelay: `${pole[index]}s` }}
+            >
+              <img
+                src={`${x.photos
+                  .filter((oo) => oo.name === "thumb.png")
+                  .map((photo) => photo.path)}`}
+              />
 
-      <Row className="portofolioNew">
-        {data.map((x, index) => (
-          <Col
-            key={x.id}
-            className="grid-item"
-            onMouseOver={() => hoverOn(x.id)}
-            sm={6}
-            md={4}
-            lg={3}
-            onClick={() => handleGallery(index)}
-          >
-            <img
-              src={`${x.photos
-                .filter((oo) => oo.name === "thumb.png")
-                .map((photo) => photo.path)}`}
-            />
-
-            <div className={`${hover == x.id ? "overlay" : "none"}`}>
-              <div className="margin-overlay">
-                <h6 className="mt-3">
-                  {x.name} / <span className="italic">{x.location}</span>
-                </h6>
-                {/* <h5 className="text-center">{x.location}</h5> */}
-                <div className="actions">
-                  {x.actions.map((akce) => (
-                    <h6>
-                      {akce == "studie"
-                        ? "architektonická studie"
-                        : "" || akce == "dokumentace"
-                        ? "projektová dokumentace"
-                        : "" || akce}
-                    </h6>
-                  ))}
+              <div className="overlay">
+                <div className="margin-overlay">
+                  <h6 className="mt-3">
+                    {x.name} / <span className="italic">{x.location}</span>
+                  </h6>
+                  {/* <h5 className="text-center">{x.location}</h5> */}
+                  <div className="actions">
+                    {x.actions.map((akce) => (
+                      <h6>
+                        {akce == "studie"
+                          ? "architektonická studie"
+                          : "" || akce == "dokumentace"
+                          ? "projektová dokumentace"
+                          : "" || akce}
+                      </h6>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className={`${hover == x.id ? "square-top" : "none"}`}></div>
-            <div
-              className={`${hover == x.id ? "square-bottom" : "none"}`}
-            ></div>
-          </Col>
-        ))}
-      </Row>
-      <Button onClick={() => setProjectVisibleAll(!projectVisibleAll)}>
-        {projectVisibleAll == false ? "show more" : "show less"}
-      </Button>
+            </Col>
+          ))}
+        </Row>
+      </div>
+      <div className="hani">
+        <hr className={`photo-line ${modal == true ? "active" : ""}`} />
+        <Button
+          className="photo-button"
+          onClick={() => setProjectVisibleAll(!projectVisibleAll)}
+          onMouseOver={() => setModal(true)}
+          onMouseLeave={() => setModal(false)}
+        >
+          {projectVisibleAll == false ? "vice" : "mene"}
+        </Button>
+      </div>
       <SlideshowLightbox
         disableImageZoom={true}
         downloadImages={false}
@@ -134,27 +201,6 @@ const PortfolioNew = () => {
           setIsOpen(false);
         }}
       />
-      {/* <div>
-        <Modal isOpen={modal} toggle={toggle} fullscreen="md" size="lg">
-          <ModalHeader toggle={toggle}>Modal title</ModalHeader>
-          <ModalBody>
-            <ImageGallery
-              showBullets
-              className="gallery"
-              // useBrowserFullscreen
-              items={chosenProject}
-            />
-          </ModalBody>
-          <ModalFooter>
-            <Button color="primary" onClick={toggle}>
-              Do Something
-            </Button>{" "}
-            <Button color="secondary" onClick={toggle}>
-              Cancel
-            </Button>
-          </ModalFooter>
-        </Modal>
-      </div> */}
     </>
   );
 };

@@ -2,6 +2,7 @@
   object-fit: cover;
   height: 620px;
   width: 100%;
+  position: absolute;
 }
 .just {
   text-align: justify;
@@ -13,23 +14,42 @@
   margin: auto;
   text-align: center;
 }
+.imgCont {
+  position: relative;
+  height: 620px;
+  width: 100%;
+}
+.www {
+  height: 100%;
+}
 .uvodTxt {
-  border-radius: 15px;
-  margin-right: 60px;
   border: 1px solid white;
+  margin-left: auto;
   text-align: justify;
-  position: absolute;
-  top: 18%;
-  left: 50%;
+  position: relative;
+  width: 400px;
+  top: 13%;
+  right: 15px;
 }
 @media only screen and (max-width: 768px) {
   .uvodTxt {
-    position: absolute;
-    left: auto;
-    margin-right: 5%;
-    margin-left: 5%;
     text-align: center;
-    transform: translate(0%, -20%);
+    top: 13%;
+    right: 50%;
+    transform: translateX(+50%);
+  }
+  .inzenyr .show-sm {
+    visibility: visible;
+    /* display: block; */
+  }
+}
+@media only screen and (max-width: 430px) {
+  .uvodTxt {
+    text-align: center;
+    top: 10%;
+    right: 50%;
+    transform: translateX(+50%);
+    width: 100%;
   }
   .inzenyr .show-sm {
     visibility: visible;

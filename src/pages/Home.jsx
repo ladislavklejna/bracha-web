@@ -1,52 +1,71 @@
 import { Helmet } from "react-helmet";
-import { Container, Row, Col } from "reactstrap";
+import { Container, Row, Col, Button } from "reactstrap";
 import Kontakt from "../components/Kontakt";
 // import Portfolio from "../components/Portfolio";
 import "./Home.css";
 import Sluzby from "./Sluzby";
 import PortfolioNew from "../components/PortfolioNew";
-
+import { useEffect, useState } from "react";
 const Home = () => {
+  const [scrollTop, setScrollTop] = useState(0);
+  const [isScrolled, setIsScrolled] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentPosition = window.scrollY;
+      setScrollTop(currentPosition);
+      setIsScrolled(currentPosition > 40);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <>
-      <div style={{ position: "relative" }}>
+      <div className="imgCont">
         <img
           id="uvod"
           className="uvodka"
           src="./images/uvodka.jpg"
           alt="úvodní obrazek, můj vysněný dům"
         />
-        <div
-          className="uvodTxt"
-          style={{
-            backgroundColor: "rgba(255, 255, 255, 0.6)",
-            padding: "10px",
-          }}
-        >
-          <Helmet>
-            <title>O nás</title>
-            <meta
-              name="description"
-              content="V projektech uplatňujeme zásady trvale udržitelné výstavby. Výsledkem jsou tak stavby šetrné k životnímu prostředí, energeticky úsporné a architektonicky zajímavé."
-            ></meta>
-          </Helmet>
-          <Container>
+        <Container className="www">
+          <div
+            className="uvodTxt"
+            style={{
+              backgroundColor: "rgba(255, 255, 255, 0.8)",
+              padding: "10px",
+            }}
+          >
+            <Helmet>
+              <title>O nás</title>
+              <meta
+                name="description"
+                content="V projektech uplatňujeme zásady trvale udržitelné výstavby. Výsledkem jsou tak stavby šetrné k životnímu prostředí, energeticky úsporné a architektonicky zajímavé."
+              ></meta>
+            </Helmet>
+
             <Row>
               <Col md={12}>
                 <p className="inzenyr">
+                  Vítám vás na mé webové stránce.
+                  <br />
+                  <br />
                   Jmenuji se Miroslav Procházka, jsem inženýr v oboru pozemních
                   staveb. <br />
                   <br className="show-sm" />
-                  Společně s týmem autorizovaných osob vytvářím projektové
-                  dokumentace.
+                  Ve spolupráci s týmem specialistů vytvářím projektové
+                  dokumentace
                   <br />
                   <br className="show-sm" />
                   Projekční činnosti se věnuji od roku 2013.
                 </p>
               </Col>
             </Row>
-          </Container>
-        </div>
+          </div>
+        </Container>
       </div>
       <br />
       <br />

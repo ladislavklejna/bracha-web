@@ -2,16 +2,22 @@
   font-family: Arial, Helvetica, sans-serif;
   z-index: 999;
   position: -webkit-sticky;
-  position: sticky;
+  /* position: sticky; */
   top: 0;
   font-size: large;
 }
-
+.logo {
+  height: 70px;
+  width: 250px;
+}
+.logo img {
+  width: 100%;
+}
 #portfolio {
   transition: padding-top 0.3s ease;
 }
 
-.true {
+/* .true {
   transition: 1s;
   background-color: white;
   border-bottom-left-radius: 20px;
@@ -20,7 +26,7 @@
   border-bottom: 2px solid black;
   border-left: 2px solid black;
   border-right: 2px solid black;
-}
+} */
 
 .items {
   font-weight: 400;
@@ -66,4 +72,25 @@
 
 .rotate {
   transform: rotate(180deg);
+}
+.to-top {
+  transition: 0.5s ease-in-out;
+  opacity: 0;
+  visibility: hidden;
+  position: fixed;
+  bottom: 3%;
+  right: 3%;
+}
+.button-up-visible {
+  visibility: visible;
+  opacity: 1;
+  z-index: 999;
+}
+@media only screen and (max-width: 380px) {
+  .logo {
+    width: 70%;
+  }
+  #custom-toggler {
+    padding: 0;
+  }
 }

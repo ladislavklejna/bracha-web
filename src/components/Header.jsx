@@ -10,6 +10,7 @@ import {
   NavItem,
   NavLink,
   Container,
+  Button,
 } from "reactstrap";
 
 function Header(args) {
@@ -18,13 +19,13 @@ function Header(args) {
   const [isRotated, setIsRotated] = useState(false);
   const [scrollTop, setScrollTop] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [activeLink, setActiveLink] = useState("uvod"); // Výchozí aktivní odkaz
+  // const [activeLink, setActiveLink] = useState("uvod");
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentPosition = window.pageYOffset;
+      const currentPosition = window.scrollY;
       setScrollTop(currentPosition);
-      setIsScrolled(currentPosition > 40);
+      setIsScrolled(currentPosition > 250);
       // Získáme pozice jednotlivých sekcí na stránce
       // const x = +100;
       const uvodPosition = document.getElementById("uvod").offsetTop - 100;
@@ -36,21 +37,21 @@ function Header(args) {
 
       // console.log(sluzbyPosition);
       // Porovnáme pozice sekcí s pozicí okna a určíme nejbližší sekci
-      if (currentPosition >= uvodPosition && currentPosition < sluzbyPosition) {
-        setActiveLink("uvod");
-      } else if (
-        currentPosition >= sluzbyPosition &&
-        currentPosition < referencePosition
-      ) {
-        setActiveLink("sluzby");
-      } else if (
-        currentPosition >= referencePosition &&
-        currentPosition < kontaktPosition
-      ) {
-        setActiveLink("reference");
-      } else if (currentPosition >= kontaktPosition) {
-        setActiveLink("kontakt");
-      }
+      // if (currentPosition >= uvodPosition && currentPosition < sluzbyPosition) {
+      //   setActiveLink("uvod");
+      // } else if (
+      //   currentPosition >= sluzbyPosition &&
+      //   currentPosition < referencePosition
+      // ) {
+      //   setActiveLink("sluzby");
+      // } else if (
+      //   currentPosition >= referencePosition &&
+      //   currentPosition < kontaktPosition
+      // ) {
+      //   setActiveLink("reference");
+      // } else if (currentPosition >= kontaktPosition) {
+      //   setActiveLink("kontakt");
+      // }
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -68,7 +69,7 @@ function Header(args) {
   };
 
   const onLinkClick = (linkId) => {
-    setActiveLink(linkId);
+    // setActiveLink(linkId);
     toggle(); // Po kliknutí na odkaz zavře menu
   };
 
@@ -76,92 +77,97 @@ function Header(args) {
 
   return (
     <div className="navi">
-      <Container className={isScrolled ? "true" : "false"}>
-        <Navbar {...args} expand={"md"}>
-          <NavbarBrand href="/">
-            <img
-              src="./images/logo11.png"
-              alt="logo firmy Arapro.cz"
-              style={{ height: 70, width: 250 }}
-            />
-          </NavbarBrand>
-          <NavbarToggler
-            className={imageClasses}
-            id="custom-toggler"
-            onClick={toggle}
-          >
-            <img src={togglerImage} alt="Custom Toggler" />
-          </NavbarToggler>
-          <Collapse isOpen={isOpen} navbar>
-            <Nav navbar>
-              <NavItem>
-                <NavLink>
-                  <Link
-                    className={`items ${activeLink === "uvod" ? "active" : ""}`}
-                    href="/"
-                    to="uvod"
-                    smooth={true}
-                    duration={500}
-                    offset={window.innerWidth <= 768 ? -260 : -100}
-                    onClick={() => onLinkClick("uvod")}
-                  >
-                    Úvod
-                  </Link>
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <Link
-                    className={`items ${
-                      activeLink === "sluzby" ? "active" : ""
-                    }`}
-                    href="#sluzby"
-                    to="sluzby"
-                    smooth={true}
-                    duration={500}
-                    offset={window.innerWidth <= 768 ? -299 : -126}
-                    onClick={() => onLinkClick("sluzby")}
-                  >
-                    Služby
-                  </Link>
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <Link
-                    className={`items ${
-                      activeLink === "reference" ? "active" : ""
-                    }`}
-                    to="reference"
-                    smooth={true}
-                    duration={500}
-                    offset={window.innerWidth <= 768 ? -299 : -128}
-                    onClick={() => onLinkClick("reference")}
-                  >
-                    Reference
-                  </Link>
-                </NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink>
-                  <Link
-                    className={`items ${
-                      activeLink === "kontakt" ? "active" : ""
-                    }`}
-                    to="kontakt"
-                    smooth={true}
-                    duration={500}
-                    offset={window.innerWidth <= 768 ? -299 : -100}
-                    onClick={() => onLinkClick("kontakt")}
-                  >
-                    Kontakt
-                  </Link>
-                </NavLink>
-              </NavItem>
-            </Nav>
-          </Collapse>
-        </Navbar>
-      </Container>
+      {/* <Container className={isScrolled ? "true" : "false"}> */}
+      <Navbar {...args} expand={"md"}>
+        <NavbarBrand className="logo" href="/">
+          <img src="./images/logo11.png" alt="logo firmy Arapro.cz" />
+        </NavbarBrand>
+        <NavbarToggler
+          className={imageClasses}
+          id="custom-toggler"
+          onClick={toggle}
+        >
+          <img src={togglerImage} alt="Custom Toggler" />
+        </NavbarToggler>
+        <Collapse isOpen={isOpen} navbar>
+          <Nav navbar>
+            <NavItem>
+              <NavLink>
+                <Link
+                  className={`items `}
+                  href="/"
+                  to="uvod"
+                  smooth={true}
+                  duration={500}
+                  offset={window.innerWidth <= 768 ? -260 : -100}
+                  onClick={() => onLinkClick("uvod")}
+                >
+                  Úvod
+                </Link>
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <Link
+                  className={`items `}
+                  href="#sluzby"
+                  to="sluzby"
+                  smooth={true}
+                  duration={500}
+                  offset={window.innerWidth <= 768 ? -299 : -26}
+                  onClick={() => onLinkClick("sluzby")}
+                >
+                  Služby
+                </Link>
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <Link
+                  className={`items`}
+                  to="reference"
+                  smooth={true}
+                  duration={500}
+                  offset={window.innerWidth <= 768 ? -299 : -28}
+                  onClick={() => onLinkClick("reference")}
+                >
+                  Reference
+                </Link>
+              </NavLink>
+            </NavItem>
+            <NavItem>
+              <NavLink>
+                <Link
+                  className={`items `}
+                  to="kontakt"
+                  smooth={true}
+                  duration={500}
+                  offset={window.innerWidth <= 768 ? -299 : -0}
+                  onClick={() => onLinkClick("kontakt")}
+                >
+                  Kontakt
+                </Link>
+              </NavLink>
+            </NavItem>
+          </Nav>
+        </Collapse>
+      </Navbar>
+      {/* </Container> */}
+      <div
+        className={`to-top ${isScrolled == true ? "button-up-visible" : ""}`}
+      >
+        <Link
+          className={`items `}
+          href="/"
+          to="uvod"
+          smooth={true}
+          duration={250}
+          offset={window.innerWidth <= 768 ? -260 : -100}
+          onClick={() => onLinkClick("uvod")}
+        >
+          <Button>UP</Button>
+        </Link>
+      </div>
     </div>
   );
 }
