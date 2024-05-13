@@ -2,9 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import "./PortfolioNew.css";
 import axios from "axios";
 import { Row, Col, Button } from "reactstrap";
-import ScrollAnimation from "react-animate-on-scroll";
-// import "animate.css/animate.compat.css";
-import "react-image-gallery/styles/css/image-gallery.css";
+// import "react-image-gallery/styles/css/image-gallery.css";
 import "lightbox.js-react/dist/index.css";
 import { SlideshowLightbox, initLightboxJS } from "lightbox.js-react";
 let pole = [];
@@ -111,17 +109,21 @@ const PortfolioNew = () => {
 
   const gridWide = (srvData) => {
     let screenWidth = window.innerWidth;
-
+    pole = [];
     let countInLine = 0;
-    if (screenWidth > 1200) {
+    if (screenWidth >= 992) {
       countInLine = 4;
-    } else if (screenWidth > 800 && screenWidth < 1199) {
+    } else if (screenWidth >= 768 && screenWidth < 992) {
       countInLine = 3;
+    } else if (screenWidth >= 576 && screenWidth < 768) {
+      countInLine = 2;
+    } else {
+      countInLine = 1;
     }
     console.log(srvData.length);
     const temp = srvData.length / countInLine;
     for (let i = 1; i <= temp; i++) {
-      for (let index = 1; index <= countInLine; index++) {
+      for (let index = 0; index < countInLine; index++) {
         pole.push(index * 0.25);
       }
     }
@@ -150,8 +152,11 @@ const PortfolioNew = () => {
             >
               <img
                 src={`${x.photos
-                  .filter((oo) => oo.name === "thumb.png")
+                  .filter(
+                    (oo) => oo.name === "thumb.png" || oo.name === "thumb.jpg"
+                  )
                   .map((photo) => photo.path)}`}
+                height={250}
               />
 
               <div className="overlay">
@@ -189,6 +194,7 @@ const PortfolioNew = () => {
         </Button>
       </div>
       <SlideshowLightbox
+        theme="day"
         disableImageZoom={true}
         downloadImages={false}
         fullScreen={true}

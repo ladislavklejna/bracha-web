@@ -30,6 +30,8 @@ const Home = () => {
           className="uvodka"
           src="./images/uvodka.jpg"
           alt="úvodní obrazek, můj vysněný dům"
+          loading="eager"
+          sizes="(max-width: 600px) 100vw, 50vw"
         />
         <Container className="www">
           <div

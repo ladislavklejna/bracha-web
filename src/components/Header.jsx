@@ -77,82 +77,82 @@ function Header(args) {
 
   return (
     <div className="navi">
-      {/* <Container className={isScrolled ? "true" : "false"}> */}
-      <Navbar {...args} expand={"md"}>
-        <NavbarBrand className="logo" href="/">
-          <img src="./images/logo11.png" alt="logo firmy Arapro.cz" />
-        </NavbarBrand>
-        <NavbarToggler
-          className={imageClasses}
-          id="custom-toggler"
-          onClick={toggle}
-        >
-          <img src={togglerImage} alt="Custom Toggler" />
-        </NavbarToggler>
-        <Collapse isOpen={isOpen} navbar>
-          <Nav navbar>
-            <NavItem>
-              <NavLink>
-                <Link
-                  className={`items `}
-                  href="/"
-                  to="uvod"
-                  smooth={true}
-                  duration={500}
-                  offset={window.innerWidth <= 768 ? -260 : -100}
-                  onClick={() => onLinkClick("uvod")}
-                >
-                  Úvod
-                </Link>
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink>
-                <Link
-                  className={`items `}
-                  href="#sluzby"
-                  to="sluzby"
-                  smooth={true}
-                  duration={500}
-                  offset={window.innerWidth <= 768 ? -299 : -26}
-                  onClick={() => onLinkClick("sluzby")}
-                >
-                  Služby
-                </Link>
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink>
-                <Link
-                  className={`items`}
-                  to="reference"
-                  smooth={true}
-                  duration={500}
-                  offset={window.innerWidth <= 768 ? -299 : -28}
-                  onClick={() => onLinkClick("reference")}
-                >
-                  Reference
-                </Link>
-              </NavLink>
-            </NavItem>
-            <NavItem>
-              <NavLink>
-                <Link
-                  className={`items `}
-                  to="kontakt"
-                  smooth={true}
-                  duration={500}
-                  offset={window.innerWidth <= 768 ? -299 : -0}
-                  onClick={() => onLinkClick("kontakt")}
-                >
-                  Kontakt
-                </Link>
-              </NavLink>
-            </NavItem>
-          </Nav>
-        </Collapse>
-      </Navbar>
-      {/* </Container> */}
+      <Container className={isScrolled ? "true" : "false"}>
+        <Navbar {...args} expand={"md"}>
+          <NavbarBrand className="logo" href="/">
+            <img src="./images/logo11.png" alt="logo firmy Arapro.cz" />
+          </NavbarBrand>
+          <NavbarToggler
+            className={imageClasses}
+            id="custom-toggler"
+            onClick={toggle}
+          >
+            <img src={togglerImage} alt="Custom Toggler" />
+          </NavbarToggler>
+          <Collapse isOpen={isOpen} navbar>
+            <Nav navbar>
+              <NavItem>
+                <NavLink>
+                  <Link
+                    className={`items `}
+                    href="/"
+                    to="uvod"
+                    smooth={true}
+                    duration={500}
+                    offset={window.innerWidth <= 768 ? -260 : -100}
+                    onClick={() => onLinkClick("uvod")}
+                  >
+                    Úvod
+                  </Link>
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink>
+                  <Link
+                    className={`items `}
+                    href="#sluzby"
+                    to="sluzby"
+                    smooth={true}
+                    duration={500}
+                    offset={window.innerWidth <= 768 ? -299 : -26}
+                    onClick={() => onLinkClick("sluzby")}
+                  >
+                    Služby
+                  </Link>
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink>
+                  <Link
+                    className={`items`}
+                    to="reference"
+                    smooth={true}
+                    duration={500}
+                    offset={window.innerWidth <= 768 ? -299 : -28}
+                    onClick={() => onLinkClick("reference")}
+                  >
+                    Reference
+                  </Link>
+                </NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink>
+                  <Link
+                    className={`items `}
+                    to="kontakt"
+                    smooth={true}
+                    duration={500}
+                    offset={window.innerWidth <= 768 ? -299 : -0}
+                    onClick={() => onLinkClick("kontakt")}
+                  >
+                    Kontakt
+                  </Link>
+                </NavLink>
+              </NavItem>
+            </Nav>
+          </Collapse>
+        </Navbar>
+      </Container>
       <div
         className={`to-top ${isScrolled == true ? "button-up-visible" : ""}`}
       >

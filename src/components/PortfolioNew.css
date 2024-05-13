@@ -1,6 +1,9 @@
 .portofolioNew .row {
   --bs-gutter-x: 0;
 }
+#reference {
+  margin-left: 12px;
+}
 .grid-item {
   position: relative;
   overflow: hidden;
