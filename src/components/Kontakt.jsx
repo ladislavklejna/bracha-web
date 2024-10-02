@@ -121,7 +121,7 @@ const Kontakt = () => {
 
     emailjs
       //.send( service_id, template_ID)
-      .send("service_5j7p9wf", "template_qpoe784", emailParams)
+      
       .then((response) => {
         // console.log("E-mail byl úspěšně odeslán!", response);
         handleAlertSuccess();
