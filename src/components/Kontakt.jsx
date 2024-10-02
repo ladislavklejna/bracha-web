@@ -38,7 +38,7 @@ const Kontakt = () => {
   const [disabled, setIsDisabled] = useState(false);
 
   //                                                        EMAIL INIT API KEY
-  emailjs.init("bPKVxQYxj_lrpdzxC");
+  
   //                                                        EMAIL INIT API KEY
   const refreshPage = () => {
     // Obnovit stránku
