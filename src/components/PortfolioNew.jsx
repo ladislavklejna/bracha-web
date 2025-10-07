@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import "./PortfolioNew.css";
 import axios from "axios";
 import { Row, Col, Button } from "reactstrap";
-// import "react-image-gallery/styles/css/image-gallery.css";
+import { FaPlus, FaMinus } from "react-icons/fa";
 import "lightbox.js-react/dist/index.css";
 import { SlideshowLightbox, initLightboxJS } from "lightbox.js-react";
 let pole = [];
@@ -12,7 +12,7 @@ const PortfolioNew = () => {
   const [projectVisibleAll, setProjectVisibleAll] = useState(false);
 
   async function getData(option) {
-    axios.get(`http://localhost/index.php`).then((res) => {
+    axios.get(`https://www.arapro.cz/index.php`).then((res) => {
       const serverData = res.data;
       serverData.reverse();
       let cutData = [];
@@ -135,6 +135,8 @@ const PortfolioNew = () => {
       <h2 id="reference" className="heading">
         Reference
       </h2>
+      <hr className="cara" />
+      <p className="mrg-12">Výběr našich nejzajímavějších projektů:</p>
       <div className="portofolioNew" ref={tilesRef}>
         <Row>
           {data.map((x, index) => (
@@ -190,7 +192,7 @@ const PortfolioNew = () => {
           onMouseOver={() => setModal(true)}
           onMouseLeave={() => setModal(false)}
         >
-          {projectVisibleAll == false ? "vice" : "mene"}
+          {projectVisibleAll == false ? <FaPlus /> : <FaMinus />}
         </Button>
       </div>
       <SlideshowLightbox

@@ -14,13 +14,13 @@ const Sluzby = () => {
   var height = 50;
   return (
     <div className="gray">
-      <Helmet>
+      {/* <Helmet>
         <title>Nabízíme</title>
         <meta
           name="description"
           content="Architektonickou studii - Projektovou dokumentaci - Pomoc s vyřízením stavebního povolení, Autorský, technický a stavební dozor"
         ></meta>
-      </Helmet>
+      </Helmet> */}
       <h2 id="sluzby" className="heading">
         Služby
       </h2>

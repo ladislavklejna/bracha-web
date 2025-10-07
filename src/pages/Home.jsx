@@ -28,7 +28,7 @@ const Home = () => {
         <img
           id="uvod"
           className="uvodka"
-          src="./images/uvodka.jpg"
+          src="./images/uvodka720.png"
           alt="úvodní obrazek, můj vysněný dům"
           loading="eager"
           sizes="(max-width: 600px) 100vw, 50vw"
@@ -41,13 +41,13 @@ const Home = () => {
               padding: "10px",
             }}
           >
-            <Helmet>
+            {/* <Helmet>
               <title>O nás</title>
               <meta
                 name="description"
                 content="V projektech uplatňujeme zásady trvale udržitelné výstavby. Výsledkem jsou tak stavby šetrné k životnímu prostředí, energeticky úsporné a architektonicky zajímavé."
               ></meta>
-            </Helmet>
+            </Helmet> */}
 
             <Row>
               <Col md={12}>

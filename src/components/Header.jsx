@@ -12,6 +12,7 @@ import {
   Container,
   Button,
 } from "reactstrap";
+import { FaAngleDoubleUp } from "react-icons/fa";
 
 function Header(args) {
   const [isOpen, setIsOpen] = useState(false);
@@ -74,6 +75,42 @@ function Header(args) {
   };
 
   const imageClasses = `toggler-image ${isRotated ? "rotate" : ""}`;
+  const [buttonText, setButtonText] = useState();
+  useEffect(() => {
+    const text = ["N", "a", "h", "o", "r", "u"];
+    let iter = 0;
+    let temp = "";
+    let isClearing = false;
+
+    const interval = setInterval(() => {
+      if (isScrolled == true) {
+        if (iter < text.length) {
+          temp += text[iter];
+          setButtonText(temp);
+          iter++;
+        } else {
+          clearInterval(interval); // Zastaví interval, když je zobrazený celý text
+          setTimeout(() => {
+            // Počkej 1 sekundu po zobrazení celého textu
+            isClearing = true;
+            const clearTextInterval = setInterval(() => {
+              if (temp.length > 1 && isClearing) {
+                temp = temp.slice(0, -1); // Postupně maž text
+                setButtonText(temp);
+              } else {
+                clearInterval(clearTextInterval); // Zastav interval po smazání textu
+                // Zde můžete nastavit symbol šipky nahoru
+                setButtonText(<FaAngleDoubleUp />);
+              }
+            }, 75);
+          }, 750);
+        }
+      }
+    }, 150);
+
+    // Funkce pro čištění intervalu při odmontování komponenty
+    return () => clearInterval(interval);
+  }, [isScrolled]);
 
   return (
     <div className="navi">
@@ -165,7 +202,7 @@ function Header(args) {
           offset={window.innerWidth <= 768 ? -260 : -100}
           onClick={() => onLinkClick("uvod")}
         >
-          <Button>UP</Button>
+          <Button>{buttonText}</Button>
         </Link>
       </div>
     </div>

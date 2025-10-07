@@ -38,7 +38,7 @@ const Kontakt = () => {
   const [disabled, setIsDisabled] = useState(false);
 
   //                                                        EMAIL INIT API KEY
-  emailjs.init("bPKVxQYxj_lrpdzxC");
+  emailjs.init(process.env.REACT_APP_EMAILJS_PUBLIC_KEY);
   //                                                        EMAIL INIT API KEY
   const refreshPage = () => {
     // Obnovit stránku
@@ -130,7 +130,12 @@ const Kontakt = () => {
         // console.error("Chyba při odesílání e-mailu:", error);
         handleAlert();
         setAlertMessage(
-          "Vaše zpráva nebyla odeslána - chyba kontaktního formuláře"
+          <>
+            Vaše zpráva nebyla odeslána – chyba kontaktního formuláře.
+            <br />
+            Prosím kontaktujte nás na e-mailu{" "}
+            <a href="mailto:prochazka@arapro.cz">prochazka@arapro.cz</a>.
+          </>
         );
       })
       .finally(() => {
