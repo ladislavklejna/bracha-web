@@ -45,6 +45,7 @@ const PortfolioNew = () => {
   useEffect(() => {
     getData("cut");
   }, []);
+
   useEffect(() => {
     const handleVisibility = () => {
       const tiles = tilesRef.current.querySelectorAll(".grid-item");
@@ -73,7 +74,7 @@ const PortfolioNew = () => {
     return () => {
       window.removeEventListener("scroll", handleVisibility);
     };
-  }, []);
+  }, [data]);
 
   useEffect(() => {
     if (projectVisibleAll == false) {
