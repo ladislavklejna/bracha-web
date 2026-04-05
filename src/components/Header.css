@@ -1,96 +1,147 @@
 .navi {
-  font-family: Arial, Helvetica, sans-serif;
-  z-index: 999;
-  position: -webkit-sticky;
-  /* position: sticky; */
+  font-family: var(--font-body);
+  position: sticky;
   top: 0;
-  font-size: large;
+  z-index: 999;
+  /* transition: background-color 0.35s ease, box-shadow 0.35s ease; */
+  background-color: #ffffff;
 }
+
+/* .navi-scrolled {
+  box-shadow:
+    0 1px 0 rgba(0, 0, 0, 0.08),
+    0 4px 20px rgba(0, 0, 0, 0.06);
+} */
+
 .logo {
-  height: 70px;
-  width: 250px;
+  height: 56px;
+  width: 210px;
 }
+
 .logo img {
   width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
-#portfolio {
-  transition: padding-top 0.3s ease;
-}
-
-/* .true {
-  transition: 1s;
-  background-color: white;
-  border-bottom-left-radius: 20px;
-  border-end-end-radius: 20px;
-
-  border-bottom: 2px solid black;
-  border-left: 2px solid black;
-  border-right: 2px solid black;
-} */
 
 .items {
   font-weight: 400;
+  font-size: 0.9rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
   cursor: pointer;
   text-decoration: none;
-  color: rgb(77, 77, 77);
+  color: var(--mid);
+  transition: color var(--transition);
+  position: relative;
+  padding-bottom: 2px;
 }
-.items.active {
-  font-weight: 600;
-  color: black;
-  margin-bottom: 20px;
-  border-radius: 10%;
+
+.items::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--accent);
+  transition: width var(--transition);
 }
+
 @media (hover: hover) {
   .items:hover {
-    font-weight: 400;
-    color: rgb(0, 0, 0);
-    border-radius: 10%;
+    color: var(--dark);
+  }
+
+  .items:hover::after {
+    width: 100%;
   }
 }
+
+.items.active {
+  font-weight: 500;
+  color: var(--dark);
+}
+
 .navbar-nav {
   margin-left: auto;
 }
+
 .nav-item {
-  margin: auto 15px;
+  margin: auto 10px;
 }
+
 .navbar-toggler:focus {
   box-shadow: none;
 }
 
 #custom-toggler {
-  padding: 10;
+  padding: 8px;
   background-color: transparent;
   border: 0;
 }
+
 .toggler-image img {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
 }
+
 .toggler-image {
-  transition: transform 0.5s;
+  transition: transform 0.4s ease;
 }
 
 .rotate {
   transform: rotate(180deg);
 }
+
+/* Scroll-to-top button */
 .to-top {
-  transition: 0.5s ease-in-out;
+  transition:
+    opacity 0.4s ease,
+    visibility 0.4s ease;
   opacity: 0;
   visibility: hidden;
   position: fixed;
-  bottom: 3%;
-  right: 3%;
+  bottom: 28px;
+  right: 28px;
+  z-index: 999;
 }
+
 .button-up-visible {
   visibility: visible;
   opacity: 1;
-  z-index: 999;
 }
+
+.to-top .btn {
+  background-color: var(--dark);
+  color: var(--accent);
+  border: none;
+  border-radius: 50%;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  box-shadow: var(--shadow-md);
+  transition:
+    background-color var(--transition),
+    transform var(--transition);
+}
+
+.to-top .btn:hover {
+  background-color: var(--accent);
+  color: var(--dark);
+  transform: translateY(-3px);
+}
+
 @media only screen and (max-width: 380px) {
   .logo {
-    width: 70%;
+    width: 65%;
   }
+
   #custom-toggler {
-    padding: 0;
+    padding: 4px;
   }
 }

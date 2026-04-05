@@ -1,3 +1,39 @@
+:root {
+  --accent: #ffcc00;
+  --accent-dark: #e6b800;
+  --dark: #1c1c1c;
+  --mid: #4d4d4d;
+  --light: #f7f7f5;
+  --gray: #b2b2b2;
+  --section-bg: rgba(245, 245, 242, 0.9);
+  --font-heading: 'Cormorant Garamond', Georgia, serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --radius: 4px;
+  --transition: 0.3s ease;
+  --shadow-sm: 0 2px 12px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 24px rgba(0, 0, 0, 0.1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: 300;
+  color: var(--dark);
+  background: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 #result {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--dark);
 }

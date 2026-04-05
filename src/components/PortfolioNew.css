@@ -1,108 +1,269 @@
-.portofolioNew .row {
-  --bs-gutter-x: 0;
+/* ── Section wrapper ── */
+.portfolio-section {
+  padding-bottom: 0;
 }
-#reference {
-  margin-left: 12px;
+
+.portfolio-header {
+  padding: 0 12px 4px;
 }
+
+.portfolio-heading {
+  color: var(--dark);
+}
+
+.portfolio-cara {
+  margin-left: 0;
+}
+
+.portfolio-sub {
+  font-size: 0.85rem;
+  font-weight: 300;
+  color: var(--mid);
+  margin-bottom: 28px;
+}
+
+.portfolio-error {
+  padding: 0 12px;
+  color: #c0392b;
+  font-size: 0.875rem;
+}
+
+/* ── CSS Grid ── */
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 3px;
+  background: var(--dark);
+}
+
+/* ── Tile ── */
 .grid-item {
   position: relative;
   overflow: hidden;
-  min-height: 200px;
+  aspect-ratio: 4 / 3;
   cursor: pointer;
   opacity: 0;
-  transition: 150ms;
+  background: #111;
+  outline: none;
 }
+
 .grid-item img {
-  height: 100%;
   width: 100%;
+  height: 100%;
   object-fit: cover;
-}
-.relative {
-  position: relative;
-}
-
-.none {
-  display: none;
+  display: block;
+  transition: transform 0.5s ease;
 }
 
-@keyframes square {
-  0% {
-    width: 0;
-    height: 0;
-  }
-
-  100% {
-    width: 90%;
-    height: 90%;
-  }
-}
-.color-white {
-  color: white;
+.grid-item:hover img,
+.grid-item:focus-visible img {
+  transform: scale(1.06);
 }
 
-.overlay {
+/* ── Always-visible bottom label ── */
+.tile-label {
   position: absolute;
-  color: rgb(0, 0, 0);
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(255, 255, 255, 0.5);
-  opacity: 0;
-  transition: 0.4s ease-in-out;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 40px 14px 12px;
+  background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+  color: #fff;
+  pointer-events: none;
 }
-.overlay:hover {
+
+.tile-name {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0 0 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tile-location {
+  font-size: 0.72rem;
+  font-weight: 300;
+  color: rgba(255,255,255,0.6);
+  margin: 0 0 4px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.tile-actions {
+  font-size: 0.68rem;
+  font-weight: 300;
+  color: var(--accent);
+  margin: 0;
+  letter-spacing: 0.02em;
+  opacity: 0;
+  transform: translateY(4px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.grid-item:hover .tile-actions {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Hover overlay ── */
+.tile-hover {
+  position: absolute;
+  inset: 0;
+  background: rgba(28, 28, 28, 0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.grid-item:hover .tile-hover,
+.grid-item:focus-visible .tile-hover {
   opacity: 1;
 }
-.margin-overlay {
-  margin: 8%;
-}
-.actions {
-  position: absolute;
-  left: 8%;
-  bottom: 8%;
+
+.tile-expand-icon {
+  font-size: 1.6rem;
+  color: #fff;
+  margin-bottom: 12px;
+  opacity: 0.9;
 }
 
-.italic {
-  font-style: italic;
-  font-weight: 300;
-}
 
-@keyframes FadeIn {
-  0% {
+/* ── Entrance animation ── */
+@keyframes tileIn {
+  from {
     opacity: 0;
-    transform: scale(0.1);
+    transform: scale(0.96);
   }
-
-  100% {
-    transform: scale(1);
+  to {
     opacity: 1;
+    transform: scale(1);
   }
 }
 
 .grid-item.animate {
-  animation: FadeIn forwards 1s;
+  animation: tileIn 0.5s ease forwards;
 }
 
-.photo-line {
-  transition: 0.15s;
-  opacity: 1;
-  margin: 0;
-  border: 2px solid;
-  color: #ffcc00;
+/* ── Show more button ── */
+.portfolio-more {
+  background: var(--dark);
+  display: flex;
+  justify-content: center;
+  padding: 0;
 }
-.active {
-  color: #2d2d2d;
-}
-.photo-button {
+
+.portfolio-more-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: transparent;
+  color: rgba(255,255,255,0.55);
   border: none;
-  margin-left: 50%;
-  transform: translate(-50%, -1px);
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  border-bottom-left-radius: 50%;
-  border-bottom-right-radius: 50%;
-  margin-bottom: 20px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  width: 100%;
+  justify-content: center;
+  padding: 18px 24px;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: color 0.25s ease, background-color 0.25s ease;
 }
-.mrg-12 {
-  margin-left: 12px;
+
+.portfolio-more-btn:hover {
+  color: var(--accent);
+  background: rgba(255,255,255,0.03);
+}
+
+/* ── Responsive ── */
+@media only screen and (max-width: 991px) {
+  .portfolio-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .portfolio-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+  }
+
+  .tile-name {
+    font-size: 0.85rem;
+  }
+
+  /* On touch devices tile-actions are always visible (no hover) */
+  .tile-actions {
+    opacity: 1;
+    transform: none;
+    font-size: 0.62rem;
+  }
+
+  /* Hover overlay always slightly visible so tap feels responsive */
+  .tile-hover {
+    display: none;
+  }
+}
+
+/* ── Lightbox overrides (lightbox.js-react v1.0.7) ──
+   Hide all header icons except close; reposition close to top-right */
+._2Yv4j {
+  /* iconsHeader – hide the entire icon bar */
+  display: flex !important;
+  justify-content: flex-end !important;
+  padding: 12px 16px !important;
+  background: transparent !important;
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  left: auto !important;
+  width: auto !important;
+  z-index: 9999 !important;
+}
+
+/* Hide all icons inside the header except close */
+._2Yv4j > *:not(._2IJEr) {
+  display: none !important;
+}
+
+/* Style the close button */
+._2IJEr {
+  background: rgba(0, 0, 0, 0.5) !important;
+  border-radius: 50% !important;
+  padding: 8px !important;
+  color: #fff !important;
+  cursor: pointer !important;
+}
+
+/* Hide bottom controls bar */
+._ABXHD {
+  display: none !important;
+}
+
+@media only screen and (max-width: 480px) {
+  .portfolio-grid {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+
+  .grid-item {
+    aspect-ratio: 16 / 9;
+  }
+
+  .tile-name {
+    font-size: 0.9rem;
+  }
+
+  .tile-location {
+    font-size: 0.75rem;
+  }
 }

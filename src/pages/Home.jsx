@@ -1,121 +1,110 @@
-import { Helmet } from "react-helmet";
-import { Container, Row, Col, Button } from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
+import { Link } from "react-scroll";
+import { FiAward, FiCheckCircle, FiMapPin, FiMessageSquare } from "react-icons/fi";
 import Kontakt from "../components/Kontakt";
-// import Portfolio from "../components/Portfolio";
 import "./Home.css";
 import Sluzby from "./Sluzby";
 import PortfolioNew from "../components/PortfolioNew";
-import { useEffect, useState } from "react";
+
 const Home = () => {
-  const [scrollTop, setScrollTop] = useState(0);
-  const [isScrolled, setIsScrolled] = useState(false);
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentPosition = window.scrollY;
-      setScrollTop(currentPosition);
-      setIsScrolled(currentPosition > 40);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
   return (
     <>
-      <div className="imgCont">
-        <img
-          id="uvod"
-          className="uvodka"
-          src="./images/uvodka720.png"
-          alt="úvodní obrazek, můj vysněný dům"
-          loading="eager"
-          sizes="(max-width: 600px) 100vw, 50vw"
-        />
-        <Container className="www">
-          <div
-            className="uvodTxt"
-            style={{
-              backgroundColor: "rgba(255, 255, 255, 0.8)",
-              padding: "10px",
-            }}
-          >
-            {/* <Helmet>
-              <title>O nás</title>
-              <meta
-                name="description"
-                content="V projektech uplatňujeme zásady trvale udržitelné výstavby. Výsledkem jsou tak stavby šetrné k životnímu prostředí, energeticky úsporné a architektonicky zajímavé."
-              ></meta>
-            </Helmet> */}
-
-            <Row>
-              <Col md={12}>
-                <p className="inzenyr">
-                  Vítám vás na mé webové stránce.
-                  <br />
-                  <br />
-                  Jmenuji se Miroslav Procházka, jsem inženýr v oboru pozemních
-                  staveb. <br />
-                  <br className="show-sm" />
-                  Ve spolupráci s týmem specialistů vytvářím projektové
-                  dokumentace
-                  <br />
-                  <br className="show-sm" />
-                  Projekční činnosti se věnuji od roku 2013.
+      {/* ── Hero ────────────────────────────────────── */}
+      <section className="hero" id="uvod">
+        <picture>
+          <source srcSet="./images/uvodka720.webp" type="image/webp" />
+          <img
+            className="hero-img"
+            src="./images/uvodka720.png"
+            alt="Rodinný dům – ukázka projektu ARAPRO"
+            loading="eager"
+          />
+        </picture>
+        <div className="hero-overlay" />
+        <Container className="hero-container">
+          <Row>
+            <Col md={8} lg={6}>
+              <div className="hero-content">
+                <p className="hero-eyebrow">Projektování pozemních staveb</p>
+                <h1 className="hero-title">
+                  Ing. Miroslav<br />Procházka
+                </h1>
+                <p className="hero-desc">
+                  Architektonické studie, projektová dokumentace
+                  a stavební dozor — na míru vašemu projektu.
                 </p>
-              </Col>
-            </Row>
-          </div>
+                <div className="hero-actions">
+                  <Link to="kontakt" smooth duration={600} offset={0}>
+                    <button className="btn-primary-cta">Nezávazná poptávka →</button>
+                  </Link>
+                  <Link to="reference" smooth duration={600} offset={-28}>
+                    <button className="btn-ghost-cta">Naše reference</button>
+                  </Link>
+                </div>
+                <p className="trust-badge">✓ Přes 50 realizovaných projektů od roku 2013</p>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+
+      </section>
+
+      {/* ── Benefits strip — outside hero, overlaps bottom on desktop ── */}
+      <div className="stats-strip">
+        <div className="stat-item">
+          <div className="stat-icon"><FiAward /></div>
+          <span className="stat-title">Praxe od roku 2013</span>
+          <span className="stat-label">50+ dokončených projektů</span>
+        </div>
+        <div className="stat-divider" />
+        <div className="stat-item">
+          <div className="stat-icon"><FiCheckCircle /></div>
+          <span className="stat-title">Komplexní servis</span>
+          <span className="stat-label">Od studie po stavební povolení</span>
+        </div>
+        <div className="stat-divider" />
+        <div className="stat-item">
+          <div className="stat-icon"><FiMapPin /></div>
+          <span className="stat-title">Praha a jižní Čechy</span>
+          <span className="stat-label">Vyjíždíme po celé ČR</span>
+        </div>
+        <div className="stat-divider" />
+        <div className="stat-item">
+          <div className="stat-icon"><FiMessageSquare /></div>
+          <span className="stat-title">Osobní přístup</span>
+          <span className="stat-label">Přímá komunikace s projektantem</span>
+        </div>
+      </div>
+
+      {/* ── O nás + Služby ──────────────────────────── */}
+      <Container className="section-gap">
+        <Row className="align-items-center mb-5">
+          <Col md={12} lg={7}>
+            <p className="about-text">
+              V našich projektech uplatňujeme zásady trvale udržitelné výstavby
+              společně s požadavky budoucích uživatelů. Výsledkem jsou stavby
+              šetrné k životnímu prostředí, energeticky úsporné
+              a architektonicky zajímavé.
+            </p>
+          </Col>
+          <Col className="text-center d-none d-lg-block">
+            <p className="quote-text">
+              „Architektura je to, co činí zříceninu krásnou."
+              <br /><em>(Le Corbusier)</em>
+            </p>
+          </Col>
+        </Row>
+        <Sluzby />
+      </Container>
+
+      {/* ── Portfolio ───────────────────────────────── */}
+      <div className="portfolio-wrapper">
+        <Container className="noGutter">
+          <PortfolioNew />
         </Container>
       </div>
-      <br />
-      <br />
-      <Container>
-        <Row>
-          <Col md={12} lg={6}>
-            <p className="just">
-              <br />
-              <br />
-              V našich projektech uplatňujeme zásady trvale udržitelné výstavby
-              společně s požadavky budoucích uživatelů. Výsledkem jsou tak
-              stavby šetrné k životnímu prostředí, energeticky úsporné a
-              architektonicky zajímavé.
-            </p>
-            <Row>
-              <Col md={12} lg={3}>
-                <p className="pluska">+ Smysl pro detail</p>
-              </Col>
-              <Col md={12} lg={6}>
-                <p className="pluska">+ Rychlé a kvalitní zpracování</p>
-              </Col>
-              <Col md={12} lg={3}>
-                <p className="pluska">+ Nízké ceny</p>
-              </Col>
-            </Row>
-          </Col>
-          <br />
-          <br />
-          <Col className="centercenter">
-            <p>
-              „Architektura je to, co činí zříceninu krásnou.“ <br />
-              <i>(Le Corbusier)</i>
-            </p>
-          </Col>
-          <br />
-          <br />
-        </Row>
-        <Row>
-          {/* <hr /> */}
-          <Sluzby />
-        </Row>
-      </Container>
 
-      {/* <hr /> */}
-      {/* <Portfolio /> */}
-      <Container className="noGutter">
-        <PortfolioNew />
-      </Container>
+      {/* ── Kontakt ─────────────────────────────────── */}
       <Container>
         <Row>
           <Kontakt />

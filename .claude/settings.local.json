@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx react-scripts:*)",
+      "Bash(lighthouse --version)",
+      "Bash(xargs grep:*)",
+      "Bash(cwebp -version)",
+      "Bash(mv:*)",
+      "Bash(npx sharp-cli:*)",
+      "Bash(ls -la \"D:/React Projects/bracha-web/bracha-web/public/images/\"*.webp \"D:/React Projects/bracha-web/bracha-web/public/images/\"*.png)",
+      "Bash(npm install:*)"
+    ]
+  }
+}

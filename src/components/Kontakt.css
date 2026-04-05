@@ -1,47 +1,150 @@
-.kontaktIcon {
-  transition: ease-in-out 0.3s;
-  max-width: 60px;
-  max-height: 50px;
-  margin-top: 10px;
-  filter: brightness(0%);
+/* ── Contact section wrapper ── */
+.kontakt-section {
+  padding: 0 0 40px;
+  margin-top: 0;
 }
-.kontaktIcon:hover {
-  transform: scale(1.2, 1.2);
-  filter: brightness(100%);
+
+/* ── Left info panel ── */
+.kontakt-info-panel {
+  background: var(--dark);
+  color: #fff;
+  padding: 40px 32px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-radius: 2px;
 }
-.kontaktIcon:active {
-  transform: scale(0.5, 0.5);
-  filter: grayscale(70%);
-  /* color: #b2b2b2; */
-}
-.linknormal {
-  text-decoration: none;
-  color: black;
-}
-.linknormal:hover {
-  text-decoration: underline;
-}
-.form-control:focus {
-  box-shadow: 0 0 0 0.25rem #ffcc0040;
-  border-color: #ffcc00;
-}
-.icon {
-  text-align: center;
-}
-.zarovnat {
-  margin-top: 5px;
-}
-.margin10 {
-  margin-top: 20px;
-}
-.btn-secondary {
-  --bs-btn-bg: #ffcc00;
-  color: #000000;
+
+.kontakt-info-panel h3 {
+  font-family: var(--font-heading);
+  font-size: 1.6rem;
   font-weight: 600;
-  --bs-btn-border-color: transparent;
+  color: #fff;
+  margin-bottom: 6px;
 }
+
+.kontakt-info-panel .kontakt-role {
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 28px;
+}
+
+.kontakt-info-panel .kontakt-line {
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 10px;
+}
+
+.kontakt-info-panel .kontakt-line a {
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.kontakt-info-panel .kontakt-line a:hover {
+  color: var(--accent);
+}
+
+.kontakt-accent-bar {
+  width: 36px;
+  height: 3px;
+  background: var(--accent);
+  margin: 24px 0;
+}
+
+/* ── Form panel ── */
+.kontakt-form-panel {
+  padding: 36px 28px;
+  background: var(--light);
+  border-radius: 2px;
+}
+
+.margin10 {
+  margin-top: 12px;
+}
+
+.form-control,
+.form-select {
+  border-radius: 2px;
+  border-color: #e0e0e0;
+  background: #fff;
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 0.9rem;
+  padding: 10px 14px;
+}
+
+.form-control:focus {
+  box-shadow: 0 0 0 3px rgba(255, 204, 0, 0.2);
+  border-color: var(--accent);
+  outline: none;
+}
+
+.form-control.is-valid:focus {
+  box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.12);
+}
+
+/* ── Submit button ── */
+.btn-submit {
+  margin-top: 14px;
+  width: 100%;
+  padding: 13px 24px;
+  background: var(--accent);
+  color: var(--dark);
+  border: 2px solid var(--accent);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.82rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background-color 0.25s ease, color 0.25s ease,
+    border-color 0.25s ease, transform 0.2s ease;
+}
+
+.btn-submit:hover:not(:disabled) {
+  background: var(--dark);
+  color: var(--accent);
+  border-color: var(--dark);
+  transform: translateY(-1px);
+}
+
+.btn-submit:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Reactstrap overrides */
+.btn-secondary {
+  background-color: var(--accent) !important;
+  color: var(--dark) !important;
+  border-color: transparent !important;
+}
+
 .btn:hover {
-  background-color: #2d2d2d;
-  color: #ffcc00;
-  border-color: #ffcc00;
+  background-color: var(--dark) !important;
+  color: var(--accent) !important;
+  border-color: var(--dark) !important;
+}
+
+.alert {
+  font-size: 0.875rem;
+  border-radius: 2px;
+  margin-top: 10px;
+}
+
+@media only screen and (max-width: 767px) {
+  .kontakt-info-panel {
+    padding: 28px 24px;
+    margin-bottom: 0;
+  }
+
+  .kontakt-form-panel {
+    padding: 24px 16px;
+  }
 }

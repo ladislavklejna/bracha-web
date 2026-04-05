@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-scroll";
 import "./Header.css";
 import {
@@ -13,46 +13,16 @@ import {
   Button,
 } from "reactstrap";
 import { FaAngleDoubleUp } from "react-icons/fa";
+import { FiMenu, FiX } from "react-icons/fi";
 
 function Header(args) {
   const [isOpen, setIsOpen] = useState(false);
-  const [togglerImage, setTogglerImage] = useState("/images/menu.png");
   const [isRotated, setIsRotated] = useState(false);
-  const [scrollTop, setScrollTop] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
-  // const [activeLink, setActiveLink] = useState("uvod");
 
   useEffect(() => {
     const handleScroll = () => {
-      const currentPosition = window.scrollY;
-      setScrollTop(currentPosition);
-      setIsScrolled(currentPosition > 250);
-      // Získáme pozice jednotlivých sekcí na stránce
-      // const x = +100;
-      const uvodPosition = document.getElementById("uvod").offsetTop - 100;
-      const sluzbyPosition = document.getElementById("sluzby").offsetTop - 140;
-      const referencePosition =
-        document.getElementById("reference").offsetTop - 140;
-      const kontaktPosition =
-        document.getElementById("kontakt").offsetTop - 350;
-
-      // console.log(sluzbyPosition);
-      // Porovnáme pozice sekcí s pozicí okna a určíme nejbližší sekci
-      // if (currentPosition >= uvodPosition && currentPosition < sluzbyPosition) {
-      //   setActiveLink("uvod");
-      // } else if (
-      //   currentPosition >= sluzbyPosition &&
-      //   currentPosition < referencePosition
-      // ) {
-      //   setActiveLink("sluzby");
-      // } else if (
-      //   currentPosition >= referencePosition &&
-      //   currentPosition < kontaktPosition
-      // ) {
-      //   setActiveLink("reference");
-      // } else if (currentPosition >= kontaktPosition) {
-      //   setActiveLink("kontakt");
-      // }
+      setIsScrolled(window.scrollY > 250);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -65,7 +35,6 @@ function Header(args) {
     if (window.innerWidth <= 768) {
       setIsOpen(!isOpen);
       setIsRotated(!isRotated);
-      setTogglerImage(isRotated ? "./images/menu.png" : "./images/close2.png");
     }
   };
 
@@ -75,56 +44,27 @@ function Header(args) {
   };
 
   const imageClasses = `toggler-image ${isRotated ? "rotate" : ""}`;
-  const [buttonText, setButtonText] = useState();
-  useEffect(() => {
-    const text = ["N", "a", "h", "o", "r", "u"];
-    let iter = 0;
-    let temp = "";
-    let isClearing = false;
-
-    const interval = setInterval(() => {
-      if (isScrolled == true) {
-        if (iter < text.length) {
-          temp += text[iter];
-          setButtonText(temp);
-          iter++;
-        } else {
-          clearInterval(interval); // Zastaví interval, když je zobrazený celý text
-          setTimeout(() => {
-            // Počkej 1 sekundu po zobrazení celého textu
-            isClearing = true;
-            const clearTextInterval = setInterval(() => {
-              if (temp.length > 1 && isClearing) {
-                temp = temp.slice(0, -1); // Postupně maž text
-                setButtonText(temp);
-              } else {
-                clearInterval(clearTextInterval); // Zastav interval po smazání textu
-                // Zde můžete nastavit symbol šipky nahoru
-                setButtonText(<FaAngleDoubleUp />);
-              }
-            }, 75);
-          }, 750);
-        }
-      }
-    }, 150);
-
-    // Funkce pro čištění intervalu při odmontování komponenty
-    return () => clearInterval(interval);
-  }, [isScrolled]);
 
   return (
-    <div className="navi">
-      <Container className={isScrolled ? "true" : "false"}>
+    <div className={`navi ${isScrolled ? "navi-scrolled" : ""}`}>
+      <Container>
         <Navbar {...args} expand={"md"}>
           <NavbarBrand className="logo" href="/">
-            <img src="./images/logo11.png" alt="logo firmy Arapro.cz" />
+            <picture>
+              <source srcSet="./images/logo11.webp" type="image/webp" />
+              <img
+                src="./images/logo11.png"
+                alt="ARAPRO – projektování pozemních staveb"
+              />
+            </picture>
           </NavbarBrand>
           <NavbarToggler
             className={imageClasses}
             id="custom-toggler"
             onClick={toggle}
+            aria-label={isOpen ? "Zavřít menu" : "Otevřít menu"}
           >
-            <img src={togglerImage} alt="Custom Toggler" />
+            {isOpen ? <FiX size={22} /> : <FiMenu size={22} />}
           </NavbarToggler>
           <Collapse isOpen={isOpen} navbar>
             <Nav navbar>
@@ -136,7 +76,7 @@ function Header(args) {
                     to="uvod"
                     smooth={true}
                     duration={500}
-                    offset={window.innerWidth <= 768 ? -260 : -100}
+                    offset={window.innerWidth <= 768 ? -249 : -100}
                     onClick={() => onLinkClick("uvod")}
                   >
                     Úvod
@@ -151,7 +91,7 @@ function Header(args) {
                     to="sluzby"
                     smooth={true}
                     duration={500}
-                    offset={window.innerWidth <= 768 ? -299 : -26}
+                    offset={window.innerWidth <= 768 ? -249 : -26}
                     onClick={() => onLinkClick("sluzby")}
                   >
                     Služby
@@ -165,7 +105,7 @@ function Header(args) {
                     to="reference"
                     smooth={true}
                     duration={500}
-                    offset={window.innerWidth <= 768 ? -299 : -28}
+                    offset={window.innerWidth <= 768 ? -249 : -28}
                     onClick={() => onLinkClick("reference")}
                   >
                     Reference
@@ -179,7 +119,7 @@ function Header(args) {
                     to="kontakt"
                     smooth={true}
                     duration={500}
-                    offset={window.innerWidth <= 768 ? -299 : -0}
+                    offset={window.innerWidth <= 768 ? -249 : -0}
                     onClick={() => onLinkClick("kontakt")}
                   >
                     Kontakt
@@ -191,7 +131,7 @@ function Header(args) {
         </Navbar>
       </Container>
       <div
-        className={`to-top ${isScrolled == true ? "button-up-visible" : ""}`}
+        className={`to-top ${isScrolled === true ? "button-up-visible" : ""}`}
       >
         <Link
           className={`items `}
@@ -202,7 +142,9 @@ function Header(args) {
           offset={window.innerWidth <= 768 ? -260 : -100}
           onClick={() => onLinkClick("uvod")}
         >
-          <Button>{buttonText}</Button>
+          <Button>
+            <FaAngleDoubleUp />
+          </Button>
         </Link>
       </div>
     </div>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Container, Input, Row, Col, Spinner, Alert } from "reactstrap";
+import { Input, Row, Col, Spinner, Alert } from "reactstrap";
 import "./Kontakt.css";
 import emailjs from "emailjs-com";
 
@@ -144,56 +144,51 @@ const Kontakt = () => {
   };
 
   return (
-    <div className="gray">
+    <div className="kontakt-section">
       <h2 className="heading" id="kontakt">
         Kontakt
       </h2>
-
       <hr className="cara" />
-      <Container>
-        <Row>
-          <Col sm={0} md={1}></Col>
-          <Col md={4}>
-            <p>Ing. Miroslav Procházka</p>
-            <br />
-            <p>
-              M:{" "}
-              <a href="tel:739658874" className="linknormal">
-                739 658 874
-              </a>
+
+      <Row className="g-0">
+        {/* ── Dark info panel ── */}
+        <Col md={4}>
+          <div className="kontakt-info-panel">
+            <h3>Ing. Miroslav Procházka</h3>
+            <p className="kontakt-role">Projektant pozemních staveb</p>
+            <div className="kontakt-accent-bar" />
+            <p className="kontakt-line">
+              <a href="tel:+420739658874">+420 739 658 874</a>
             </p>
-            <p>
-              E:{" "}
-              <a href="mailto:prochazka@arapro.cz" className="linknormal">
-                prochazka@arapro.cz
-              </a>
+            <p className="kontakt-line">
+              <a href="mailto:prochazka@arapro.cz">prochazka@arapro.cz</a>
             </p>
-          </Col>
-          <Col md={6}>
+          </div>
+        </Col>
+
+        {/* ── Form panel ── */}
+        <Col md={8}>
+          <div className="kontakt-form-panel">
             <Row>
-              <Col>
-                <form className="margin10" onSubmit={formSubmit}>
-                  <Input
-                    type="text"
-                    placeholder="Jméno"
-                    value={firstName}
-                    valid={isValidName === true}
-                    invalid={isValidName === false}
-                    onChange={(event) => setFirstName(event.target.value)}
-                  ></Input>
-                </form>
+              <Col sm={6}>
+                <Input
+                  type="text"
+                  placeholder="Jméno"
+                  value={firstName}
+                  valid={isValidName === true}
+                  invalid={isValidName === false}
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
               </Col>
-              <Col>
-                <form className="margin10" onSubmit={formSubmit}>
-                  <Input
-                    type="text"
-                    placeholder="Příjmení"
-                    value={lastName}
-                    valid={isValidLName === true}
-                    invalid={isValidLName === false}
-                    onChange={(event) => setLastName(event.target.value)}
-                  ></Input>
-                </form>
+              <Col sm={6} className="margin10 mt-sm-0">
+                <Input
+                  type="text"
+                  placeholder="Příjmení"
+                  value={lastName}
+                  valid={isValidLName === true}
+                  invalid={isValidLName === false}
+                  onChange={(e) => setLastName(e.target.value)}
+                />
               </Col>
             </Row>
             <Input
@@ -201,8 +196,8 @@ const Kontakt = () => {
               type="text"
               placeholder="Předmět (nepovinné)"
               value={subject}
-              onChange={(event) => setSubject(event.target.value)}
-            ></Input>
+              onChange={(e) => setSubject(e.target.value)}
+            />
             <Input
               className="margin10"
               type="email"
@@ -211,39 +206,39 @@ const Kontakt = () => {
               valid={isValidMail === true}
               invalid={isValidMail === false}
               onChange={handleEmailChange}
-            ></Input>
+            />
             <Input
               className="margin10"
               type="textarea"
+              rows={4}
               placeholder="Zpráva"
               value={message}
               valid={isValidMessage === true}
               invalid={isValidMessage === false}
-              onChange={(event) => setMessage(event.target.value)}
-            ></Input>
-            <Button
-              className="margin10 yellow"
-              type="submit"
+              onChange={(e) => setMessage(e.target.value)}
+            />
+            <button
+              className="btn-submit"
               onClick={formSubmit}
-              disabled={(isLoading, disabled)}
+              disabled={isLoading || disabled}
             >
               {isLoading ? (
                 <>
-                  <Spinner size="sm" /> Odesílání...
+                  <Spinner size="sm" /> &nbsp;Odesílání…
                 </>
               ) : (
-                "Odeslat"
+                "Odeslat zprávu →"
               )}
-            </Button>
-            <Alert color="danger" isOpen={visibility}>
+            </button>
+            <Alert color="danger" isOpen={visibility} className="margin10">
               {alertMessage}
             </Alert>
-            <Alert color="success" isOpen={visibilitySuccess}>
-              Váš dotaz byl úspěšně odeslán !
+            <Alert color="success" isOpen={visibilitySuccess} className="margin10">
+              Váš dotaz byl úspěšně odeslán!
             </Alert>
-          </Col>
-        </Row>
-      </Container>
+          </div>
+        </Col>
+      </Row>
     </div>
   );
 };

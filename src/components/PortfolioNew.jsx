@@ -1,201 +1,206 @@
 import React, { useRef, useEffect, useState } from "react";
 import "./PortfolioNew.css";
 import axios from "axios";
-import { Row, Col, Button } from "reactstrap";
-import { FaPlus, FaMinus } from "react-icons/fa";
+import { FiChevronDown, FiChevronUp, FiMaximize2 } from "react-icons/fi";
 import "lightbox.js-react/dist/index.css";
-import { SlideshowLightbox, initLightboxJS } from "lightbox.js-react";
-let pole = [];
+import { SlideshowLightbox } from "lightbox.js-react";
+
+const CACHE_KEY = "arapro_portfolio_v2";
+const API_URL = "https://www.arapro.cz/index.php";
+
+function getCachedPortfolio() {
+  try {
+    const raw = localStorage.getItem(CACHE_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw); // { data, modified }
+  } catch {
+    return null;
+  }
+}
+
+function setCachedPortfolio(data, modified) {
+  try {
+    localStorage.setItem(CACHE_KEY, JSON.stringify({ data, modified }));
+  } catch {}
+}
+
 const PortfolioNew = () => {
   const [data, setData] = useState([]);
+  const [error, setError] = useState(false);
   const tilesRef = useRef(null);
   const [projectVisibleAll, setProjectVisibleAll] = useState(false);
 
   async function getData(option) {
-    axios.get(`https://www.arapro.cz/index.php`).then((res) => {
-      const serverData = res.data;
-      serverData.reverse();
-      let cutData = [];
-      if (option == "cut") {
-        for (let index = 0; index <= 11; index++) {
-          cutData.push(serverData[index]);
-        }
+    setError(false);
+    const cached = getCachedPortfolio();
 
-        setData(cutData);
-      } else if (option == "all") {
-        setData(serverData);
+    // Zobraz cache okamžitě
+    if (cached) {
+      setData(option === "cut" ? cached.data.slice(0, 12) : cached.data);
+    }
+
+    // Ověř v pozadí, zda se data změnila
+    try {
+      const {
+        data: { modified },
+      } = await axios.get(`${API_URL}?modified`);
+
+      if (cached && cached.modified === modified) {
+        return; // Data jsou aktuální, cache platí
       }
-      gridWide(serverData);
-    });
+
+      // Data se změnila (nebo cache neexistuje) → stáhni znovu
+      const res = await axios.get(API_URL);
+      const serverData = res.data.map((project) => ({
+        ...project,
+        photos: project.photos.map((p) => ({
+          ...p,
+          name: p.name.replace(/\.(jpg|jpeg|png|gif)$/i, ".webp"),
+          path: p.path.replace(/\.(jpg|jpeg|png|gif)$/i, ".webp"),
+        })),
+      }));
+      serverData.reverse();
+      setCachedPortfolio(serverData, modified);
+      setData(option === "cut" ? serverData.slice(0, 12) : serverData);
+    } catch {
+      if (!cached) setError(true);
+    }
   }
+
   const isElementInViewport = (el, offset = 200) => {
     const rect = el.getBoundingClientRect();
-    const windowHeight =
-      window.innerHeight || document.documentElement.clientHeight;
-    const windowWidth =
-      window.innerWidth || document.documentElement.clientWidth;
-
     return (
       rect.top >= -offset &&
-      rect.left >= -offset &&
-      rect.bottom <= windowHeight + offset &&
-      rect.right <= windowWidth + offset
+      rect.bottom <=
+        (window.innerHeight || document.documentElement.clientHeight) + offset
     );
   };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
     getData("cut");
   }, []);
 
   useEffect(() => {
     const handleVisibility = () => {
-      const tiles = tilesRef.current.querySelectorAll(".grid-item");
-      tiles.forEach((tile) => {
+      if (!tilesRef.current) return;
+      tilesRef.current.querySelectorAll(".grid-item").forEach((tile) => {
         if (isElementInViewport(tile) && !tile.classList.contains("animate")) {
           tile.classList.add("animate");
         }
       });
-
-      // Odstranění posluchače události skrolování, když jsou všechny prvky animované
-      const allAnimated = Array.from(tiles).every((tile) =>
-        tile.classList.contains("animate")
-      );
-      if (allAnimated) {
-        window.removeEventListener("scroll", handleVisibility);
-      }
     };
-
-    // Kontrola viditelnosti při načtení stránky
     handleVisibility();
-
-    // Přidání posluchače události skrolování
     window.addEventListener("scroll", handleVisibility);
-
-    // Odstranění posluchače události skrolování při odmontování komponenty
-    return () => {
-      window.removeEventListener("scroll", handleVisibility);
-    };
+    return () => window.removeEventListener("scroll", handleVisibility);
   }, [data]);
 
   useEffect(() => {
-    if (projectVisibleAll == false) {
-      getData("cut");
-    } else {
-      getData("all");
-    }
-  }, [projectVisibleAll]);
+    getData(projectVisibleAll ? "all" : "cut");
+  }, [projectVisibleAll]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const [hover, setHover] = useState(0);
-  const hoverOn = (idcko) => {
-    setHover(idcko);
-  };
   const [chosenProject, setChosenProject] = useState([]);
-  console.log(chosenProject);
+  const [isOpen, setIsOpen] = useState(false);
+
   const handleGallery = (ind) => {
-    // toggle();
-    setIsOpen(true);
-    let lada = data[ind].photos;
-    let images = [];
-
-    lada.forEach((one) => {
-      if (one.name != "thumb.png") {
-        let image = { src: one.path };
-        images.push(image);
-      }
-    });
-
+    const images = data[ind].photos
+      .filter((p) => !p.name.startsWith("thumb."))
+      .map((p) => ({ src: p.path }));
     setChosenProject(images);
+    setIsOpen(true);
   };
-  const [modal, setModal] = useState(false);
-  let [isOpen, setIsOpen] = useState(false);
 
-  const gridWide = (srvData) => {
-    let screenWidth = window.innerWidth;
-    pole = [];
-    let countInLine = 0;
-    if (screenWidth >= 992) {
-      countInLine = 4;
-    } else if (screenWidth >= 768 && screenWidth < 992) {
-      countInLine = 3;
-    } else if (screenWidth >= 576 && screenWidth < 768) {
-      countInLine = 2;
-    } else {
-      countInLine = 1;
+  // Back button closes lightbox instead of navigating away
+  useEffect(() => {
+    if (isOpen) {
+      window.history.pushState({ lightbox: true }, "");
+      const handlePop = () => setIsOpen(false);
+      window.addEventListener("popstate", handlePop);
+      return () => window.removeEventListener("popstate", handlePop);
     }
-    console.log(srvData.length);
-    const temp = srvData.length / countInLine;
-    for (let i = 1; i <= temp; i++) {
-      for (let index = 0; index < countInLine; index++) {
-        pole.push(index * 0.25);
-      }
-    }
-    console.log(pole);
+  }, [isOpen]);
+
+  const actionLabel = (akce) => {
+    if (akce === "studie") return "architektonická studie";
+    if (akce === "dokumentace") return "projektová dokumentace";
+    return akce;
   };
 
   return (
-    <>
-      <h2 id="reference" className="heading">
-        Reference
-      </h2>
-      <hr className="cara" />
-      <p className="mrg-12">Výběr našich nejzajímavějších projektů:</p>
-      <div className="portofolioNew" ref={tilesRef}>
-        <Row>
-          {data.map((x, index) => (
-            <Col
-              key={x.id}
-              className={`grid-item ${
-                projectVisibleAll == true && index > 11 ? "animate" : ""
-              }`}
-              onMouseOver={() => hoverOn(x.id)}
-              sm={6}
-              md={4}
-              lg={3}
-              onClick={() => handleGallery(index)}
-              style={{ animationDelay: `${pole[index]}s` }}
-            >
-              <img
-                src={`${x.photos
-                  .filter(
-                    (oo) => oo.name === "thumb.png" || oo.name === "thumb.jpg"
-                  )
-                  .map((photo) => photo.path)}`}
-                height={250}
-              />
+    <section className="portfolio-section">
+      {/* ── Header ── */}
+      <div className="portfolio-header">
+        <div>
+          <h2 id="reference" className="heading portfolio-heading">
+            Reference
+          </h2>
+          <hr className="cara portfolio-cara" />
+          <p className="portfolio-sub">
+            Výběr realizovaných projektů — kliknutím otevřete fotogalerii.
+          </p>
+        </div>
+      </div>
 
-              <div className="overlay">
-                <div className="margin-overlay">
-                  <h6 className="mt-3">
-                    {x.name} / <span className="italic">{x.location}</span>
-                  </h6>
-                  {/* <h5 className="text-center">{x.location}</h5> */}
-                  <div className="actions">
-                    {x.actions.map((akce) => (
-                      <h6>
-                        {akce == "studie"
-                          ? "architektonická studie"
-                          : "" || akce == "dokumentace"
-                          ? "projektová dokumentace"
-                          : "" || akce}
-                      </h6>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </Col>
-          ))}
-        </Row>
+      {error && (
+        <p className="portfolio-error">
+          Projekty se nepodařilo načíst. Zkuste stránku obnovit.
+        </p>
+      )}
+
+      {/* ── Grid ── */}
+      <div className="portfolio-grid" ref={tilesRef}>
+        {data.map((x, index) => (
+          <div
+            className="grid-item"
+            key={x.id}
+            onClick={() => handleGallery(index)}
+            style={{ animationDelay: `${(index % 4) * 0.08}s` }}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => e.key === "Enter" && handleGallery(index)}
+            aria-label={`${x.name}, ${x.location} – otevřít galerii`}
+          >
+            <img
+              src={x.photos.find((p) => p.name.startsWith("thumb."))?.path}
+              alt={`${x.name} – ${x.location}`}
+              loading="lazy"
+            />
+
+            {/* Always-visible bottom label */}
+            <div className="tile-label">
+              <p className="tile-name">{x.name}</p>
+              <p className="tile-location">{x.location}</p>
+              <p className="tile-actions">
+                {x.actions.map(actionLabel).join(" · ")}
+              </p>
+            </div>
+
+            {/* Hover overlay – just the expand icon */}
+            <div className="tile-hover">
+              <FiMaximize2 className="tile-expand-icon" />
+            </div>
+          </div>
+        ))}
       </div>
-      <div className="hani">
-        <hr className={`photo-line ${modal == true ? "active" : ""}`} />
-        <Button
-          className="photo-button"
+
+      {/* ── Show more ── */}
+      <div className="portfolio-more">
+        <button
+          className="portfolio-more-btn"
           onClick={() => setProjectVisibleAll(!projectVisibleAll)}
-          onMouseOver={() => setModal(true)}
-          onMouseLeave={() => setModal(false)}
         >
-          {projectVisibleAll == false ? <FaPlus /> : <FaMinus />}
-        </Button>
+          {projectVisibleAll ? (
+            <>
+              <FiChevronUp /> Zobrazit méně
+            </>
+          ) : (
+            <>
+              <FiChevronDown /> Zobrazit všechny projekty
+            </>
+          )}
+        </button>
       </div>
+
       <SlideshowLightbox
         theme="day"
         disableImageZoom={true}
@@ -206,11 +211,9 @@ const PortfolioNew = () => {
         showThumbnails={true}
         open={isOpen}
         lightboxIdentifier="lbox1"
-        onClose={() => {
-          setIsOpen(false);
-        }}
+        onClose={() => setIsOpen(false)}
       />
-    </>
+    </section>
   );
 };
 

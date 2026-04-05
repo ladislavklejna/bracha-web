@@ -1,31 +1,179 @@
-.imgcenter img {
-  margin: auto;
-  transition: ease-in-out 0.5s;
+.sluzby-section {
+  padding: 20px 0 0;
 }
-.imgcenter {
-  background-color: transparent;
+
+.sluzby-cara {
+  margin-bottom: 12px;
 }
-.cara {
-  border: 2px solid black;
-  opacity: 1;
-  margin-bottom: 30px;
+
+.sluzby-intro {
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: var(--mid);
+  letter-spacing: 0.02em;
+  margin-bottom: 40px;
 }
-.cardText {
-  text-align: justify;
+
+/* ── 2×2 grid ── */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+  background: #e8e8e4;
 }
-.cartTitlecenter {
-  text-align: center;
+
+/* ── Single card ── */
+.svc-card {
+  background: #fff;
+  padding: 40px 36px 36px;
+  position: relative;
+  overflow: hidden;
+  transition: background-color 0.25s ease;
+}
+
+/* Decorative large number behind content */
+.svc-bg-num {
+  position: absolute;
+  top: -10px;
+  right: 20px;
+  font-family: var(--font-heading);
+  font-size: 7rem;
+  font-weight: 700;
+  color: var(--dark);
+  opacity: 0.04;
+  line-height: 1;
+  pointer-events: none;
+  user-select: none;
+  transition: opacity 0.25s ease;
+}
+
+.svc-card:hover {
+  background: #fafaf8;
+}
+
+.svc-card:hover .svc-bg-num {
+  opacity: 0.07;
+}
+
+/* Yellow left border on hover */
+.svc-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 0;
+  background: var(--accent);
+  transition: height 0.35s ease;
+}
+
+.svc-card:hover::before {
+  height: 100%;
+}
+
+/* ── Header row: icon + number ── */
+.svc-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.svc-icon-wrap {
+  width: 48px;
+  height: 48px;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  font-size: 1.3rem;
+  color: var(--dark);
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.svc-card:hover .svc-icon-wrap {
+  transform: scale(1.08);
+}
+
+.svc-num-label {
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
   font-weight: 600;
+  color: var(--gray);
+  letter-spacing: 0.12em;
 }
-.border-light {
-  --bs-border-opacity: 0;
+
+/* ── Text ── */
+.svc-title {
+  font-family: var(--font-heading);
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: var(--dark);
+  margin-bottom: 14px;
+  line-height: 1.25;
 }
-#dozor {
-  font-weight: 900;
+
+.svc-desc {
+  font-size: 0.875rem;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--mid);
+  margin-bottom: 24px;
 }
-.gray {
-  --bs-gutter-x: 0;
-  border-radius: 20px;
-  padding-bottom: 30px;
-  background-color: #b2b2b279;
+
+/* ── Feature list ── */
+.svc-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-top: 1px solid #f0f0ee;
+  padding-top: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 16px;
+}
+
+.svc-features li {
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: var(--mid);
+  padding-left: 14px;
+  position: relative;
+  line-height: 1.4;
+}
+
+.svc-features li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: 0.7rem;
+  top: 1px;
+}
+
+/* ── Responsive ── */
+@media only screen and (max-width: 768px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .svc-card {
+    padding: 32px 24px 28px;
+  }
+
+  .svc-features {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media only screen and (min-width: 769px) and (max-width: 991px) {
+  .svc-card {
+    padding: 32px 28px 28px;
+  }
+
+  .svc-features {
+    grid-template-columns: 1fr;
+  }
 }
