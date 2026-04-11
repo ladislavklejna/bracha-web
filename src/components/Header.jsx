@@ -8,31 +8,32 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
   Container,
   Button,
 } from "reactstrap";
 import { FaAngleDoubleUp } from "react-icons/fa";
 import { FiMenu, FiX } from "react-icons/fi";
 
-function Header(args) {
+function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isRotated, setIsRotated] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 250);
-    };
-
+    const handleScroll = () => setIsScrolled(window.scrollY > 250);
     window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   const toggle = () => {
-    if (window.innerWidth <= 768) {
+    if (isMobile) {
       setIsOpen(!isOpen);
       setIsRotated(!isRotated);
     }
@@ -48,13 +49,15 @@ function Header(args) {
   return (
     <div className={`navi ${isScrolled ? "navi-scrolled" : ""}`}>
       <Container>
-        <Navbar {...args} expand={"md"}>
+        <Navbar expand={"md"}>
           <NavbarBrand className="logo" href="/">
             <picture>
               <source srcSet="./images/logo11.webp" type="image/webp" />
               <img
                 src="./images/logo11.png"
                 alt="ARAPRO – projektování pozemních staveb"
+                width="210"
+                height="53"
               />
             </picture>
           </NavbarBrand>
@@ -69,62 +72,56 @@ function Header(args) {
           <Collapse isOpen={isOpen} navbar>
             <Nav navbar>
               <NavItem>
-                <NavLink>
-                  <Link
-                    className={`items `}
-                    href="/"
-                    to="uvod"
-                    smooth={true}
-                    duration={500}
-                    offset={window.innerWidth <= 768 ? -249 : -100}
-                    onClick={() => onLinkClick("uvod")}
-                  >
-                    Úvod
-                  </Link>
-                </NavLink>
+                <Link
+                  className="nav-link items"
+                  href="#uvod"
+                  to="uvod"
+                  smooth={true}
+                  duration={500}
+                  offset={isMobile ? -249 : -100}
+                  onClick={() => onLinkClick("uvod")}
+                >
+                  Úvod
+                </Link>
               </NavItem>
               <NavItem>
-                <NavLink>
-                  <Link
-                    className={`items `}
-                    href="#sluzby"
-                    to="sluzby"
-                    smooth={true}
-                    duration={500}
-                    offset={window.innerWidth <= 768 ? -249 : -26}
-                    onClick={() => onLinkClick("sluzby")}
-                  >
-                    Služby
-                  </Link>
-                </NavLink>
+                <Link
+                  className="nav-link items"
+                  href="#sluzby"
+                  to="sluzby"
+                  smooth={true}
+                  duration={500}
+                  offset={isMobile ? -249 : -26}
+                  onClick={() => onLinkClick("sluzby")}
+                >
+                  Služby
+                </Link>
               </NavItem>
               <NavItem>
-                <NavLink>
-                  <Link
-                    className={`items`}
-                    to="reference"
-                    smooth={true}
-                    duration={500}
-                    offset={window.innerWidth <= 768 ? -249 : -28}
-                    onClick={() => onLinkClick("reference")}
-                  >
-                    Reference
-                  </Link>
-                </NavLink>
+                <Link
+                  className="nav-link items"
+                  href="#reference"
+                  to="reference"
+                  smooth={true}
+                  duration={500}
+                  offset={isMobile ? -249 : -28}
+                  onClick={() => onLinkClick("reference")}
+                >
+                  Reference
+                </Link>
               </NavItem>
               <NavItem>
-                <NavLink>
-                  <Link
-                    className={`items `}
-                    to="kontakt"
-                    smooth={true}
-                    duration={500}
-                    offset={window.innerWidth <= 768 ? -249 : -0}
-                    onClick={() => onLinkClick("kontakt")}
-                  >
-                    Kontakt
-                  </Link>
-                </NavLink>
+                <Link
+                  className="nav-link items"
+                  href="#kontakt"
+                  to="kontakt"
+                  smooth={true}
+                  duration={500}
+                  offset={isMobile ? -249 : 0}
+                  onClick={() => onLinkClick("kontakt")}
+                >
+                  Kontakt
+                </Link>
               </NavItem>
             </Nav>
           </Collapse>
@@ -139,7 +136,7 @@ function Header(args) {
           to="uvod"
           smooth={true}
           duration={250}
-          offset={window.innerWidth <= 768 ? -260 : -100}
+          offset={isMobile ? -260 : -100}
           onClick={() => onLinkClick("uvod")}
         >
           <Button>

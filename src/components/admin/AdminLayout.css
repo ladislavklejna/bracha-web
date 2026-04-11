@@ -1,0 +1,102 @@
+/* ── Admin shell ────────────────────────────────────────────── */
+.al-root {
+  min-height: 100vh;
+  background: #111;
+  color: #e0e0e0;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* Loading spinner (ProtectedRoute) */
+.admin-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: #111;
+}
+.admin-spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid #2d2d2d;
+  border-top-color: #ffcc00;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Topbar ─────────────────────────────────────────────────── */
+.al-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 56px;
+  background: #161616;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.al-brand {
+  font-size: 1.1rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  color: #e0e0e0;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+.al-brand-accent {
+  color: #ffcc00;
+}
+.al-brand-tag {
+  margin-left: 8px;
+  font-size: 0.65rem;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  color: #666;
+  text-transform: uppercase;
+  padding: 2px 6px;
+  border: 1px solid #2d2d2d;
+  border-radius: 4px;
+}
+
+.al-topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.al-user-email {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.al-logout-btn {
+  font-size: 0.8rem;
+  padding: 5px 14px;
+  background: transparent;
+  border: 1px solid #2d2d2d;
+  border-radius: 6px;
+  color: #999;
+  cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.al-logout-btn:hover {
+  border-color: #ffcc00;
+  color: #ffcc00;
+}
+
+/* ── Content ────────────────────────────────────────────────── */
+.al-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px 64px;
+}
+
+@media (max-width: 600px) {
+  .al-user-email { display: none; }
+  .al-content { padding: 20px 16px 48px; }
+}

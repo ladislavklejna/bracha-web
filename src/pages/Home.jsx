@@ -1,10 +1,12 @@
+import { lazy, Suspense } from "react";
 import { Container, Row, Col } from "reactstrap";
 import { Link } from "react-scroll";
 import { FiAward, FiCheckCircle, FiMapPin, FiMessageSquare } from "react-icons/fi";
-import Kontakt from "../components/Kontakt";
 import "./Home.css";
 import Sluzby from "./Sluzby";
-import PortfolioNew from "../components/PortfolioNew";
+
+const PortfolioNew = lazy(() => import("../components/PortfolioNew"));
+const Kontakt      = lazy(() => import("../components/Kontakt"));
 
 const Home = () => {
   return (
@@ -18,6 +20,8 @@ const Home = () => {
             src="./images/uvodka720.png"
             alt="Rodinný dům – ukázka projektu ARAPRO"
             loading="eager"
+            width="1280"
+            height="720"
           />
         </picture>
         <div className="hero-overlay" />
@@ -34,10 +38,10 @@ const Home = () => {
                   a stavební dozor — na míru vašemu projektu.
                 </p>
                 <div className="hero-actions">
-                  <Link to="kontakt" smooth duration={600} offset={0}>
+                  <Link to="kontakt" href="#kontakt" smooth duration={600} offset={0}>
                     <button className="btn-primary-cta">Nezávazná poptávka →</button>
                   </Link>
-                  <Link to="reference" smooth duration={600} offset={-28}>
+                  <Link to="reference" href="#reference" smooth duration={600} offset={-28}>
                     <button className="btn-ghost-cta">Naše reference</button>
                   </Link>
                 </div>
@@ -100,14 +104,18 @@ const Home = () => {
       {/* ── Portfolio ───────────────────────────────── */}
       <div className="portfolio-wrapper">
         <Container className="noGutter">
-          <PortfolioNew />
+          <Suspense fallback={<div style={{ minHeight: 400 }} />}>
+            <PortfolioNew />
+          </Suspense>
         </Container>
       </div>
 
       {/* ── Kontakt ─────────────────────────────────── */}
       <Container>
         <Row>
-          <Kontakt />
+          <Suspense fallback={<div style={{ minHeight: 300 }} />}>
+            <Kontakt />
+          </Suspense>
         </Row>
       </Container>
     </>

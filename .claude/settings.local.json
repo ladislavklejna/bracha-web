@@ -8,7 +8,21 @@
       "Bash(mv:*)",
       "Bash(npx sharp-cli:*)",
       "Bash(ls -la \"D:/React Projects/bracha-web/bracha-web/public/images/\"*.webp \"D:/React Projects/bracha-web/bracha-web/public/images/\"*.png)",
-      "Bash(npm install:*)"
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "Bash(cmd:*)",
+      "Bash(powershell:*)",
+      "Bash(npm start:*)",
+      "Bash(curl:*)",
+      "Bash(taskkill:*)",
+      "Bash(npx kill-port:*)",
+      "Bash(python3 -c ':*)",
+      "Bash(node:*)",
+      "Bash(npx lighthouse:*)",
+      "Bash(magick identify:*)",
+      "Bash(magick \"public/images/logo11.png\" -resize 420x -quality 90 \"public/images/logo11.png\")",
+      "Bash(magick \"public/images/logo11.webp\" -resize 420x -quality 82 \"public/images/logo11.webp\")",
+      "Bash(ls -la public/images/logo11.*)"
     ]
   }
 }

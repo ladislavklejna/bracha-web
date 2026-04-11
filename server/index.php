@@ -9,43 +9,63 @@ function readProjects()
 {
     global $projectsDirectory;
 
-    $projects = [];
+    $dirs = glob($projectsDirectory . '*', GLOB_ONLYDIR);
+    if (!$dirs) return [];
 
-    foreach (glob($projectsDirectory . '*', GLOB_ONLYDIR) as $projectDirectory) {
+    $projectMap = [];
+    foreach ($dirs as $projectDirectory) {
         $projectName = basename($projectDirectory);
+        if (str_starts_with($projectName, '_')) continue; // skip _order.json dir
 
         $photos = [];
-
         foreach (glob($projectDirectory . '/*.{jpg,jpeg,png,gif,webp}', GLOB_BRACE) as $photoPath) {
             $photoName = basename($photoPath);
-            $photoPath = str_replace('../public/', '', $photoPath);
-
-            $photos[] = [
-                'name' => $photoName,
-                'path' => $photoPath
-            ];
+            $relPath   = str_replace('../public/', '', $photoPath);
+            $photos[]  = ['name' => $photoName, 'path' => $relPath];
         }
+        // Sort photos by filename so numeric prefixes give correct order
+        usort($photos, fn($a, $b) => strcmp($a['name'], $b['name']));
 
-        $parts = explode('-', $projectName);
-        $id = trim($parts[0] ?? '');
-        $name = trim($parts[1] ?? '');
+        $parts    = explode('-', $projectName);
+        $id       = trim($parts[0] ?? '');
+        $name     = trim($parts[1] ?? '');
         $location = trim($parts[2] ?? '');
-
-        $actions = [];
+        $actions  = [];
         for ($i = 3; $i < count($parts); $i++) {
-            $actions[] = trim($parts[$i]);
+            if (trim($parts[$i]) !== '') $actions[] = trim($parts[$i]);
         }
 
-        $projects[] = [
-            'id' => $id,
-            'name' => $name,
+        $projectMap[$projectName] = [
+            'id'       => $id,
+            'name'     => $name,
             'location' => $location,
-            'actions' => $actions,
-            'photos' => $photos
+            'actions'  => $actions,
+            'photos'   => $photos,
         ];
     }
 
-    return $projects;
+    // Respect admin ordering if _order.json exists
+    $orderFile = $projectsDirectory . '_order.json';
+    if (file_exists($orderFile)) {
+        $order   = json_decode(file_get_contents($orderFile), true) ?? [];
+        $ordered = [];
+        foreach ($order as $fn) {
+            if (isset($projectMap[$fn])) {
+                $ordered[] = $projectMap[$fn];
+                unset($projectMap[$fn]);
+            }
+        }
+        // Zbývající bez záznamu v _order.json – nejnovější první
+        $remaining = array_values($projectMap);
+        usort($remaining, fn($a, $b) => (int)$b['id'] <=> (int)$a['id']);
+        foreach ($remaining as $p) { $ordered[] = $p; }
+        return $ordered;
+    }
+
+    // Žádný _order.json – nejnovější první podle ID
+    $result = array_values($projectMap);
+    usort($result, fn($a, $b) => (int)$b['id'] <=> (int)$a['id']);
+    return $result;
 }
 
 // CORS

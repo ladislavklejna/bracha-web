@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Input, Row, Col, Spinner, Alert } from "reactstrap";
 import "./Kontakt.css";
 import emailjs from "emailjs-com";
@@ -37,20 +37,27 @@ const Kontakt = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [disabled, setIsDisabled] = useState(false);
 
-  //                                                        EMAIL INIT API KEY
-  emailjs.init(process.env.REACT_APP_EMAILJS_PUBLIC_KEY);
-  //                                                        EMAIL INIT API KEY
-  const refreshPage = () => {
-    // Obnovit stránku
-    window.location.reload();
-  };
+  useEffect(() => {
+    emailjs.init(process.env.REACT_APP_EMAILJS_PUBLIC_KEY);
+  }, []);
+
   const handleAlertSuccess = () => {
     setIsDisabled(true);
     setVisibilitySuccess(true);
 
     setTimeout(() => {
       setVisibilitySuccess(false);
-      refreshPage();
+      // Reset formuláře místo reload celé stránky
+      setFirstName("");
+      setLastName("");
+      setSubject("");
+      setMail("");
+      setMessage("");
+      setIsValidName(null);
+      setIsValidLName(null);
+      setIsValidMail(null);
+      setIsValidMessage(null);
+      setIsDisabled(false);
     }, 5000);
   };
 
@@ -96,7 +103,7 @@ const Kontakt = () => {
       setIsValidMessage(true);
     }
 
-    if (!firstName || !lastName || !isValidMail || !message) {
+    if (!firstName.trim() || !lastName.trim() || isValidMail !== true || !message.trim()) {
       // pokud je jedna z promennych false
       //   console.log("Alespoň jedna z proměnných je `false`.");
       setVisibility(true);

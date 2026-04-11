@@ -1,12 +1,26 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { lazy, Suspense, useRef, useEffect, useState, useCallback } from "react";
 import "./PortfolioNew.css";
 import axios from "axios";
 import { FiChevronDown, FiChevronUp, FiMaximize2 } from "react-icons/fi";
 import "lightbox.js-react/dist/index.css";
-import { SlideshowLightbox } from "lightbox.js-react";
+import { getOptimalUrl, isResponsiveVariant } from "../utils/imageUtils";
+
+const SlideshowLightbox = lazy(() =>
+  import("lightbox.js-react").then((m) => ({ default: m.SlideshowLightbox }))
+);
 
 const CACHE_KEY = "arapro_portfolio_v2";
-const API_URL = "https://www.arapro.cz/index.php";
+const API_URL = process.env.REACT_APP_PORTFOLIO_API_URL || "https://www.arapro.cz/index.php";
+const PHOTO_BASE = process.env.REACT_APP_PUBLIC_BASE || "https://www.arapro.cz";
+
+// Defined outside component – no component state deps
+const isElementInViewport = (el, offset = 200) => {
+  const rect = el.getBoundingClientRect();
+  return (
+    rect.top >= -offset &&
+    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) + offset
+  );
+};
 
 function getCachedPortfolio() {
   try {
@@ -30,7 +44,7 @@ const PortfolioNew = () => {
   const tilesRef = useRef(null);
   const [projectVisibleAll, setProjectVisibleAll] = useState(false);
 
-  async function getData(option) {
+  async function getData(option, signal) {
     setError(false);
     const cached = getCachedPortfolio();
 
@@ -43,69 +57,70 @@ const PortfolioNew = () => {
     try {
       const {
         data: { modified },
-      } = await axios.get(`${API_URL}?modified`);
+      } = await axios.get(`${API_URL}?modified`, { signal });
 
       if (cached && cached.modified === modified) {
         return; // Data jsou aktuální, cache platí
       }
 
       // Data se změnila (nebo cache neexistuje) → stáhni znovu
-      const res = await axios.get(API_URL);
+      const res = await axios.get(API_URL, { signal });
       const serverData = res.data.map((project) => ({
         ...project,
         photos: project.photos.map((p) => ({
           ...p,
           name: p.name.replace(/\.(jpg|jpeg|png|gif)$/i, ".webp"),
-          path: p.path.replace(/\.(jpg|jpeg|png|gif)$/i, ".webp"),
+          path: `${PHOTO_BASE}/${p.path.replace(/\.(jpg|jpeg|png|gif)$/i, ".webp")}`,
         })),
       }));
-      serverData.reverse();
       setCachedPortfolio(serverData, modified);
       setData(option === "cut" ? serverData.slice(0, 12) : serverData);
-    } catch {
+    } catch (err) {
+      if (axios.isCancel(err)) return; // Zrušeno – ignoruj
       if (!cached) setError(true);
     }
   }
 
-  const isElementInViewport = (el, offset = 200) => {
-    const rect = el.getBoundingClientRect();
-    return (
-      rect.top >= -offset &&
-      rect.bottom <=
-        (window.innerHeight || document.documentElement.clientHeight) + offset
-    );
-  };
-
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    getData("cut");
+    const controller = new AbortController();
+    getData("cut", controller.signal);
+    return () => controller.abort();
+  }, []);
+
+  const handleVisibility = useCallback(() => {
+    if (!tilesRef.current) return;
+    tilesRef.current.querySelectorAll(".grid-item").forEach((tile) => {
+      if (isElementInViewport(tile) && !tile.classList.contains("animate")) {
+        tile.classList.add("animate");
+      }
+    });
   }, []);
 
   useEffect(() => {
-    const handleVisibility = () => {
-      if (!tilesRef.current) return;
-      tilesRef.current.querySelectorAll(".grid-item").forEach((tile) => {
-        if (isElementInViewport(tile) && !tile.classList.contains("animate")) {
-          tile.classList.add("animate");
-        }
-      });
-    };
     handleVisibility();
     window.addEventListener("scroll", handleVisibility);
     return () => window.removeEventListener("scroll", handleVisibility);
-  }, [data]);
+  }, [handleVisibility, data]);
 
   useEffect(() => {
-    getData(projectVisibleAll ? "all" : "cut");
+    const controller = new AbortController();
+    getData(projectVisibleAll ? "all" : "cut", controller.signal);
+    return () => controller.abort();
   }, [projectVisibleAll]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const [chosenProject, setChosenProject] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleGallery = (ind) => {
-    const images = data[ind].photos
-      .filter((p) => !p.name.startsWith("thumb."))
-      .map((p) => ({ src: p.path }));
+    const project = data[ind];
+    // Target pixel width: screen width × device pixel ratio (for hi-DPI)
+    const targetPx = window.screen.width * (window.devicePixelRatio || 1);
+    const images = project.photos
+      .filter((p) => !isResponsiveVariant(p.name) && !p.name.startsWith("thumb."))
+      .map((p) => ({
+        src: getOptimalUrl(p.path, project.photos, targetPx),
+      }));
     setChosenProject(images);
     setIsOpen(true);
   };
@@ -160,11 +175,21 @@ const PortfolioNew = () => {
             onKeyDown={(e) => e.key === "Enter" && handleGallery(index)}
             aria-label={`${x.name}, ${x.location} – otevřít galerii`}
           >
-            <img
-              src={x.photos.find((p) => p.name.startsWith("thumb."))?.path}
-              alt={`${x.name} – ${x.location}`}
-              loading="lazy"
-            />
+            {(() => {
+              // Thumbnail = první galeriová fotka (ne varianta).
+              const thumb = x.photos.find((p) => !isResponsiveVariant(p.name) && !p.name.startsWith("thumb."));
+              // V gridu vždy použij _400w variantu – nikdy nestahuj full-size nebo _1200w.
+              const thumb400 = thumb
+                ? x.photos.find((p) => p.path === thumb.path.replace(/\.webp$/, "_400w.webp")) || thumb
+                : null;
+              return (
+                <img
+                  src={thumb400?.path}
+                  alt={`${x.name} – ${x.location}`}
+                  loading="lazy"
+                />
+              );
+            })()}
 
             {/* Always-visible bottom label */}
             <div className="tile-label">
@@ -201,18 +226,20 @@ const PortfolioNew = () => {
         </button>
       </div>
 
-      <SlideshowLightbox
-        theme="day"
-        disableImageZoom={true}
-        downloadImages={false}
-        fullScreen={true}
-        showSlideshowIcon={false}
-        images={chosenProject}
-        showThumbnails={true}
-        open={isOpen}
-        lightboxIdentifier="lbox1"
-        onClose={() => setIsOpen(false)}
-      />
+      <Suspense fallback={null}>
+        <SlideshowLightbox
+          theme="day"
+          disableImageZoom={true}
+          downloadImages={false}
+          fullScreen={true}
+          showSlideshowIcon={false}
+          images={chosenProject}
+          showThumbnails={true}
+          open={isOpen}
+          lightboxIdentifier="lbox1"
+          onClose={() => setIsOpen(false)}
+        />
+      </Suspense>
     </section>
   );
 };

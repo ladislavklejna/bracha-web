@@ -66,7 +66,7 @@ const Sluzby = () => {
       <div className="services-grid">
         {services.map((s) => (
           <div className="svc-card" key={s.num}>
-            <span className="svc-bg-num">{s.num}</span>
+            <span className="svc-bg-num" aria-hidden="true">{s.num}</span>
 
             <div className="svc-header">
               <div className="svc-icon-wrap">{s.icon}</div>

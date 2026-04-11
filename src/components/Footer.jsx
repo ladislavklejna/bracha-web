@@ -35,45 +35,10 @@ const Footer = () => {
           </Col>
           <Col md={6}>
             <nav className="footer-links" aria-label="Patička navigace">
-              <Link
-                className="footer-link"
-                to="uvod"
-                smooth={true}
-                duration={500}
-                offset={-100}
-                style={{ cursor: "pointer" }}
-              >
-                Úvod
-              </Link>
-              <Link
-                className="footer-link"
-                to="sluzby"
-                smooth={true}
-                duration={500}
-                offset={-26}
-                style={{ cursor: "pointer" }}
-              >
-                Služby
-              </Link>
-              <Link
-                className="footer-link"
-                to="reference"
-                smooth={true}
-                duration={500}
-                offset={-28}
-                style={{ cursor: "pointer" }}
-              >
-                Reference
-              </Link>
-              <Link
-                className="footer-link"
-                to="kontakt"
-                smooth={true}
-                duration={500}
-                style={{ cursor: "pointer" }}
-              >
-                Kontakt
-              </Link>
+              <Link className="footer-link" href="#uvod" to="uvod" smooth duration={500} offset={-100}>Úvod</Link>
+              <Link className="footer-link" href="#sluzby" to="sluzby" smooth duration={500} offset={-26}>Služby</Link>
+              <Link className="footer-link" href="#reference" to="reference" smooth duration={500} offset={-28}>Reference</Link>
+              <Link className="footer-link" href="#kontakt" to="kontakt" smooth duration={500}>Kontakt</Link>
             </nav>
           </Col>
         </Row>

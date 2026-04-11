@@ -67,7 +67,12 @@
   left: 0;
   right: 0;
   padding: 40px 14px 12px;
-  background: linear-gradient(to top, rgba(0,0,0,0.82) 0%, rgba(0,0,0,0.3) 60%, transparent 100%);
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.82) 0%,
+    rgba(0, 0, 0, 0.3) 60%,
+    transparent 100%
+  );
   color: #fff;
   pointer-events: none;
 }
@@ -86,7 +91,7 @@
 .tile-location {
   font-size: 0.72rem;
   font-weight: 300;
-  color: rgba(255,255,255,0.6);
+  color: rgba(255, 255, 255, 0.6);
   margin: 0 0 4px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -100,7 +105,9 @@
   letter-spacing: 0.02em;
   opacity: 0;
   transform: translateY(4px);
-  transition: opacity 0.25s ease, transform 0.25s ease;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
 }
 
 .grid-item:hover .tile-actions {
@@ -134,7 +141,6 @@
   opacity: 0.9;
 }
 
-
 /* ── Entrance animation ── */
 @keyframes tileIn {
   from {
@@ -164,9 +170,9 @@
   align-items: center;
   gap: 8px;
   background: transparent;
-  color: rgba(255,255,255,0.55);
+  color: rgba(255, 255, 255, 0.55);
   border: none;
-  border-top: 1px solid rgba(255,255,255,0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   width: 100%;
   justify-content: center;
   padding: 18px 24px;
@@ -176,12 +182,14 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: color 0.25s ease, background-color 0.25s ease;
+  transition:
+    color 0.25s ease,
+    background-color 0.25s ease;
 }
 
 .portfolio-more-btn:hover {
   color: var(--accent);
-  background: rgba(255,255,255,0.03);
+  background: rgba(255, 255, 255, 0.03);
 }
 
 /* ── Responsive ── */
@@ -237,11 +245,20 @@
 
 /* Style the close button */
 ._2IJEr {
-  background: rgba(0, 0, 0, 0.5) !important;
+  background: var(--dark) !important;
   border-radius: 50% !important;
   padding: 8px !important;
-  color: #fff !important;
+  color: var(--accent) !important;
   cursor: pointer !important;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease !important;
+  transform: translateX(-50%) !important;
+}
+
+._2IJEr:hover {
+  background: var(--accent) !important;
+  color: var(--dark) !important;
 }
 
 /* Hide bottom controls bar */
