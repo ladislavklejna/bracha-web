@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Input, Row, Col, Spinner, Alert } from "reactstrap";
 import "./Kontakt.css";
-import emailjs from "emailjs-com";
+import emailjs from "@emailjs/browser";
 
 // kontola pismen
 // const validateText = (text) => {
@@ -38,7 +38,7 @@ const Kontakt = () => {
   const [disabled, setIsDisabled] = useState(false);
 
   useEffect(() => {
-    emailjs.init(process.env.REACT_APP_EMAILJS_PUBLIC_KEY);
+    emailjs.init({ publicKey: process.env.REACT_APP_EMAILJS_PUBLIC_KEY });
   }, []);
 
   const handleAlertSuccess = () => {

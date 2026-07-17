@@ -1,9 +1,14 @@
 /* ── Hero ────────────────────────────────────────────── */
+/* Fills exactly the viewport below the sticky navbar (its real measured
+   height comes in via the --nav-h custom property, set from useNavHeight()
+   in Home.jsx) instead of a guessed 90vh that leaves an arbitrary gap or
+   forces a scroll on some screens. */
 .hero {
   position: relative;
-  height: 90vh;
-  min-height: 580px;
-  max-height: 900px;
+  height: calc(100vh - var(--nav-h, 72px));
+  height: calc(100dvh - var(--nav-h, 72px));
+  min-height: 480px;
+  max-height: 960px;
   display: flex;
   align-items: center;
   padding-bottom: 0;
@@ -20,18 +25,41 @@
   height: 100%;
   object-fit: cover;
   object-position: center;
+  transform: scale(1);
+  animation: heroKenBurns 24s ease-in-out infinite alternate;
 }
 
-/* Strong diagonal overlay – dark left, fades right – inside hero-img-wrap */
+@keyframes heroKenBurns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.09);
+  }
+}
+
+/* Diagonal overlay – dark left, fades right – inside hero-img-wrap */
 .hero-overlay {
   position: absolute;
   inset: 0;
   background: linear-gradient(
     100deg,
-    rgba(18, 18, 18, 0.85) 0%,
-    rgba(18, 18, 18, 0.5) 50%,
-    rgba(18, 18, 18, 0.1) 100%
+    rgba(10, 10, 10, 0.6) 0%,
+    rgba(10, 10, 10, 0.32) 48%,
+    rgba(10, 10, 10, 0.08) 100%
   );
+}
+
+/* Grounding vignette along the bottom edge, for depth under the scroll cue */
+.hero-vignette {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.4) 0%,
+    rgba(0, 0, 0, 0) 42%
+  );
+  pointer-events: none;
 }
 
 /* Container inside flex: needs full width */
@@ -41,10 +69,27 @@
   width: 100%;
 }
 
-.hero-content {
+/* ── Glass content panel ── */
+.hero-panel {
   color: #fff;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  padding: 44px clamp(28px, 4vw, 52px);
+  background: rgba(14, 14, 14, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-left: 3px solid var(--accent);
+  border-radius: 6px;
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.32);
+}
+
+.hero-accent-rule {
+  display: block;
+  width: 44px;
+  height: 3px;
+  background: var(--accent);
+  margin-bottom: 22px;
+  opacity: 0;
+  animation: heroFadeUp 0.6s ease forwards 0.05s;
 }
 
 .hero-eyebrow {
@@ -61,17 +106,72 @@
   font-size: clamp(2rem, 4.4vw, 3.2rem);
   font-weight: 600;
   line-height: 1.2;
-  margin-bottom: 22px;
+  letter-spacing: -0.01em;
+  margin-bottom: 24px;
   color: #fff;
 }
 
+/* Per-line mask reveal: outer clips, inner slides up into view */
+.hero-line-mask {
+  display: block;
+  overflow: hidden;
+}
+
+.hero-line-inner {
+  display: block;
+  transform: translateY(105%);
+  animation: heroLineUp 0.85s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+.hero-line-mask:nth-child(1) .hero-line-inner {
+  animation-delay: 0.18s;
+}
+
+.hero-line-mask:nth-child(2) .hero-line-inner {
+  animation-delay: 0.34s;
+}
+
+@keyframes heroLineUp {
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .hero-list {
-  list-style: disc;
-  padding-left: 20px;
-  margin: 0 0 18px;
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 0.95rem;
-  line-height: 1.7;
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  margin: 0 0 24px;
+  opacity: 0;
+  animation: heroFadeUp 0.7s ease forwards 0.56s;
+}
+
+.hero-list li {
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.82);
+  padding: 0 18px;
+  border-left: 1px solid rgba(255, 255, 255, 0.22);
+  line-height: 1.3;
+}
+
+.hero-list li:first-child {
+  padding-left: 0;
+  border-left: none;
 }
 
 .hero-desc {
@@ -80,11 +180,15 @@
   line-height: 1.8;
   color: rgba(255, 255, 255, 0.72);
   margin-bottom: 36px;
+  opacity: 0;
+  animation: heroFadeUp 0.7s ease forwards 0.7s;
 }
 
 .hero-desc--bold {
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.92);
+  color: rgba(255, 255, 255, 0.95);
+  border-left: 2px solid var(--accent);
+  padding-left: 18px;
 }
 
 /* ── CTA buttons ── */
@@ -92,11 +196,15 @@
   display: flex;
   gap: 14px;
   flex-wrap: wrap;
-  margin-bottom: 22px;
+  margin-bottom: 0;
+  opacity: 0;
+  animation: heroFadeUp 0.7s ease forwards 0.86s;
 }
 
 .btn-primary-cta {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   background: var(--accent);
   color: var(--dark);
   border: 2px solid var(--accent);
@@ -116,11 +224,20 @@
   white-space: nowrap;
 }
 
+.btn-primary-cta-arrow {
+  display: inline-block;
+  transition: transform 0.25s ease;
+}
+
 .btn-primary-cta:hover {
   background: transparent;
   color: #fff;
   border-color: #fff;
   transform: translateY(-2px);
+}
+
+.btn-primary-cta:hover .btn-primary-cta-arrow {
+  transform: translateX(4px);
 }
 
 .btn-ghost-cta {
@@ -155,6 +272,38 @@
   color: rgba(255, 255, 255, 0.45);
   letter-spacing: 0.02em;
   margin: 0;
+}
+
+/* ── Scroll cue ── */
+.hero-scroll-cue {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.hero-scroll-cue-fade {
+  opacity: 0;
+  animation: heroFadeUp 0.7s ease forwards 1.05s;
+}
+
+.hero-scroll-cue-bounce {
+  display: flex;
+  animation: heroScrollBounce 2s ease-in-out infinite 1.9s;
+}
+
+@keyframes heroScrollBounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(7px);
+  }
 }
 
 /* ── Benefits strip ── */
@@ -279,8 +428,72 @@
 }
 
 @media only screen and (max-width: 768px) {
+  /* Mobile gets its own, denser rhythm rather than a scaled-down desktop
+     card: less padding, one accent bar instead of three competing ones,
+     and a title sized so it wraps into 2–3 balanced lines instead of 4 —
+     the point is to still see the hero photo, not bury it under text. */
+  .hero-panel {
+    padding: 26px 22px;
+    border-radius: 4px;
+    border-left: none;
+  }
+
+  .hero-accent-rule {
+    width: 32px;
+    margin-bottom: 14px;
+  }
+
+  /* Below desktop width, the two hard-coded "lines" each wrap again on their
+     own, leaving orphan words ("zachycené" / "projektu." alone on a line).
+     Let the whole heading reflow as one natural block instead, and fold the
+     per-line reveal into a single fade so nothing needs to be re-measured. */
   .hero-title {
-    font-size: clamp(2.2rem, 8vw, 2.8rem);
+    font-size: clamp(1.6rem, 7vw, 2.15rem);
+    line-height: 1.18;
+    margin-bottom: 16px;
+    opacity: 0;
+    animation: heroFadeUp 0.7s ease forwards 0.18s;
+  }
+
+  .hero-line-mask {
+    display: inline;
+    overflow: visible;
+  }
+
+  .hero-line-inner {
+    display: inline;
+    transform: none;
+    animation: none;
+  }
+
+  .hero-list {
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  /* Same accent-bar treatment as .hero-desc--bold below it, reused rather
+     than inventing a third variant — one consistent "yellow line = key
+     point" language instead of a border on every element. */
+  .hero-list li,
+  .hero-list li:first-child {
+    padding: 0 0 0 14px;
+    border-left: 2px solid var(--accent);
+    font-size: 0.72rem;
+  }
+
+  .hero-desc {
+    font-size: 0.88rem;
+    line-height: 1.6;
+    margin-bottom: 22px;
+  }
+
+  .hero-desc--bold {
+    padding-left: 14px;
+  }
+
+  .hero-scroll-cue {
+    display: none;
   }
 
   .hero-actions {
@@ -288,9 +501,14 @@
   }
 
   .btn-primary-cta,
+  .btn-primary-cta > span:first-child,
   .btn-ghost-cta {
     width: 100%;
     text-align: center;
+  }
+
+  .btn-primary-cta {
+    justify-content: center;
   }
 
   /* Strip: no negative margin, flows normally below hero */
@@ -315,6 +533,22 @@
     opacity: 1;
     transform: none;
     animation: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-img,
+  .hero-line-inner,
+  .hero-accent-rule,
+  .hero-list,
+  .hero-desc,
+  .hero-actions,
+  .hero-scroll-cue-fade,
+  .hero-scroll-cue-bounce,
+  .stat-item {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 

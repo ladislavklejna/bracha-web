@@ -1,7 +1,7 @@
 import { lazy, Suspense } from "react";
 import { Container, Row, Col } from "reactstrap";
 import { Link } from "react-scroll";
-import { FiMapPin, FiBox, FiZap } from "react-icons/fi";
+import { FiMapPin, FiBox, FiZap, FiChevronDown } from "react-icons/fi";
 import { useNavHeight } from "../hooks/useNavHeight";
 import "./Home.css";
 import Sluzby from "./Sluzby";
@@ -18,7 +18,7 @@ const Home = () => {
   return (
     <>
       {/* ── Hero ────────────────────────────────────── */}
-      <section className="hero" id="uvod">
+      <section className="hero" id="uvod" style={{ "--nav-h": `${navHeight}px` }}>
         <div className="hero-img-wrap">
           <picture>
             <source srcSet="./images/uvodka720.webp" type="image/webp" />
@@ -32,13 +32,20 @@ const Home = () => {
             />
           </picture>
           <div className="hero-overlay" />
+          <div className="hero-vignette" />
         </div>
         <Container className="hero-container">
           <Row>
-            <Col md={9} lg={7}>
-              <div className="hero-content">
+            <Col md={11} lg={10} xl={9}>
+              <div className="hero-panel">
+                <span className="hero-accent-rule" aria-hidden="true" />
                 <h1 className="hero-title">
-                  Vaše myšlenky o bydlení zachycené<br />v detailně promyšleném projektu.
+                  <span className="hero-line-mask">
+                    <span className="hero-line-inner">Vaše myšlenky o bydlení zachycené</span>
+                  </span>{" "}
+                  <span className="hero-line-mask">
+                    <span className="hero-line-inner">v detailně promyšleném projektu.</span>
+                  </span>
                 </h1>
                 <ul className="hero-list">
                   <li>architektonické studie</li>
@@ -51,7 +58,10 @@ const Home = () => {
                 </p>
                 <div className="hero-actions">
                   <Link to="kontakt" href="#kontakt" smooth duration={600} offset={offsetHeading}>
-                    <button className="btn-primary-cta">Nezávazná poptávka →</button>
+                    <button className="btn-primary-cta">
+                      <span>Nezávazná poptávka</span>
+                      <span className="btn-primary-cta-arrow">→</span>
+                    </button>
                   </Link>
                 </div>
               </div>
@@ -59,6 +69,13 @@ const Home = () => {
           </Row>
         </Container>
 
+        <div className="hero-scroll-cue" aria-hidden="true">
+          <div className="hero-scroll-cue-fade">
+            <div className="hero-scroll-cue-bounce">
+              <FiChevronDown />
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* ── Benefits strip — outside hero, overlaps bottom on desktop ── */}
