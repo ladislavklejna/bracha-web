@@ -91,7 +91,7 @@ function Header() {
                   to="sluzby"
                   smooth={true}
                   duration={500}
-                  offset={isMobile ? -249 : -26}
+                  offset={isMobile ? -249 : -126}
                   onClick={() => onLinkClick("sluzby")}
                 >
                   Služby
@@ -104,7 +104,7 @@ function Header() {
                   to="reference"
                   smooth={true}
                   duration={500}
-                  offset={isMobile ? -249 : -28}
+                  offset={isMobile ? -249 : -128}
                   onClick={() => onLinkClick("reference")}
                 >
                   Reference

@@ -31,7 +31,7 @@
 /* ── CSS Grid ── */
 .portfolio-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 3px;
   background: var(--dark);
 }
@@ -60,46 +60,60 @@
   transform: scale(1.06);
 }
 
-/* ── Always-visible bottom label ── */
+/* ── Bottom label – skrytý, zobrazí se při hoveru ── */
 .tile-label {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  padding: 40px 14px 12px;
+  padding: 48px 16px 14px;
   background: linear-gradient(
     to top,
-    rgba(0, 0, 0, 0.82) 0%,
-    rgba(0, 0, 0, 0.3) 60%,
+    rgba(0, 0, 0, 0.92) 0%,
+    rgba(0, 0, 0, 0.55) 55%,
     transparent 100%
   );
   color: #fff;
   pointer-events: none;
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+  z-index: 1;
+}
+
+.grid-item:hover .tile-label,
+.grid-item:focus-visible .tile-label {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .tile-name {
   font-family: var(--font-heading);
-  font-size: 0.95rem;
+  font-size: 1.1rem;
   font-weight: 600;
   line-height: 1.3;
-  margin: 0 0 2px;
+  margin: 0 0 3px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
 }
 
 .tile-location {
-  font-size: 0.72rem;
-  font-weight: 300;
-  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.78rem;
+  font-weight: 400;
+  color: rgb(255, 255, 255);
   margin: 0 0 4px;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  z-index: 2;
 }
 
 .tile-actions {
-  font-size: 0.68rem;
-  font-weight: 300;
+  font-size: 0.72rem;
+  font-weight: 400;
   color: var(--accent);
   margin: 0;
   letter-spacing: 0.02em;
@@ -195,7 +209,7 @@
 /* ── Responsive ── */
 @media only screen and (max-width: 991px) {
   .portfolio-grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -209,7 +223,12 @@
     font-size: 0.85rem;
   }
 
-  /* On touch devices tile-actions are always visible (no hover) */
+  /* Na touch zařízeních zobraz popisky vždy */
+  .tile-label {
+    opacity: 1;
+    transform: none;
+  }
+
   .tile-actions {
     opacity: 1;
     transform: none;
@@ -253,14 +272,18 @@
   transition:
     background-color 0.3s ease,
     color 0.3s ease !important;
-  transform: translateX(-50%) !important;
+  /* transform: translateX(-50%) !important; */
 }
 
 ._2IJEr:hover {
   background: var(--accent) !important;
   color: var(--dark) !important;
 }
-
+._11aT5 {
+  /* container for the entire lightbox */
+  /* position: absolute !important; */
+  transform: translateX(-50%) !important;
+}
 /* Hide bottom controls bar */
 ._ABXHD {
   display: none !important;

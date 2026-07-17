@@ -142,6 +142,7 @@ export default function AdminProject() {
   const [formData, setFormData] = useState({ name: '', location: '', actions: [] });
   const [actionInput, setActionInput] = useState('');
   const [photos, setPhotos] = useState([]);
+  const photosRef = useRef([]);
   const [isDirty, setIsDirty] = useState(false);
   const [saving, setSaving] = useState(false);
   const [saveOk, setSaveOk] = useState(false);
@@ -167,7 +168,9 @@ export default function AdminProject() {
       if (!p) { navigate('/admin/dashboard'); return; }
       setProject(p);
       setFormData({ name: p.name, location: p.location, actions: p.actions ?? [] });
-      setPhotos(p.photos ?? []);
+      const ph = p.photos ?? [];
+      setPhotos(ph);
+      photosRef.current = ph;
       setIsDirty(false);
     } finally {
       setLoading(false);
@@ -268,28 +271,30 @@ export default function AdminProject() {
     const { active, over } = event;
     if (!over || active.id === over.id) return;
 
-    // Operate only on gallery photos (no variants, no thumb.*)
-    const gallery = photos.filter(
+    // Čti vždy z ref – nikdy ze stale closure
+    const current = photosRef.current;
+    const gallery = current.filter(
       (p) => !isResponsiveVariant(p.name) && !p.name.startsWith('thumb.')
     );
     const oldIdx = gallery.findIndex((p) => p.name === active.id);
     const newIdx = gallery.findIndex((p) => p.name === over.id);
     const reordered = arrayMove(gallery, oldIdx, newIdx);
+    const rest = current.filter(
+      (p) => isResponsiveVariant(p.name) || p.name.startsWith('thumb.')
+    );
+    const next = [...reordered, ...rest];
 
-    // Optimistic update – keep variants and thumb.* out of the ordered list
-    setPhotos((prev) => {
-      const rest = prev.filter(
-        (p) => isResponsiveVariant(p.name) || p.name.startsWith('thumb.')
-      );
-      return [...reordered, ...rest];
-    });
+    // Optimistický update – okamžitě zobraz nové pořadí
+    photosRef.current = next;
+    setPhotos(next);
 
     try {
       await adminApi.reorderPhotos(folderName, reordered.map((p) => p.name));
     } catch (err) {
       console.error('Reorder error:', err);
-      await loadProject(); // Revert on error
     }
+    // Vždy načti aktuální stav ze serveru – zajistí správné pozice pro další drag
+    await loadProject();
   };
 
   if (loading) {

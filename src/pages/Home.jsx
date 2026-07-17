@@ -13,18 +13,20 @@ const Home = () => {
     <>
       {/* ── Hero ────────────────────────────────────── */}
       <section className="hero" id="uvod">
-        <picture>
-          <source srcSet="./images/uvodka720.webp" type="image/webp" />
-          <img
-            className="hero-img"
-            src="./images/uvodka720.png"
-            alt="Rodinný dům – ukázka projektu ARAPRO"
-            loading="eager"
-            width="1280"
-            height="720"
-          />
-        </picture>
-        <div className="hero-overlay" />
+        <div className="hero-img-wrap">
+          <picture>
+            <source srcSet="./images/uvodka720.webp" type="image/webp" />
+            <img
+              className="hero-img"
+              src="./images/uvodka720.png"
+              alt="Rodinný dům – ukázka projektu ARAPRO"
+              loading="eager"
+              width="1280"
+              height="720"
+            />
+          </picture>
+          <div className="hero-overlay" />
+        </div>
         <Container className="hero-container">
           <Row>
             <Col md={8} lg={6}>

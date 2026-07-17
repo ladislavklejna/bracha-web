@@ -1,25 +1,28 @@
 /* ── Hero ────────────────────────────────────────────── */
 .hero {
   position: relative;
-  height: 92vh;
+  height: 90vh;
   min-height: 580px;
   max-height: 900px;
-  overflow: hidden;
   display: flex;
   align-items: center;
   padding-bottom: 0;
 }
 
-.hero-img {
+.hero-img-wrap {
   position: absolute;
   inset: 0;
+  overflow: hidden;
+}
+
+.hero-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center;
 }
 
-/* Strong diagonal overlay – dark left, fades right */
+/* Strong diagonal overlay – dark left, fades right – inside hero-img-wrap */
 .hero-overlay {
   position: absolute;
   inset: 0;
@@ -91,8 +94,11 @@
   text-transform: uppercase;
   cursor: pointer;
   border-radius: 2px;
-  transition: background-color 0.25s ease, color 0.25s ease,
-    border-color 0.25s ease, transform 0.2s ease;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.2s ease;
   white-space: nowrap;
 }
 
@@ -116,7 +122,9 @@
   text-transform: uppercase;
   cursor: pointer;
   border-radius: 2px;
-  transition: border-color 0.25s ease, background-color 0.25s ease,
+  transition:
+    border-color 0.25s ease,
+    background-color 0.25s ease,
     transform 0.2s ease;
   white-space: nowrap;
 }
@@ -166,10 +174,18 @@
   animation: statIn 0.5s ease forwards;
 }
 
-.stats-strip .stat-item:nth-child(1) { animation-delay: 0.35s; }
-.stats-strip .stat-item:nth-child(3) { animation-delay: 0.5s; }
-.stats-strip .stat-item:nth-child(5) { animation-delay: 0.65s; }
-.stats-strip .stat-item:nth-child(7) { animation-delay: 0.8s; }
+.stats-strip .stat-item:nth-child(1) {
+  animation-delay: 0.35s;
+}
+.stats-strip .stat-item:nth-child(3) {
+  animation-delay: 0.5s;
+}
+.stats-strip .stat-item:nth-child(5) {
+  animation-delay: 0.65s;
+}
+.stats-strip .stat-item:nth-child(7) {
+  animation-delay: 0.8s;
+}
 
 @keyframes statIn {
   to {
