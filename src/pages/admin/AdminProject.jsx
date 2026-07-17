@@ -234,11 +234,10 @@ export default function AdminProject() {
       setUploadCurrent(i + 1);
       setUploadFilename(file.name);
       try {
-        // Generate full-size + responsive variants (400w, 800w, 1200w) client-side
+        // Generate full-size + responsive variants (400w, 800w, 1200w) client-side,
+        // then upload them together so the server assigns them a shared prefix/stem.
         const variants = await generateResponsiveWebP(file);
-        for (const variant of variants) {
-          await adminApi.uploadPhoto(folderName, variant, false);
-        }
+        await adminApi.uploadPhotoGroup(folderName, variants);
       } catch (err) {
         console.error('Upload error:', err);
         failed.push(file.name);

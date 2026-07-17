@@ -1,14 +1,20 @@
 import { lazy, Suspense } from "react";
 import { Container, Row, Col } from "reactstrap";
 import { Link } from "react-scroll";
-import { FiAward, FiCheckCircle, FiMapPin, FiMessageSquare } from "react-icons/fi";
+import { FiMapPin, FiBox, FiZap } from "react-icons/fi";
+import { useNavHeight } from "../hooks/useNavHeight";
 import "./Home.css";
 import Sluzby from "./Sluzby";
 
 const PortfolioNew = lazy(() => import("../components/PortfolioNew"));
 const Kontakt      = lazy(() => import("../components/Kontakt"));
 
+const SCROLL_GAP = 20;
+
 const Home = () => {
+  const navHeight = useNavHeight();
+  const offsetHeading = -(navHeight + SCROLL_GAP);
+
   return (
     <>
       {/* ── Hero ────────────────────────────────────── */}
@@ -29,25 +35,25 @@ const Home = () => {
         </div>
         <Container className="hero-container">
           <Row>
-            <Col md={8} lg={6}>
+            <Col md={9} lg={7}>
               <div className="hero-content">
-                <p className="hero-eyebrow">Projektování pozemních staveb</p>
                 <h1 className="hero-title">
-                  Ing. Miroslav<br />Procházka
+                  Vaše myšlenky o bydlení zachycené<br />v detailně promyšleném projektu.
                 </h1>
-                <p className="hero-desc">
-                  Architektonické studie, projektová dokumentace
-                  a stavební dozor — na míru vašemu projektu.
+                <ul className="hero-list">
+                  <li>architektonické studie</li>
+                  <li>projektové dokumentace</li>
+                  <li>stavební dozor</li>
+                </ul>
+                <p className="hero-desc hero-desc--bold">
+                  Zajišťuji komplexní projekční a inženýrské služby – od studie
+                  přes vyřízení stavebního povolení až po odborný stavební dozor.
                 </p>
                 <div className="hero-actions">
-                  <Link to="kontakt" href="#kontakt" smooth duration={600} offset={0}>
+                  <Link to="kontakt" href="#kontakt" smooth duration={600} offset={offsetHeading}>
                     <button className="btn-primary-cta">Nezávazná poptávka →</button>
                   </Link>
-                  <Link to="reference" href="#reference" smooth duration={600} offset={-28}>
-                    <button className="btn-ghost-cta">Naše reference</button>
-                  </Link>
                 </div>
-                <p className="trust-badge">✓ Přes 50 realizovaných projektů od roku 2013</p>
               </div>
             </Col>
           </Row>
@@ -58,27 +64,18 @@ const Home = () => {
       {/* ── Benefits strip — outside hero, overlaps bottom on desktop ── */}
       <div className="stats-strip">
         <div className="stat-item">
-          <div className="stat-icon"><FiAward /></div>
-          <span className="stat-title">Praxe od roku 2013</span>
-          <span className="stat-label">50+ dokončených projektů</span>
-        </div>
-        <div className="stat-divider" />
-        <div className="stat-item">
-          <div className="stat-icon"><FiCheckCircle /></div>
-          <span className="stat-title">Komplexní servis</span>
-          <span className="stat-label">Od studie po stavební povolení</span>
-        </div>
-        <div className="stat-divider" />
-        <div className="stat-item">
           <div className="stat-icon"><FiMapPin /></div>
-          <span className="stat-title">Praha a jižní Čechy</span>
-          <span className="stat-label">Vyjíždíme po celé ČR</span>
+          <span className="stat-title">Působnost v okruhu přibližně 150 km od Tábora.</span>
         </div>
         <div className="stat-divider" />
         <div className="stat-item">
-          <div className="stat-icon"><FiMessageSquare /></div>
-          <span className="stat-title">Osobní přístup</span>
-          <span className="stat-label">Přímá komunikace s projektantem</span>
+          <div className="stat-icon"><FiBox /></div>
+          <span className="stat-title">Projektování ve 3D softwaru pro tvorbu informačních modelů budov (BIM).</span>
+        </div>
+        <div className="stat-divider" />
+        <div className="stat-item">
+          <div className="stat-icon"><FiZap /></div>
+          <span className="stat-title">Důraz na energeticky úsporné řešení stavby v každém návrhu.</span>
         </div>
       </div>
 
@@ -87,10 +84,10 @@ const Home = () => {
         <Row className="align-items-center mb-5">
           <Col md={12} lg={7}>
             <p className="about-text">
-              V našich projektech uplatňujeme zásady trvale udržitelné výstavby
-              společně s požadavky budoucích uživatelů. Výsledkem jsou stavby
-              šetrné k životnímu prostředí, energeticky úsporné
-              a architektonicky zajímavé.
+              V našich projektech propojujeme zásady trvale udržitelné výstavby
+              s individuálními požadavky budoucích uživatelů. Výsledkem jsou
+              architektonicky zajímavé stavby, energeticky úsporné
+              a šetrné k životnímu prostředí.
             </p>
           </Col>
           <Col className="text-center d-none d-lg-block">

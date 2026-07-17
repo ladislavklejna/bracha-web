@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-scroll";
+import { scroller } from "react-scroll";
+import { useNavHeight } from "../hooks/useNavHeight";
 import "./Header.css";
 import {
   Collapse,
@@ -14,11 +15,18 @@ import {
 import { FaAngleDoubleUp } from "react-icons/fa";
 import { FiMenu, FiX } from "react-icons/fi";
 
+// Extra breathing room below the navbar for section headings (not needed for
+// "uvod", which scrolls to the hero's own edge-to-edge top).
+const SCROLL_GAP = 20;
+
 function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [isRotated, setIsRotated] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const navHeight = useNavHeight();
+  const offsetSection = -navHeight;
+  const offsetHeading = -(navHeight + SCROLL_GAP);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 250);
@@ -39,9 +47,24 @@ function Header() {
     }
   };
 
-  const onLinkClick = (linkId) => {
-    // setActiveLink(linkId);
-    toggle(); // Po kliknutí na odkaz zavře menu
+  // Scrolls to a section, accounting for the mobile hamburger menu: react-scroll
+  // measures the target element's position at call time, but the Collapse menu
+  // (which pushes page content down while open) takes ~350ms to animate shut.
+  // Calling scroller.scrollTo() immediately on click would measure the target
+  // while the menu is still visually open, overshooting past it. So on mobile,
+  // close the menu first and wait for its collapse transition to finish.
+  const scrollToSection = (id, offset) => {
+    const needsCollapseWait = isMobile && isOpen;
+    if (isMobile) {
+      setIsOpen(false);
+      setIsRotated(false);
+    }
+    const run = () => scroller.scrollTo(id, { smooth: true, duration: 500, offset });
+    if (needsCollapseWait) {
+      setTimeout(run, 380);
+    } else {
+      run();
+    }
   };
 
   const imageClasses = `toggler-image ${isRotated ? "rotate" : ""}`;
@@ -72,56 +95,40 @@ function Header() {
           <Collapse isOpen={isOpen} navbar>
             <Nav navbar>
               <NavItem>
-                <Link
+                <a
                   className="nav-link items"
                   href="#uvod"
-                  to="uvod"
-                  smooth={true}
-                  duration={500}
-                  offset={isMobile ? -249 : -100}
-                  onClick={() => onLinkClick("uvod")}
+                  onClick={(e) => { e.preventDefault(); scrollToSection("uvod", offsetSection); }}
                 >
                   Úvod
-                </Link>
+                </a>
               </NavItem>
               <NavItem>
-                <Link
+                <a
                   className="nav-link items"
                   href="#sluzby"
-                  to="sluzby"
-                  smooth={true}
-                  duration={500}
-                  offset={isMobile ? -249 : -126}
-                  onClick={() => onLinkClick("sluzby")}
+                  onClick={(e) => { e.preventDefault(); scrollToSection("sluzby", offsetHeading); }}
                 >
                   Služby
-                </Link>
+                </a>
               </NavItem>
               <NavItem>
-                <Link
+                <a
                   className="nav-link items"
                   href="#reference"
-                  to="reference"
-                  smooth={true}
-                  duration={500}
-                  offset={isMobile ? -249 : -128}
-                  onClick={() => onLinkClick("reference")}
+                  onClick={(e) => { e.preventDefault(); scrollToSection("reference", offsetHeading); }}
                 >
                   Reference
-                </Link>
+                </a>
               </NavItem>
               <NavItem>
-                <Link
+                <a
                   className="nav-link items"
                   href="#kontakt"
-                  to="kontakt"
-                  smooth={true}
-                  duration={500}
-                  offset={isMobile ? -249 : 0}
-                  onClick={() => onLinkClick("kontakt")}
+                  onClick={(e) => { e.preventDefault(); scrollToSection("kontakt", offsetHeading); }}
                 >
                   Kontakt
-                </Link>
+                </a>
               </NavItem>
             </Nav>
           </Collapse>
@@ -130,19 +137,15 @@ function Header() {
       <div
         className={`to-top ${isScrolled === true ? "button-up-visible" : ""}`}
       >
-        <Link
-          className={`items `}
-          href="/"
-          to="uvod"
-          smooth={true}
-          duration={250}
-          offset={isMobile ? -260 : -100}
-          onClick={() => onLinkClick("uvod")}
+        <a
+          className="items"
+          href="#uvod"
+          onClick={(e) => { e.preventDefault(); scrollToSection("uvod", offsetSection); }}
         >
           <Button>
             <FaAngleDoubleUp />
           </Button>
-        </Link>
+        </a>
       </div>
     </div>
   );

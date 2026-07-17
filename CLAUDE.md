@@ -43,7 +43,7 @@ Protected at `/admin/*`, guarded by `ProtectedRoute` which reads `AuthContext`.
 
 **Auth (`src/context/AuthContext.jsx`):** Firebase Authentication (email/password). `user === undefined` means loading; `null` means unauthenticated. Exposes `login`, `logout`, `resetPassword`.
 
-**Admin API (`src/utils/adminApi.js`):** All calls go to `REACT_APP_ADMIN_API_URL` (default `https://www.arapro.cz/server/api`) with `X-Api-Key` header (`REACT_APP_ADMIN_API_KEY`). Every mutating call (`mutate()`) clears the public portfolio localStorage cache after success.
+**Admin API (`src/utils/adminApi.js`):** All calls go to `REACT_APP_ADMIN_API_URL` (default `https://www.arapro.cz/server/api`) with an `Authorization: Bearer <firebase-id-token>` header — the token comes from `auth.currentUser.getIdToken()` and is verified server-side in `server/api/firebase_auth.php` (RS256 against Google's public certs, no external libraries). There is no shared static API key. Every mutating call (`mutate()`) clears the public portfolio localStorage cache after success.
 
 | Function | Endpoint |
 |---|---|
@@ -51,15 +51,18 @@ Protected at `/admin/*`, guarded by `ProtectedRoute` which reads `AuthContext`.
 | `createProject` | POST `projects.php` |
 | `updateProject` | PUT `projects.php?folder=` |
 | `deleteProject` | DELETE `projects.php?folder=` |
-| `uploadPhoto` | POST `upload.php` (multipart) |
+| `uploadPhoto` | POST `upload.php` (multipart, single file — used for manual thumbnail upload) |
+| `uploadPhotoGroup` | POST `upload.php` (multipart, `photos[]` — original + its responsive variants in one request, so the server assigns them a shared numeric prefix) |
 | `setThumbnail` | POST `set_thumbnail.php` |
 | `deletePhoto` | DELETE `delete_photo.php` |
-| `reorderPhotos` | POST `reorder.php` `{type:"photos"}` |
+| `reorderPhotos` | POST `reorder.php` `{type:"photos"}` (server also moves each base photo's `_400w/_800w/_1200w` variants to keep the shared prefix) |
 | `reorderProjects` | POST `reorder.php` `{type:"projects"}` |
 
 **AdminDashboard:** Drag-and-drop project reordering via `@dnd-kit/core` + `@dnd-kit/sortable`. New project modal → on create, navigates directly to `AdminProject`.
 
-**AdminProject:** Photo management for a single project (upload, delete, drag-to-reorder). Uploads are converted to WebP client-side via `src/utils/imageUtils.js` (`convertToWebP`) before sending.
+**AdminProject:** Photo management for a single project (upload, delete, drag-to-reorder). Uploads are converted to WebP client-side via `src/utils/imageUtils.js` (`generateResponsiveWebP`) before sending, then uploaded as one group via `adminApi.uploadPhotoGroup`.
+
+**Server auth (`server/api/config.php` + `server/api/firebase_auth.php`):** `checkAuth()` reads the `Authorization` header (with `REDIRECT_HTTP_AUTHORIZATION`/`getallheaders()` fallbacks for hosts that don't pass it through by default — see `server/.htaccess`) and verifies it as a Firebase ID token scoped to `FIREBASE_PROJECT_ID`. Upload extensions are derived from the verified MIME type (`finfo`), never from the client-supplied filename. Project folder names are built from `sanitizeSegment()`-cleaned input (Unicode letters/digits/space/`_`/`-` only) to prevent path traversal.
 
 ## Design tokens (CSS variables in `src/index.css`)
 
@@ -85,9 +88,9 @@ REACT_APP_FIREBASE_STORAGE_BUCKET=<bucket>
 REACT_APP_FIREBASE_MESSAGING_SENDER_ID=<id>
 REACT_APP_FIREBASE_APP_ID=<id>
 
-# Admin API (optional – defaults to production)
+# Admin API (optional – defaults to production). Auth is via Firebase ID
+# token, not a static key, so no REACT_APP_ADMIN_API_KEY is needed.
 REACT_APP_ADMIN_API_URL=https://www.arapro.cz/server/api
-REACT_APP_ADMIN_API_KEY=<key>
 REACT_APP_PUBLIC_BASE=https://www.arapro.cz
 REACT_APP_PORTFOLIO_API_URL=https://www.arapro.cz/index.php
 ```

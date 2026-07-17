@@ -1,9 +1,15 @@
 import { Container, Row, Col } from "reactstrap";
 import { Link } from "react-scroll";
+import { useNavHeight } from "../hooks/useNavHeight";
 import "./Footer.css";
+
+const SCROLL_GAP = 20;
 
 const Footer = () => {
   const rok = new Date().getFullYear();
+  const navHeight = useNavHeight();
+  const offsetSection = -navHeight;
+  const offsetHeading = -(navHeight + SCROLL_GAP);
 
   return (
     <footer className="site-footer">
@@ -35,10 +41,10 @@ const Footer = () => {
           </Col>
           <Col md={6}>
             <nav className="footer-links" aria-label="Patička navigace">
-              <Link className="footer-link" href="#uvod" to="uvod" smooth duration={500} offset={-100}>Úvod</Link>
-              <Link className="footer-link" href="#sluzby" to="sluzby" smooth duration={500} offset={-26}>Služby</Link>
-              <Link className="footer-link" href="#reference" to="reference" smooth duration={500} offset={-28}>Reference</Link>
-              <Link className="footer-link" href="#kontakt" to="kontakt" smooth duration={500}>Kontakt</Link>
+              <Link className="footer-link" href="#uvod" to="uvod" smooth duration={500} offset={offsetSection}>Úvod</Link>
+              <Link className="footer-link" href="#sluzby" to="sluzby" smooth duration={500} offset={offsetHeading}>Služby</Link>
+              <Link className="footer-link" href="#reference" to="reference" smooth duration={500} offset={offsetHeading}>Reference</Link>
+              <Link className="footer-link" href="#kontakt" to="kontakt" smooth duration={500} offset={offsetHeading}>Kontakt</Link>
             </nav>
           </Col>
         </Row>

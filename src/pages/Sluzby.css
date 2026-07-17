@@ -6,18 +6,10 @@
   margin-bottom: 12px;
 }
 
-.sluzby-intro {
-  font-size: 0.9rem;
-  font-weight: 300;
-  color: var(--mid);
-  letter-spacing: 0.02em;
-  margin-bottom: 40px;
-}
-
-/* ── 2×2 grid ── */
+/* ── 3-column grid ── */
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 2px;
   background: #e8e8e4;
 }
@@ -86,8 +78,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 2px;
-  font-size: 1.3rem;
+  border-radius: 50%;
+  font-family: var(--font-body);
+  font-size: 1.35rem;
+  font-weight: 700;
   color: var(--dark);
   flex-shrink: 0;
   transition: transform 0.25s ease;
@@ -131,8 +125,8 @@
   border-top: 1px solid #f0f0ee;
   padding-top: 20px;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px 16px;
+  grid-template-columns: 1fr;
+  gap: 10px;
 }
 
 .svc-features li {
@@ -162,18 +156,14 @@
   .svc-card {
     padding: 32px 24px 28px;
   }
-
-  .svc-features {
-    grid-template-columns: 1fr;
-  }
 }
 
 @media only screen and (min-width: 769px) and (max-width: 991px) {
-  .svc-card {
-    padding: 32px 28px 28px;
+  .services-grid {
+    grid-template-columns: 1fr;
   }
 
-  .svc-features {
-    grid-template-columns: 1fr;
+  .svc-card {
+    padding: 32px 28px 28px;
   }
 }

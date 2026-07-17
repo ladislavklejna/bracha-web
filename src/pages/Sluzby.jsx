@@ -1,53 +1,29 @@
-import { FiCompass, FiLayers, FiClipboard, FiEye } from "react-icons/fi";
 import "./Sluzby.css";
 
 const services = [
   {
     num: "01",
-    icon: <FiCompass />,
+    icon: "S",
     title: "Architektonická studie",
-    desc: "Váš záměr přetavíme do konkrétní podoby ještě před zahájením projektu. Studie prověří prostorové možnosti pozemku a navrhne optimální řešení šité na míru vašim požadavkům.",
-    features: [
-      "Hmotová a dispoziční studie",
-      "Vizualizace exteriéru a interiéru",
-      "Konzultace s budoucím uživatelem",
-      "Podklady pro cenovou kalkulaci",
-    ],
+    desc: "Představuje individuální návrh stavebního záměru, který vychází z požadavků budoucích uživatelů a zároveň respektuje omezující limity území. Obsahuje nezbytné informace pro představu budoucí podoby stavby — navržené materiály, půdorysy, řezy, polohu stavby na pozemku, vizualizace, aj.",
+    features: [],
   },
   {
     num: "02",
-    icon: <FiLayers />,
-    title: "Projektová dokumentace",
-    desc: "Kompletní projektová dokumentace ve stupni odpovídajícím vašim potřebám — od záměru přes územní řízení až po dokumentaci pro provádění stavby.",
-    features: [
-      "DUR, DSP, DPS, DSPS",
-      "Novostavby i rekonstrukce",
-      "Pasport stavby (skutečné provedení)",
-      "Koordinace profesí TZB a statiky",
-    ],
+    icon: "D",
+    title: "Projektová dokumentace staveb",
+    desc: "Tvorba projektových dokumentací pozemních staveb různého charakteru. Nejčastěji projektujeme novostavby rodinných domů, modernizace a rekonstrukce stávajících staveb včetně dokumentace skutečného provedení (pasport stavby). Podrobnost vždy záleží na požadovaném stupni zpracování projektové dokumentace.",
+    features: [],
   },
   {
     num: "03",
-    icon: <FiClipboard />,
-    title: "Stavební povolení",
-    desc: "Orientujeme se v předpisech a zajistíme hladký průchod žádosti stavebním úřadem. Postaráme se o veškerou administrativu, abyste se mohli soustředit na svůj záměr.",
+    icon: "T",
+    title: "Povolení, dozor a statika",
+    desc: "",
     features: [
-      "Průzkum podmínek územního plánu",
-      "Kompletní administrativní podpora",
-      "Komunikace se stavebním úřadem",
-      "Koordinace dotčených orgánů",
-    ],
-  },
-  {
-    num: "04",
-    icon: <FiEye />,
-    title: "Dozor a konzultace",
-    desc: "Hlídáme soulad stavby s projektem a chráníme vaše zájmy na staveništi. Jsme vaším nezávislým odborným pohledem po celou dobu realizace.",
-    features: [
-      "Autorský dozor projektanta",
-      "Technický dozor stavebníka",
+      "Pomoc s vyřízením stavebního povolení",
+      "Autorský, technický a stavební dozor",
       "Statické posouzení konstrukcí",
-      "Odborné konzultace kdykoliv",
     ],
   },
 ];
@@ -59,9 +35,6 @@ const Sluzby = () => {
         Služby
       </h2>
       <hr className="cara sluzby-cara" />
-      <p className="sluzby-intro">
-        Kompletní projekční servis od první skici až po klíče v ruce.
-      </p>
 
       <div className="services-grid">
         {services.map((s) => (
@@ -69,18 +42,20 @@ const Sluzby = () => {
             <span className="svc-bg-num" aria-hidden="true">{s.num}</span>
 
             <div className="svc-header">
-              <div className="svc-icon-wrap">{s.icon}</div>
+              <div className="svc-icon-wrap" aria-hidden="true">{s.icon}</div>
               <span className="svc-num-label">{s.num}</span>
             </div>
 
             <h3 className="svc-title">{s.title}</h3>
-            <p className="svc-desc">{s.desc}</p>
+            {s.desc && <p className="svc-desc">{s.desc}</p>}
 
-            <ul className="svc-features">
-              {s.features.map((f) => (
-                <li key={f}>{f}</li>
-              ))}
-            </ul>
+            {s.features.length > 0 && (
+              <ul className="svc-features">
+                {s.features.map((f) => (
+                  <li key={f}>{f}</li>
+                ))}
+              </ul>
+            )}
           </div>
         ))}
       </div>

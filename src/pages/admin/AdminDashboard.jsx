@@ -217,10 +217,17 @@ function NewProjectModal({ onClose, onCreate, projects }) {
 /* ─── Delete confirm modal ──────────────────────────────────── */
 function DeleteModal({ project, onConfirm, onClose }) {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const handle = async () => {
     setLoading(true);
-    await onConfirm();
-    setLoading(false);
+    setError('');
+    try {
+      await onConfirm();
+    } catch (err) {
+      setError(err.message || 'Smazání selhalo');
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <div className="modal-overlay" onClick={(e) => e.target === e.currentTarget && onClose()}>
@@ -233,6 +240,7 @@ function DeleteModal({ project, onConfirm, onClose }) {
           Opravdu chcete smazat <strong>{project.name}</strong>?<br />
           Tato akce je nevratná — smažou se i všechny fotky.
         </p>
+        {error && <p className="ad-error">{error}</p>}
         <div className="modal-footer">
           <button className="ad-btn-secondary" onClick={onClose}>Zrušit</button>
           <button className="ad-btn-danger" onClick={handle} disabled={loading}>

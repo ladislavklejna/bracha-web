@@ -1,19 +1,28 @@
+import { auth } from '../firebase';
+
 const BASE =
   process.env.REACT_APP_ADMIN_API_URL ||
   'https://www.arapro.cz/server/api';
-const KEY = process.env.REACT_APP_ADMIN_API_KEY || '';
 
 const PORTFOLIO_CACHE_KEY = 'arapro_portfolio_v2';
-
-const jsonHeaders = {
-  'Content-Type': 'application/json',
-  'X-Api-Key': KEY,
-};
 
 function clearPortfolioCache() {
   try {
     localStorage.removeItem(PORTFOLIO_CACHE_KEY);
   } catch {}
+}
+
+// Admin API je chráněné Firebase ID tokenem přihlášeného uživatele
+// (server ho ověřuje v server/api/firebase_auth.php), ne sdíleným klíčem.
+async function authHeader() {
+  const user = auth.currentUser;
+  if (!user) throw new Error('Nejste přihlášeni');
+  const token = await user.getIdToken();
+  return { Authorization: `Bearer ${token}` };
+}
+
+async function jsonHeaders() {
+  return { 'Content-Type': 'application/json', ...(await authHeader()) };
 }
 
 async function request(url, options = {}) {
@@ -40,65 +49,79 @@ async function mutate(url, options = {}) {
 }
 
 export const adminApi = {
-  getProjects: () =>
-    request(`${BASE}/projects.php`, { headers: jsonHeaders }),
+  getProjects: async () =>
+    request(`${BASE}/projects.php`, { headers: await jsonHeaders() }),
 
-  createProject: (data) =>
+  createProject: async (data) =>
     mutate(`${BASE}/projects.php`, {
       method: 'POST',
-      headers: jsonHeaders,
+      headers: await jsonHeaders(),
       body: JSON.stringify(data),
     }),
 
-  updateProject: (folder, data) =>
+  updateProject: async (folder, data) =>
     mutate(`${BASE}/projects.php?folder=${encodeURIComponent(folder)}`, {
       method: 'PUT',
-      headers: jsonHeaders,
+      headers: await jsonHeaders(),
       body: JSON.stringify(data),
     }),
 
-  deleteProject: (folder) =>
+  deleteProject: async (folder) =>
     mutate(`${BASE}/projects.php?folder=${encodeURIComponent(folder)}`, {
       method: 'DELETE',
-      headers: jsonHeaders,
+      headers: await jsonHeaders(),
     }),
 
-  uploadPhoto: (folder, file, isThumbnail = false) => {
+  // Ruční nastavení náhledu jedním souborem (thumb.webp)
+  uploadPhoto: async (folder, file, isThumbnail = false) => {
     const fd = new FormData();
     fd.append('folder', folder);
     fd.append('photo', file, file.name);
     fd.append('thumbnail', isThumbnail ? '1' : '0');
     return mutate(`${BASE}/upload.php`, {
       method: 'POST',
-      headers: { 'X-Api-Key': KEY },
+      headers: await authHeader(),
       body: fd,
     });
   },
 
-  setThumbnail: (folder, filename) =>
+  // Skupinový upload jedné fotky + jejích responzivních variant (400w/800w/1200w)
+  // v jednom requestu – server jim přidělí shodný číselný prefix a stem.
+  uploadPhotoGroup: async (folder, files) => {
+    const fd = new FormData();
+    fd.append('folder', folder);
+    for (const file of files) fd.append('photos[]', file, file.name);
+    return mutate(`${BASE}/upload.php`, {
+      method: 'POST',
+      headers: await authHeader(),
+      body: fd,
+    });
+  },
+
+  setThumbnail: async (folder, filename) =>
     mutate(`${BASE}/set_thumbnail.php`, {
       method: 'POST',
-      headers: jsonHeaders,
+      headers: await jsonHeaders(),
       body: JSON.stringify({ folder, filename }),
     }),
 
-  deletePhoto: (folder, filename) =>
+  deletePhoto: async (folder, filename) =>
     mutate(
       `${BASE}/delete_photo.php?folder=${encodeURIComponent(folder)}&filename=${encodeURIComponent(filename)}`,
-      { method: 'DELETE', headers: jsonHeaders }
+      { method: 'DELETE', headers: await jsonHeaders() }
     ),
 
-  reorderPhotos: (folder, filenames) =>
+  reorderPhotos: async (folder, filenames) =>
     mutate(`${BASE}/reorder.php`, {
       method: 'POST',
-      headers: jsonHeaders,
+      headers: await jsonHeaders(),
       body: JSON.stringify({ type: 'photos', folder, filenames }),
     }),
 
-  reorderProjects: (folderNames) =>
+  reorderProjects: async (folderNames) =>
     mutate(`${BASE}/reorder.php`, {
       method: 'POST',
-      headers: jsonHeaders,
+      headers: await jsonHeaders(),
       body: JSON.stringify({ type: 'projects', folderNames }),
     }),
 };

@@ -1,8 +1,6 @@
 <?php
 // ─── Konfigurace admin API ─────────────────────────────────────
-// Změňte API_KEY na náhodný dlouhý řetězec a stejnou hodnotu
-// uložte do .env jako REACT_APP_ADMIN_API_KEY=...
-define('API_KEY', 'ladalenkahaninelibabidedemia1990199620182023');
+require_once __DIR__ . '/firebase_auth.php';
 
 define('PROJECTS_DIR', __DIR__ . '/../../public/references' . DIRECTORY_SEPARATOR);
 define('ORDER_FILE',   PROJECTS_DIR . '_order.json');
@@ -17,14 +15,34 @@ function setCorsHeaders(): void {
         header('Access-Control-Allow-Credentials: true');
     }
     header('Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS');
-    header('Access-Control-Allow-Headers: Content-Type, X-Api-Key');
+    header('Access-Control-Allow-Headers: Content-Type, Authorization');
     header('Content-Type: application/json; charset=UTF-8');
 }
 
 // ─── Auth ──────────────────────────────────────────────────────
+// Ověřuje Firebase ID token přihlášeného admina (Authorization: Bearer <token>).
+// Statický sdílený klíč byl odstraněn – musel by být veřejně čitelný
+// v client-side JS bundlu, takže fakticky nechránil vůbec nic.
 function checkAuth(): void {
-    $key = $_SERVER['HTTP_X_API_KEY'] ?? '';
-    if ($key !== API_KEY) {
+    $header = $_SERVER['HTTP_AUTHORIZATION']
+        ?? $_SERVER['REDIRECT_HTTP_AUTHORIZATION']
+        ?? '';
+
+    if (!$header && function_exists('getallheaders')) {
+        foreach (getallheaders() as $name => $value) {
+            if (strcasecmp($name, 'Authorization') === 0) { $header = $value; break; }
+        }
+    }
+
+    if (!preg_match('/^Bearer\s+(.+)$/i', trim($header), $m)) {
+        http_response_code(401);
+        echo json_encode(['error' => 'Neautorizováno'], JSON_UNESCAPED_UNICODE);
+        exit;
+    }
+
+    try {
+        verifyFirebaseIdToken(trim($m[1]));
+    } catch (FirebaseAuthException $e) {
         http_response_code(401);
         echo json_encode(['error' => 'Neautorizováno'], JSON_UNESCAPED_UNICODE);
         exit;
@@ -52,8 +70,14 @@ function syncThumbnail(string $dir): void {
     $photos = glob($dir . DIRECTORY_SEPARATOR . '*.{jpg,jpeg,png,gif,webp}', GLOB_BRACE);
     if ($photos === false) return;
 
-    // Odfiltruj thumb.*
-    $gallery = array_filter($photos, fn($f) => !preg_match('/[\\/\\\\]thumb\.(webp|jpg|jpeg|png)$/i', $f));
+    // Odfiltruj thumb.* a responzivní varianty (_400w/_800w/_1200w) – ty nesmí
+    // nikdy skončit jako náhled, jde o nízkorozlišené výřezy původní fotky.
+    $gallery = array_filter($photos, function ($f) {
+        $name = basename($f);
+        if (preg_match('/^thumb\.(webp|jpg|jpeg|png)$/i', $name)) return false;
+        if (preg_match('/_\d+w\.(webp|jpg|jpeg|png)$/i', $name)) return false;
+        return true;
+    });
     sort($gallery); // abecední pořadí = číselné díky prefixům 001_, 002_…
 
     $thumb = $dir . DIRECTORY_SEPARATOR . 'thumb.webp';

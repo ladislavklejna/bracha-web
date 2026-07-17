@@ -18,10 +18,19 @@ function parseFolder(string $folderName): array {
     return compact('id', 'name', 'location', 'actions');
 }
 
+// Whitelist: písmena (vč. diakritiky), čísla, mezera, podtržítko, pomlčka.
+// Odstraňuje mj. "/", "\" a "." – takže "../.." se sestavit nedá a
+// buildFolderName() nemůže vytvořit/přejmenovat mimo PROJECTS_DIR.
+function sanitizeSegment(string $s): string {
+    $s = preg_replace('/[^\p{L}\p{N} _-]/u', '', $s) ?? '';
+    return preg_replace('/\s+/', ' ', trim($s)) ?? '';
+}
+
 function buildFolderName(string $id, string $name, string $location, array $actions): string {
-    $parts = [$id, $name, $location];
+    $parts = [$id, sanitizeSegment($name), sanitizeSegment($location)];
     foreach ($actions as $a) {
-        if (trim($a) !== '') $parts[] = trim($a);
+        $clean = sanitizeSegment((string) $a);
+        if ($clean !== '') $parts[] = $clean;
     }
     return implode('-', $parts);
 }
@@ -110,7 +119,7 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $location = trim($body['location'] ?? '');
         $actions  = (array) ($body['actions'] ?? []);
 
-        if ($name === '') jsonResponse(['error' => 'Název je povinný'], 400);
+        if ($name === '' || sanitizeSegment($name) === '') jsonResponse(['error' => 'Název je povinný'], 400);
 
         // Generate next ID
         $ids = [];
@@ -173,10 +182,18 @@ switch ($_SERVER['REQUEST_METHOD']) {
         $dir = PROJECTS_DIR . $folder;
         if (!is_dir($dir)) jsonResponse(['error' => 'Složka nenalezena'], 404);
 
+        $failed = [];
         foreach (glob($dir . '/*') as $file) {
-            if (is_file($file)) unlink($file);
+            if (is_file($file) && !unlink($file)) {
+                $failed[] = basename($file);
+            }
         }
-        rmdir($dir);
+        if (!empty($failed)) {
+            jsonResponse(['error' => 'Nepodařilo se smazat soubory: ' . implode(', ', $failed)], 500);
+        }
+        if (!rmdir($dir)) {
+            jsonResponse(['error' => 'Nepodařilo se smazat složku projektu'], 500);
+        }
 
         // Remove from order
         $order = array_values(array_filter(loadOrder(), fn($f) => $f !== $folder));

@@ -1,0 +1,10 @@
+# Na řadě sdílených hostingů Apache/PHP defaultně nepropouští
+# Authorization hlavičku do $_SERVER – bez tohoto by ověření
+# admin API (Firebase ID token) nefungovalo.
+CGIPassAuth On
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+</IfModule>

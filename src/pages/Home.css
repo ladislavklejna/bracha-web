@@ -58,11 +58,20 @@
 
 .hero-title {
   font-family: var(--font-heading);
-  font-size: clamp(2.8rem, 6vw, 4.6rem);
+  font-size: clamp(2rem, 4.4vw, 3.2rem);
   font-weight: 600;
-  line-height: 1.08;
-  margin-bottom: 24px;
+  line-height: 1.2;
+  margin-bottom: 22px;
   color: #fff;
+}
+
+.hero-list {
+  list-style: disc;
+  padding-left: 20px;
+  margin: 0 0 18px;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 0.95rem;
+  line-height: 1.7;
 }
 
 .hero-desc {
@@ -71,6 +80,11 @@
   line-height: 1.8;
   color: rgba(255, 255, 255, 0.72);
   margin-bottom: 36px;
+}
+
+.hero-desc--bold {
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.92);
 }
 
 /* ── CTA buttons ── */
@@ -206,6 +220,7 @@
   font-family: var(--font-body);
   font-size: 0.82rem;
   font-weight: 500;
+  line-height: 1.5;
   color: #fff;
   letter-spacing: 0.01em;
 }
@@ -294,8 +309,8 @@
 
   .stat-item {
     padding: 18px 16px;
-    min-width: 50%;
-    flex: 0 0 50%;
+    min-width: 100%;
+    flex: 0 0 100%;
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     opacity: 1;
     transform: none;
@@ -305,7 +320,7 @@
 
 @media only screen and (max-width: 480px) {
   .stat-item {
-    min-width: 50%;
+    min-width: 100%;
     padding: 16px 12px;
   }
 }
